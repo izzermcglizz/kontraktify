@@ -24,7 +24,7 @@
   </head>
   <body>
     <header class="top-bar">
-      <div class="logo">Kontraktify</div>
+      <div class="logo"><img src="asset/WhatsApp%20Image%202025-08-23%20at%2016.28.39.jpeg" alt="Kontraktify" class="logo__mark" /><span>Kontraktify</span></div>
       <nav class="main-nav">
         <a href="#">Home</a>
         <a href="#">Artikel Hukum</a>
@@ -32,16 +32,26 @@
     </header>
 
     <main>
-      <section class="hero">
-        <div class="hero__eyebrow">WHAT WE DO</div>
-        <h1 class="hero__title">Menyederhanakan Hukum,<br />Menguatkan Bisnismu</h1>
-        <p class="hero__lead">
-          
-        </p>
-        <p class="hero__sublead">
-          Setiap bisnis punya kebutuhan hukum yang berbeda. Kami hadir untuk
-          membantu Anda memilih solusi yang paling relevan dan efisien.
-        </p>
+      <section class="hero hero--neo">
+        <div class="fx-grid" aria-hidden="true"></div>
+        <div class="fx-orb fx-orb--1" aria-hidden="true"></div>
+        <div class="fx-orb fx-orb--2" aria-hidden="true"></div>
+        <div class="hero__content">
+          <div class="hero__eyebrow">WHAT WE DO</div>
+          <h1 class="hero__title">
+            <span class="word-rotator" data-words='["Menyederhanakan Hukum","Menguatkan Bisnismu","Membuat Kontrak Lebih Cepat"]'>Menyederhanakan Hukum</span>
+          </h1>
+          <p class="hero__lead">Platform hukum modern untuk membuat, meninjau, dan mengelola kontrak dalam hitungan menit—tanpa ribet.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#template-wizard">Coba Demo</a>
+            <a class="btn btn--ghost" href="#products">Lihat Kategori</a>
+          </div>
+        </div>
+        <div class="hero__stats">
+          <div class="stat"><strong>10k+</strong><span>Dokumen Dibuat</span></div>
+          <div class="stat"><strong>48 Jam</strong><span>Rata-rata Penyelesaian</span></div>
+          <div class="stat"><strong>4.9/5</strong><span>Kepuasan Pengguna</span></div>
+        </div>
       </section>
 
       <section class="offer">
@@ -156,7 +166,7 @@
         </div>
       </section>
 
-      <section class="products">
+      <section class="products" id="products">
         <div class="products__header">
           <div>
             <h2>Kategori Produk,</h2>
@@ -166,45 +176,81 @@
         </div>
 
         <div class="product-grid">
-          <article class="product-card product-card--yellow">
+          <a class="product-card product-card--yellow is-link" href="#" data-category="Kontrak Bisnis">
             <div class="product-card__top">
               <h3>Kontrak Bisnis</h3>
-              <span class="product-card__icon">➜</span>
+              <button class="arrow-pill" aria-label="Lihat Kontrak Bisnis" tabindex="-1">
+                <span>&rarr;</span>
+              </button>
             </div>
-            <p>
-              Perjanjian Jual Beli, Perjanjian Kerjasama Dagang (MoA), Perjanjian Distribusi, dll.
-            </p>
-          </article>
+            <div class="product-tags"><span>Vendor</span><span>MoA</span><span>Distribution</span></div>
+            <span class="card-cta">Explore templates</span>
+          </a>
 
-          <article class="product-card product-card--black">
+          <a class="product-card product-card--black is-link" href="#" data-category="Kepemilikan & Saham">
             <div class="product-card__top">
               <h3>Kepemilikan & Saham</h3>
-              <span class="product-card__icon">➜</span>
+              <button class="arrow-pill" aria-label="Lihat Kepemilikan & Saham" tabindex="-1">
+                <span>&rarr;</span>
+              </button>
             </div>
-            <p>
-              Perjanjian Pemegang Saham, Perjanjian Investasi, Perjanjian Bagi Hasil, dll.
-            </p>
-          </article>
+            <div class="product-tags"><span>SHA</span><span>Investment</span><span>Cap Table</span></div>
+            <span class="card-cta">Explore templates</span>
+          </a>
 
-          <article class="product-card product-card--gray">
+          <a class="product-card product-card--gray is-link" href="#" data-category="Ketenagakerjaan">
             <div class="product-card__top">
               <h3>Ketenagakerjaan</h3>
-              <span class="product-card__icon">➜</span>
+              <button class="arrow-pill" aria-label="Lihat Ketenagakerjaan" tabindex="-1">
+                <span>&rarr;</span>
+              </button>
             </div>
-            <p>
-              Perjanjian PKWT, Kontrak Freelancer / Kontraktor Independen, dll.
-            </p>
-          </article>
+            <div class="product-tags"><span>PKWT</span><span>Freelance</span><span>NDA</span></div>
+            <span class="card-cta">Explore templates</span>
+          </a>
 
-          <article class="product-card product-card--red">
+          <a class="product-card product-card--red is-link" href="#" data-category="Tata Kelola Korporasi">
             <div class="product-card__top">
               <h3>Tata Kelola Korporasi</h3>
-              <span class="product-card__icon">➜</span>
+              <button class="arrow-pill" aria-label="Lihat Tata Kelola Korporasi" tabindex="-1">
+                <span>&rarr;</span>
+              </button>
             </div>
-            <p>
-              Surat Undangan RUPS, Keputusan Sirkuler Direksi, Surat Pengangkatan / Pemberhentian Direksi, dll.
-            </p>
+            <div class="product-tags"><span>RUPS</span><span>Resolution</span><span>Minutes</span></div>
+            <span class="card-cta">Explore templates</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="how-it-works" aria-labelledby="how-heading">
+        <div class="hiw__header">
+          <p class="hero__eyebrow">How it works</p>
+          <h2 id="how-heading">Tiga langkah mudah</h2>
+        </div>
+        <div class="hiw__steps">
+          <article class="hiw-card">
+            <span class="hiw-num">1</span>
+            <h3>Pilih template</h3>
+            <p>Pilih kontrak yang kamu butuhkan, atau mulailah dari rekomendasi kami.</p>
           </article>
+          <article class="hiw-card">
+            <span class="hiw-num">2</span>
+            <h3>Isi data</h3>
+            <p>Masukkan detail melalui form interaktif. Preview diperbarui secara real-time.</p>
+          </article>
+          <article class="hiw-card">
+            <span class="hiw-num">3</span>
+            <h3>Bayar & unduh</h3>
+            <p>Setelah pembayaran, kontrak siap diunduh atau dikirim ke emailmu.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-final" aria-label="Call to action">
+        <div class="cta__content">
+          <h2>Bangun dokumen pertamamu sekarang</h2>
+          <p>Klik tombol di bawah untuk mencoba demo pembuat kontrak Kontraktify.</p>
+          <a href="#template-wizard" class="btn btn--primary">Mulai Coba</a>
         </div>
       </section>
     </main>

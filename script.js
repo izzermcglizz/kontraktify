@@ -473,3 +473,44 @@ if (builder) {
   renderPreview();
 })();
 
+// Word rotator in hero
+(() => {
+  const rotator = document.querySelector('.word-rotator');
+  if (!rotator) return;
+  let words = [];
+  try {
+    words = JSON.parse(rotator.getAttribute('data-words')) || [];
+  } catch { words = []; }
+  if (!words.length) return;
+  let idx = 0;
+  setInterval(() => {
+    idx = (idx + 1) % words.length;
+    rotator.textContent = words[idx];
+  }, 2200);
+})();
+
+// Subtle parallax for hero orbs
+(() => {
+  const orbs = document.querySelectorAll('.fx-orb');
+  if (!orbs.length) return;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    orbs.forEach((o, i) => {
+      o.style.transform = `translateY(${y * (0.02 + i * 0.01)}px)`;
+    });
+  }, { passive: true });
+})();
+
+// Product cards keyboard-accessible hover cue
+(() => {
+  const cards = document.querySelectorAll('.product-card.is-link');
+  cards.forEach((card) => {
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        card.click();
+        e.preventDefault();
+      }
+    });
+  });
+})();
+
