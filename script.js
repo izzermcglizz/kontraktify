@@ -38,20 +38,30 @@
   const loader = document.getElementById('pageLoader');
   if (!loader) return;
 
-  // Show loader when clicking any navigation link (except anchor links and Template)
+  // Show loader when clicking any navigation link (except anchor links, Template, and external links)
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a[href]');
     if (!link) return;
     
     const href = link.getAttribute('href');
     
-    // Skip loading screen for Template link
-    if (link.classList.contains('nav-link-template') || href.includes('products.html')) {
+    // Skip loading screen for:
+    // - Template link
+    // - Anchor links
+    // - External links (mailto, tel, WhatsApp, etc.)
+    if (link.classList.contains('nav-link-template') || 
+        href.includes('products.html') ||
+        href.startsWith('#') || 
+        href.startsWith('mailto:') || 
+        href.startsWith('tel:') ||
+        href.includes('wa.me') ||
+        href.startsWith('http://') ||
+        href.startsWith('https://')) {
       return;
     }
     
-    // Show loader for other external page links (not anchor links)
-    if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+    // Show loader for other internal page links
+    if (href) {
       // Check if it's a different page
       const currentPath = window.location.pathname;
       const linkPath = new URL(link.href, window.location.origin).pathname;

@@ -1,0 +1,174 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PERJANJIAN SEWA MENYEWA TEMPAT
+
+
+
+
+
+
+Perjanjian sewa menyewa tempat ini (untuk selanjutnya disebut “Perjanjian Sewa”) ditandatangani dan dilangsungkan di      , pada hari      , tanggal       bulan       tahun      , oleh dan antara:
+
+{{nama}}, pemilik KTP dengan nomor {{nomor_ktp}} bertempat tinggal permanen di {{alamat_tinggal}} , untuk selanjutnya disebut “Pemberi Sewa”; dan
+
+{{nama}}, pemilik KTP dengan nomor {{nomor_ktp}} bertempat tinggal permanen di {{alamat_tinggal}}, untuk selanjutnya disebut “Penyewa”,
+
+secara bersama-sama disebut sebagai PARA PIHAK.
+
+Pemberi Sewa dan Penyewa dengan ini terlebih dahulu menerangkan hal-hal sebagai berikut:
+
+Bahwa, Pemberi Sewa adalah pemilik yang sah atas suatu tempat yang berdiri di atas tanah hak atas tanah milik dengan Sertifikat Hak Milik (SHM) Nomor: {{masukan_nomor_shm}} atas nama {{masukan_nama_pemilik}} yang setempat dikenal sebagai {{masukan_alamat_lengkap_jalan_no_rt_rw_kelurahan_kecamatan_kabupaten_kota_provinsi_kode_pos}} (selanjutnya disebut “Tempat”).
+
+Bahwa, Pemberi Sewa bermaksud untuk menyewakan Tempat tersebut kepada Penyewa sebagaimana Penyewa bermaksud untuk menyewa Tempat tersebut dari Pemberi Sewa.
+
+Bahwa berdasarkan hal-hal tersebut di atas, Para Pihak menyatakan sepakat dan setuju untuk mengadakan dan menandatangani Perjanjian Sewa yang dilaksanakan dengan ketentuan dan syarat-syarat sebagai berikut:
+
+PASAL 1
+KESEPAKATAN SEWA-MENYEWA
+
+Pemberi Sewa dengan ini sepakat untuk menyewakan Tempat kepada Penyewa sebagaimana Penyewa dengan ini sepakat untuk menyewa Tempat tersebut dari Pemberi Sewa.
+
+Sewa menyewa Tempat sebagaimana dimaksud ayat (1) dilaksanakan dengan ketentuan sebagai berikut:
+
+Harga Sewa sebesar Rp {{angka_nominal}} ({{huruf_rupiah}}) (“Harga Sewa”).
+
+Jangka Waktu Sewa adalah untuk selama {{durasi}} bulan/tahun*, yang dimulai pada tanggal {{tanggal_mulai}} dan berakhir pada tanggal {{tanggal_akhir}} (“Masa Sewa”).
+
+PASAL 2
+PEMBAYARAN
+
+Pembayaran atas Harga Sewa dilakukan oleh Penyewa kepada Pemberi Sewa melalui transfer ke rekening bank atas nama {{nama_pemilik_rekening}} pada {{nama_bank}}, nomor rekening {{nomor_rekening}}, selambat-lambatnya pada saat penandatanganan Perjanjian ini, kecuali disepakati lain secara tertulis oleh Para Pihak.
+
+Apabila disepakati pembayaran secara bertahap, maka:
+
+Penyewa wajib membayar deposit awal sebesar Rp {{nominal_deposit}} ({{huruf_rupiah}}) pada saat penandatanganan Perjanjian ini; dan
+
+Sisa Harga Sewa dibayarkan dalam {{jumlah_cicilan}} kali cicilan, masing-masing sebesar Rp {{nominal_cicilan}}, paling lambat setiap tanggal {{tanggal_pembayaran}};
+c. Seluruh Harga Sewa harus telah dibayar lunas paling lambat pada tanggal {{batas_akhir_pelunasan}}.
+
+Apabila terjadi keterlambatan pembayaran, Penyewa dikenakan denda keterlambatan sebesar {{persentase_denda}}% dari jumlah yang tertunda per hari kalender keterlambatan, kecuali keterlambatan disebabkan oleh force majeure yang dibuktikan secara memadai.
+
+Setiap pembayaran yang dilakukan oleh Penyewa wajib disertai dengan bukti transfer yang sah, dan Pemberi Sewa akan memberikan kuitansi atau tanda terima resmi sebagai bukti penerimaan.
+
+PASAL 3
+JAMINAN
+
+Pemberi Sewa memberikan jaminan sebagai berikut:
+
+Tempat yang disewakan berdasarkan Perjanjian ini sepenuhnya merupakan milik sah Pemberi Sewa, tidak sedang dijaminkan, tidak sedang dijual, tidak dalam keadaan disewa kepada pihak lain, dan bebas dari sengketa atau klaim hak dari pihak ketiga mana pun.
+
+Penyewa berhak sepenuhnya untuk menggunakan dan menikmati Tempat selama Masa Sewa tanpa gangguan, tuntutan, gugatan, atau klaim dari pihak mana pun sehubungan dengan hak atas penggunaan Tempat tersebut.
+
+Apabila di kemudian hari terbukti bahwa jaminan yang diberikan Pemberi Sewa tidak benar dan menimbulkan kerugian bagi Penyewa, maka Pemberi Sewa wajib memberikan ganti rugi penuh atas kerugian yang timbul, termasuk namun tidak terbatas pada pengembalian Harga Sewa, biaya relokasi, dan kompensasi lain yang wajar.
+
+Penyewa menjamin bahwa selama Masa Sewa, Tempat akan digunakan dengan itikad baik, sesuai peruntukannya, tidak dialihsewakan tanpa persetujuan tertulis dari Pemberi Sewa, dan tidak digunakan untuk kegiatan yang melanggar hukum, peraturan perundang-undangan, atau ketertiban umum.
+
+PASAL 4
+PEMBEBANAN BIAYA DAN PERAWATAN
+
+Penyewa berhak menggunakan fasilitas yang telah tersedia pada Tempat, termasuk tetapi tidak terbatas pada aliran listrik, saluran telepon, dan air bersih (misalnya dari PDAM), sepanjang biaya penggunaannya ditanggung oleh Penyewa.
+
+Penyewa berkewajiban membayar seluruh tagihan, rekening, dan biaya-biaya lain yang timbul akibat penggunaan fasilitas sebagaimana dimaksud dalam ayat (1), tepat waktu dan sesuai ketentuan dari masing-masing penyedia jasa.
+
+Segala kerugian atau kerusakan yang timbul akibat kelalaian atau pelanggaran oleh Penyewa atas kewajiban dalam Perjanjian ini sepenuhnya menjadi tanggung jawab Penyewa.
+
+Penyewa wajib menjaga, merawat, dan mempertahankan Tempat dalam kondisi baik dan layak digunakan sebagaimana saat pertama kali diserahterimakan, termasuk memelihara kebersihan dan kelestarian lingkungan serta prasarana umum yang berada dalam penguasaannya.
+
+Perawatan struktural, termasuk perbaikan atas kerusakan besar yang bukan disebabkan oleh Penyewa, menjadi tanggung jawab Pemberi Sewa, kecuali disepakati lain secara tertulis oleh Para Pihak.
+
+PASAL 5
+HAK DAN KEWAJIBAN
+
+Selama masa berlakunya Perjanjian ini, Penyewa tidak diperkenankan untuk melakukan hal-hal berikut tanpa persetujuan tertulis terlebih dahulu dari Pemberi Sewa:
+
+Mengalihkan, memindahtangankan, atau menyerahkan sebagian atau seluruh hak sewa kepada pihak ketiga, baik dalam bentuk sewa ulang (sublease), pengalihan hak, atau bentuk perikatan lainnya;
+
+Menggunakan Tempat untuk tujuan lain selain yang secara tegas disepakati dalam Perjanjian ini;
+
+Mendirikan bangunan tambahan, melakukan penggalian, atau pembangunan lainnya di dalam atau di sekitar Tempat, termasuk pembuatan sumur bor, tanpa izin tertulis dari Pemberi Sewa; dan/atau
+
+Mengubah, memodifikasi, atau membongkar bagian dari struktur dan/atau instalasi tetap yang terdapat dalam Tempat, termasuk tetapi tidak terbatas pada instalasi listrik, saluran air, partisi permanen, atau sistem bangunan lainnya.
+
+Yang dimaksud dengan struktur dalam ketentuan ini mencakup seluruh bagian konstruksi tetap dari Tempat yang berfungsi menopang atau membentuk bangunan, termasuk namun tidak terbatas pada fondasi, balok, kolom, lantai, dinding, dan atap.
+
+PASAL 6
+KERUSAKAN DAN BENCANA ALAM
+
+Kerusakan pada struktur atau bagian lain dari Tempat yang timbul akibat penggunaan atau kelalaian selama masa sewa sepenuhnya menjadi tanggung jawab Penyewa, termasuk biaya perbaikan dan penggantian.
+
+Penyewa dibebaskan dari segala tuntutan, ganti rugi, atau kewajiban kepada Pemberi Sewa atas kerusakan Tempat yang secara langsung disebabkan oleh kejadian Force Majeure, sepanjang Penyewa dapat membuktikan bahwa kerusakan tersebut bukan akibat kelalaian atau pelanggaran terhadap ketentuan Perjanjian ini.
+
+Yang dimaksud dengan “Force Majeure” dalam Perjanjian ini mencakup namun tidak terbatas pada:
+
+Bencana alam, seperti banjir, gempa bumi, tanah longsor, petir, angin topan, dan kebakaran yang disebabkan oleh faktor eksternal yang berada di luar kendali Para Pihak;
+
+Kerusuhan massal, huru-hara, pemberontakan, aksi terorisme, sabotase, serta perang (baik dinyatakan maupun tidak dinyatakan); dan/atau
+
+Tindakan pemerintah, peraturan baru, atau kebijakan otoritas yang secara langsung menghalangi pelaksanaan sebagian atau seluruh kewajiban dalam Perjanjian ini.
+
+PASAL 7
+SYARAT PEMUTUSAN HUBUNGAN OLEH PENYEWA
+
+Penyewa hanya dapat mengakhiri Perjanjian ini sebelum berakhirnya Masa Sewa, dengan syarat dan ketentuan sebagai berikut:
+
+Penyewa wajib memberitahukan maksud pengakhiran secara tertulis kepada Pemberi Sewa paling lambat {{jumlah_hari_bulan}} ({{huruf}}) sebelum tanggal pengakhiran yang dimaksud.
+
+Sebelum tanggal efektif pengakhiran, Penyewa telah:
+
+Membayar seluruh tagihan, rekening, dan biaya lain yang timbul dari penggunaan Tempat; dan
+
+Menyerahkan kembali Tempat dalam kondisi sebagaimana disyaratkan dalam Perjanjian ini, kecuali untuk keausan normal (wear and tear).
+
+Dalam hal pemutusan dilakukan oleh Penyewa sebelum berakhirnya Masa Sewa, Penyewa tidak berhak menuntut pengembalian sebagian atau seluruh Harga Sewa atas sisa masa sewa yang belum dijalani, kecuali disepakati lain secara tertulis oleh Para Pihak.
+
+PASAL 8
+SYARAT PEMUTUSAN HUBUNGAN OLEH PEMBERI SEWA
+
+Pemberi Sewa berhak mengakhiri Perjanjian ini sebelum berakhirnya Masa Sewa, dengan syarat-syarat berikut:
+
+Penyewa melanggar atau lalai melaksanakan salah satu ketentuan atau kewajiban dalam Perjanjian ini, dan tidak memperbaiki pelanggaran tersebut dalam jangka waktu {{jumlah_hari}} ({{huruf}}) hari kalender sejak tanggal pemberitahuan tertulis dari Pemberi Sewa; atau
+
+Penyewa lalai membayar Harga Sewa, biaya perawatan, dan/atau tagihan lain yang menjadi kewajiban Penyewa, selama lebih dari {{jumlah_hari_bulan}} ({{huruf}}) hari/bulan* setelah tanggal jatuh tempo pembayaran.
+
+Dalam hal Perjanjian ini diakhiri oleh Pemberi Sewa berdasarkan ayat (1), maka:
+
+Penyewa wajib segera menyerahkan kembali Tempat kepada Pemberi Sewa paling lambat {{jumlah_hari}} ({{huruf}}) hari setelah tanggal efektif pengakhiran; dan
+
+Pemberi Sewa tidak berkewajiban untuk mengembalikan Harga Sewa atas sisa waktu sewa yang belum dijalani, serta berhak menuntut ganti rugi atas kerugian yang timbul akibat pelanggaran tersebut.
+
+PASAL 9
+MASA BERAKHIR KONTRAK
+
+Setelah berakhirnya Masa Sewa sesuai dengan ketentuan dalam Perjanjian ini, Penyewa wajib mengosongkan dan menyerahkan kembali Tempat kepada Pemberi Sewa dalam keadaan baik, bersih, dan layak pakai, serta telah memenuhi seluruh kewajiban lainnya berdasarkan Perjanjian ini, kecuali apabila Para Pihak secara tertulis menyepakati perpanjangan masa sewa.
+
+
+PASAL 10
+HUKUM YANG BERLAKU
+
+Perjanjian ini dan interpretasinya, penerapan dan seluruh sengketa yang timbul sehubungan dengan Perjanjian ini akan diatur dan ditafsirkan berdasarkan hukum Republik Indonesia.
+
+PASAL 11
+PERSELISIHAN DAN PENYELESAIAN PERSELISIHAN
+
+Bilamana dalam pelaksanaan Perjanjian Sewa ini terdapat perselisihan antara Para Pihak baik dalam pelaksanaannya ataupun dalam penafsiran salah satu Pasal dalam Perjanjian Sewa ini, maka Para Pihak sepakat untuk sedapat mungkin menyelesaikan perselisihan tersebut dengan cara musyawarah dalam waktu {{batas_waktu}} hari sejak salah satu pihak yang merasa dirugikan menyatakan maksudnya untuk menyelesaikan perselisihan secara tertulis kepada pihak lainnya. Apabila musyawarah telah dilakukan oleh Para Pihak, namun ternyata tidak berhasil mencapai suatu kemufakatan maka Para Pihak sepakat bahwa segala perselisihan yang timbul dari perjanjian ini akan diselesaikan melalui Pengadilan Negeri.
+
+PASAL 11
+KETENTUAN PENUTUP
+
+Hal-hal yang belum diatur atau belum cukup diatur dalam Perjanjian Sewa ini apabila dikemudian hari dibutuhkan dan dianggap perlu akan ditetapkan tersendiri secara musyawarah dan selanjutnya akan ditetapkan dalam suatu Addendum yang berlaku mengikat Para Pihak, yang akan direkatkan dan merupakan bagian yang tidak terpisahkan dari Perjanjian Sewa ini.
+
+Demikianlah Perjanjian Investasi ini dibuat dalam rangkap 2 (dua), untuk masing-masing pihak, yang ditandatangani di atas kertas bermaterai cukup, yang masing-masing mempunyai kekuatan hukum yang sama dan berlaku sejak ditandatangani.
+

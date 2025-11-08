@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buat Perjanjian Sewa Menyewa Tempat | Kontraktify</title>
+    <link rel="icon" type="image/jpeg" href="../asset/favicon.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <meta
+      name="description"
+      content="Isi form untuk membuat Perjanjian Sewa Menyewa Tempat secara instan. Download dokumen Word siap pakai."
+    />
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="top-bar__container">
+        <a href="../index.html" class="logo">
+          <img src="../asset/WhatsApp%20Image%202025-08-23%20at%2016.28.39.jpeg" alt="Kontraktify" class="logo__mark" />
+          <span>Kontraktify</span>
+        </a>
+        <nav class="main-nav">
+          <a href="../index.html">Home</a>
+          <a href="../products.html" class="nav-link-template">Templates</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="form-hero">
+        <div class="container">
+          <nav class="breadcrumb">
+            <a href="../products.html">Templates</a>
+            <span>/</span>
+            <a href="../perjanjian-sewa-menyewa-tempat.html">Perjanjian Sewa Menyewa Tempat</a>
+            <span>/</span>
+            <span>Buat Dokumen</span>
+          </nav>
+          
+          <div class="form-header">
+            <h1>Buat Perjanjian Sewa Menyewa Tempat</h1>
+            <p>Isi form di bawah ini untuk membuat dokumen Anda. Semua informasi akan terisi otomatis ke dalam dokumen.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="container">
+          <div class="form-layout">
+            <!-- Form Sidebar -->
+            <div class="form-sidebar">
+              <div class="form-card">
+                <div class="form-card__header">
+                  <h2>Isi Informasi</h2>
+                  <div class="progress-container">
+                    <div class="progress-info">
+                      <span class="progress-label">Progress</span>
+                      <span class="progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-bar__fill" id="progressBarFill" style="width: 0%"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-disclaimer">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                  <div class="disclaimer-content">
+                    <p><strong>Tidak perlu mengisi semua field.</strong> Anda bisa download dokumen dengan placeholder dan mengisi sendiri nanti di Word.</p>
+                  </div>
+                </div>
+                
+                <form id="documentForm" class="document-form">
+                  <!-- Informasi Umum -->
+                  <div class="form-group">
+                    <h3>Informasi Umum</h3>
+                    
+                    <div class="form-field">
+                      <label for="tempat_penandatanganan">Tempat Penandatanganan</label>
+                      <input type="text" id="tempat_penandatanganan" name="tempat_penandatanganan" placeholder="Contoh: Jakarta" />
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="hari">Hari</label>
+                        <input type="text" id="hari" name="hari" placeholder="Contoh: Senin" />
+                      </div>
+                      <div class="form-field">
+                        <label for="tanggal">Tanggal</label>
+                        <input type="number" id="tanggal" name="tanggal" placeholder="1-31" min="1" max="31" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="bulan">Bulan</label>
+                        <input type="text" id="bulan" name="bulan" placeholder="Contoh: Januari" />
+                      </div>
+                      <div class="form-field">
+                        <label for="tahun">Tahun</label>
+                        <input type="number" id="tahun" name="tahun" placeholder="Contoh: 2024" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pemberi Sewa -->
+                  <div class="form-group">
+                    <h3>Pemberi Sewa (Pihak Pertama)</h3>
+                    
+                    <div class="form-field">
+                      <label for="nama_pemberi_sewa">Nama Lengkap</label>
+                      <input type="text" id="nama_pemberi_sewa" name="nama_pemberi_sewa" placeholder="Nama lengkap pemberi sewa" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="ktp_pemberi_sewa">Nomor KTP</label>
+                      <input type="text" id="ktp_pemberi_sewa" name="ktp_pemberi_sewa" placeholder="16 digit nomor KTP" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="alamat_pemberi_sewa">Alamat Tinggal</label>
+                      <textarea id="alamat_pemberi_sewa" name="alamat_pemberi_sewa" rows="3" placeholder="Alamat lengkap pemberi sewa"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Penyewa -->
+                  <div class="form-group">
+                    <h3>Penyewa (Pihak Kedua)</h3>
+                    
+                    <div class="form-field">
+                      <label for="nama_penyewa">Nama Lengkap</label>
+                      <input type="text" id="nama_penyewa" name="nama_penyewa" placeholder="Nama lengkap penyewa" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="ktp_penyewa">Nomor KTP</label>
+                      <input type="text" id="ktp_penyewa" name="ktp_penyewa" placeholder="16 digit nomor KTP" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="alamat_penyewa">Alamat Tinggal</label>
+                      <textarea id="alamat_penyewa" name="alamat_penyewa" rows="3" placeholder="Alamat lengkap penyewa"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Informasi Tempat -->
+                  <div class="form-group">
+                    <h3>Informasi Tempat</h3>
+                    
+                    <div class="form-field">
+                      <label for="nomor_shm">Nomor Sertifikat Hak Milik (SHM)</label>
+                      <input type="text" id="nomor_shm" name="nomor_shm" placeholder="Nomor SHM" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="nama_pemilik_shm">Nama Pemilik SHM</label>
+                      <input type="text" id="nama_pemilik_shm" name="nama_pemilik_shm" placeholder="Nama pemilik sertifikat" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="alamat_lengkap_tempat">Alamat Lengkap Tempat</label>
+                      <textarea id="alamat_lengkap_tempat" name="alamat_lengkap_tempat" rows="3" placeholder="Jalan, No, RT/RW, Kelurahan, Kecamatan, Kabupaten/Kota, Provinsi, Kode Pos"></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Ketentuan Sewa -->
+                  <div class="form-group">
+                    <h3>Ketentuan Sewa</h3>
+                    
+                    <div class="form-field">
+                      <label for="harga_sewa_angka">Harga Sewa (Angka)</label>
+                      <input type="number" id="harga_sewa_angka" name="harga_sewa_angka" placeholder="Contoh: 5000000" />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="harga_sewa_huruf">Harga Sewa (Huruf)</label>
+                      <input type="text" id="harga_sewa_huruf" name="harga_sewa_huruf" placeholder="Contoh: Lima Juta Rupiah" />
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="durasi_sewa">Durasi Sewa</label>
+                        <input type="text" id="durasi_sewa" name="durasi_sewa" placeholder="Contoh: 12 bulan" />
+                      </div>
+                      <div class="form-field">
+                        <label for="tanggal_mulai">Tanggal Mulai</label>
+                        <input type="date" id="tanggal_mulai" name="tanggal_mulai" />
+                      </div>
+                    </div>
+
+                    <div class="form-field">
+                      <label for="tanggal_akhir">Tanggal Akhir</label>
+                      <input type="date" id="tanggal_akhir" name="tanggal_akhir" />
+                    </div>
+                  </div>
+
+                  <!-- Informasi Pembayaran -->
+                  <div class="form-group">
+                    <h3>Informasi Pembayaran</h3>
+                    
+                    <div class="form-field">
+                      <label for="nama_pemilik_rekening">Nama Pemilik Rekening</label>
+                      <input type="text" id="nama_pemilik_rekening" name="nama_pemilik_rekening" placeholder="Nama pemilik rekening bank" />
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="nama_bank">Nama Bank</label>
+                        <input type="text" id="nama_bank" name="nama_bank" placeholder="Contoh: BCA" />
+                      </div>
+                      <div class="form-field">
+                        <label for="nomor_rekening">Nomor Rekening</label>
+                        <input type="text" id="nomor_rekening" name="nomor_rekening" placeholder="Nomor rekening" />
+                      </div>
+                    </div>
+
+                    <div class="form-field">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="pembayaran_bertahap" name="pembayaran_bertahap" />
+                        <span>Pembayaran Secara Bertahap</span>
+                      </label>
+                    </div>
+
+                    <div id="pembayaran_bertahap_fields" style="display: none;">
+                      <div class="form-field">
+                        <label for="nominal_deposit">Nominal Deposit (Angka)</label>
+                        <input type="number" id="nominal_deposit" name="nominal_deposit" placeholder="Contoh: 2000000" />
+                      </div>
+
+                      <div class="form-field">
+                        <label for="nominal_deposit_huruf">Nominal Deposit (Huruf)</label>
+                        <input type="text" id="nominal_deposit_huruf" name="nominal_deposit_huruf" placeholder="Contoh: Dua Juta Rupiah" />
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-field">
+                          <label for="jumlah_cicilan">Jumlah Cicilan</label>
+                          <input type="number" id="jumlah_cicilan" name="jumlah_cicilan" placeholder="Contoh: 6" />
+                        </div>
+                        <div class="form-field">
+                          <label for="nominal_cicilan">Nominal Cicilan (Angka)</label>
+                          <input type="number" id="nominal_cicilan" name="nominal_cicilan" placeholder="Contoh: 500000" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-field">
+                          <label for="tanggal_pembayaran">Tanggal Pembayaran Setiap Bulan</label>
+                          <input type="number" id="tanggal_pembayaran" name="tanggal_pembayaran" placeholder="1-31" min="1" max="31" />
+                        </div>
+                        <div class="form-field">
+                          <label for="batas_akhir_pelunasan">Batas Akhir Pelunasan</label>
+                          <input type="date" id="batas_akhir_pelunasan" name="batas_akhir_pelunasan" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-field">
+                      <label for="persentase_denda">Persentase Denda Keterlambatan (%)</label>
+                      <input type="number" id="persentase_denda" name="persentase_denda" placeholder="Contoh: 0.5" step="0.1" />
+                    </div>
+                  </div>
+
+                  <!-- Ketentuan Lainnya -->
+                  <div class="form-group">
+                    <h3>Ketentuan Lainnya</h3>
+                    
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="jumlah_hari_pemberitahuan">Jumlah Hari Pemberitahuan (Pemutusan oleh Penyewa)</label>
+                        <input type="number" id="jumlah_hari_pemberitahuan" name="jumlah_hari_pemberitahuan" placeholder="Contoh: 30" />
+                      </div>
+                      <div class="form-field">
+                        <label for="huruf_hari_pemberitahuan">Huruf (Hari Pemberitahuan)</label>
+                        <input type="text" id="huruf_hari_pemberitahuan" name="huruf_hari_pemberitahuan" placeholder="Contoh: Tiga Puluh" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="jumlah_hari_pelanggaran">Jumlah Hari (Pelanggaran/Pelunasan)</label>
+                        <input type="number" id="jumlah_hari_pelanggaran" name="jumlah_hari_pelanggaran" placeholder="Contoh: 14" />
+                      </div>
+                      <div class="form-field">
+                        <label for="huruf_hari_pelanggaran">Huruf (Hari Pelanggaran)</label>
+                        <input type="text" id="huruf_hari_pelanggaran" name="huruf_hari_pelanggaran" placeholder="Contoh: Empat Belas" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-field">
+                        <label for="jumlah_hari_bulan_keterlambatan">Jumlah Hari/Bulan (Keterlambatan Pembayaran)</label>
+                        <input type="text" id="jumlah_hari_bulan_keterlambatan" name="jumlah_hari_bulan_keterlambatan" placeholder="Contoh: 30 hari" />
+                      </div>
+                      <div class="form-field">
+                        <label for="huruf_keterlambatan">Huruf (Keterlambatan)</label>
+                        <input type="text" id="huruf_keterlambatan" name="huruf_keterlambatan" placeholder="Contoh: Tiga Puluh" />
+                      </div>
+                    </div>
+
+                    <div class="form-field">
+                      <label for="batas_waktu_penyelesaian">Batas Waktu Penyelesaian Sengketa (Hari)</label>
+                      <input type="number" id="batas_waktu_penyelesaian" name="batas_waktu_penyelesaian" placeholder="Contoh: 30" />
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn--primary btn--full" id="generateBtn">
+                    Generate & Download Dokumen
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Preview Sidebar -->
+            <div class="preview-sidebar-form">
+              <div class="preview-card">
+                <h2>Preview Dokumen</h2>
+                <div class="preview-content" id="documentPreview">
+                  <!-- Preview akan di-generate oleh JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="download-loader" id="downloadLoader">
+      <div class="download-loader__content">
+        <div class="download-loader__spinner" id="loaderSpinner"></div>
+        <div class="download-loader__success" id="loaderSuccess">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <p class="download-loader__text" id="loaderText">Memproses dokumen Anda...</p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer__top">
+        <div class="footer__brand">Kontraktify</div>
+        <div class="footer__links">
+          <div class="footer__column">
+            <h4>Site Map</h4>
+            <a href="#">Terms and Conditions</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Tentang Kami</a>
+            <a href="#">Artikel Hukum</a>
+          </div>
+          <div class="footer__column">
+            <h4>Kontak Kami:</h4>
+            <p>CV Cipta Kontrak Teknologi</p>
+            <p>Jakarta, Indonesia</p>
+            <a href="mailto:cs@kontraktify.com">cs@kontraktify.com</a>
+          </div>
+          <div class="footer__column footer__socials">
+            <h4>Ikuti kami</h4>
+            <div class="social-icons">
+              <a href="#" aria-label="Facebook">f</a>
+              <a href="#" aria-label="Twitter">x</a>
+              <a href="#" aria-label="LinkedIn">in</a>
+              <a href="#" aria-label="Instagram">ig</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© Kontraktify. All rights reserved.</p>
+      </div>
+    </footer>
+    <script src="../script.js" defer></script>
+    <script src="formsewamenyewa.js"></script>
+  </body>
+</html>
+

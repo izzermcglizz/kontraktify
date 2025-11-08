@@ -1,6 +1,7 @@
 // Template data
 const templates = [
   // Kontrak Bisnis
+  // Note: "Perjanjian Sewa Menyewa Tempat" links to perjanjian-sewa-menyewa-tempat.html
   { name: 'Perjanjian Sewa Menyewa Tempat', category: 'Kontrak Bisnis', color: 'green', icon: 'lease', available: true },
   { name: 'Perjanjian Jual Beli', category: 'Kontrak Bisnis', color: 'blue', icon: 'sale', available: false },
   { name: 'Perjanjian Kerja Sama Usaha (Joint Venture)', category: 'Kontrak Bisnis', color: 'yellow', icon: 'jointventure', available: true },
@@ -114,24 +115,51 @@ const colorClasses = {
   pink: 'template-card__image--pink',
 };
 
+// Convert template name to URL slug
+function nameToSlug(name) {
+  return name
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
 // Generate template card HTML
 function createTemplateCard(template) {
   const emoji = emojiIcons[template.icon] || emojiIcons.lease;
   const colorClass = colorClasses[template.color] || colorClasses.blue;
   const isAvailable = template.available !== false;
   const comingSoonClass = isAvailable ? '' : 'template-card--coming-soon';
+  const slug = nameToSlug(template.name);
+  const productUrl = isAvailable ? `${slug}.html` : '#';
   
-  return `
-    <div class="template-card ${comingSoonClass}" data-category="${template.category}" data-name="${template.name.toLowerCase()}">
-      <div class="template-card__image ${colorClass}">
-        <span class="template-card__emoji">${emoji}</span>
-        ${!isAvailable ? '<div class="coming-soon-overlay"><div class="coming-soon-badge"><span class="coming-soon-text">Coming Soon</span><div class="coming-soon-pulse"></div></div></div>' : ''}
+  // If available, make the entire card a clickable link
+  if (isAvailable) {
+    return `
+      <a href="${productUrl}" class="template-card ${comingSoonClass}" data-category="${template.category}" data-name="${template.name.toLowerCase()}">
+        <div class="template-card__image ${colorClass}">
+          <span class="template-card__emoji">${emoji}</span>
+        </div>
+        <h3>${template.name}</h3>
+        <p>Template profesional siap pakai untuk ${template.name.toLowerCase()}.</p>
+        <span class="template-card__link">Lihat Template</span>
+      </a>
+    `;
+  } else {
+    // Coming soon cards remain as div
+    return `
+      <div class="template-card ${comingSoonClass}" data-category="${template.category}" data-name="${template.name.toLowerCase()}">
+        <div class="template-card__image ${colorClass}">
+          <span class="template-card__emoji">${emoji}</span>
+          <div class="coming-soon-overlay"><div class="coming-soon-badge"><span class="coming-soon-text">Coming Soon</span><div class="coming-soon-pulse"></div></div></div>
+        </div>
+        <h3>${template.name}</h3>
+        <p>Template profesional siap pakai untuk ${template.name.toLowerCase()}.</p>
+        <span class="template-card__link template-card__link--disabled">Coming Soon</span>
       </div>
-      <h3>${template.name}</h3>
-      <p>Template profesional siap pakai untuk ${template.name.toLowerCase()}.</p>
-      <a href="#" class="template-card__link ${!isAvailable ? 'template-card__link--disabled' : ''}">${isAvailable ? 'Lihat Template' : 'Coming Soon'}</a>
-    </div>
-  `;
+    `;
+  }
 }
 
 // Initialize template grid
