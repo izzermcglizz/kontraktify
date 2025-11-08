@@ -1,16 +1,52 @@
-const scrollTriggers = document.querySelectorAll('[data-scroll-target]');
-
-scrollTriggers.forEach((trigger) => {
-  trigger.addEventListener('click', (event) => {
-    event.preventDefault();
-    const selector = trigger.getAttribute('data-scroll-target');
-    if (!selector) return;
-    const target = document.querySelector(selector);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// Smooth scroll for anchor links
+(() => {
+  const handleSmoothScroll = (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    
+    const href = link.getAttribute('href');
+    if (!href || href === '#') return;
+    
+    const target = document.querySelector(href);
+    if (!target) return;
+    
+    e.preventDefault();
+    
+    // Calculate offset for header (if needed)
+    const headerOffset = 80;
+    const elementPosition = target.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    // Smooth scroll with easing
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  };
+  
+  // Handle all anchor links
+  document.addEventListener('click', handleSmoothScroll);
+  
+  // Also handle data-scroll-target for backward compatibility
+  const scrollTriggers = document.querySelectorAll('[data-scroll-target]');
+  scrollTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      const selector = trigger.getAttribute('data-scroll-target');
+      if (!selector) return;
+      const target = document.querySelector(selector);
+      if (target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
   });
-});
+})();
 
 // Legacy builder (kept for reference) — demo below is the primary experience
 const builder = document.querySelector('.builder');
