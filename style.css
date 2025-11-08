@@ -154,46 +154,202 @@ main {
 }
 
 .offer {
-  margin-bottom: 92px;
+  margin-bottom: 120px;
 }
 
-.offer__intro {
+.offer--neo {
+  margin-bottom: 140px;
+}
+
+.offer__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.offer__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent-gray);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.offer__header h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.offer__split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  min-height: 360px;
+}
+
+.offer-panel {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 40px;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  perspective: 1000px;
+  border: 1px solid rgba(17, 17, 19, 0.08);
+  border-width: 1px;
+  box-sizing: border-box;
 }
 
-.offer__heading {
+.panel__glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.offer-panel--template {
+  background: linear-gradient(135deg, #0f0f10 0%, #2f3035 100%);
+  color: #f9fafb;
+}
+
+.offer-panel--template .panel__glow {
+  background: radial-gradient(circle at 30% 50%, rgba(245, 198, 68, 0.3), transparent 70%);
+}
+
+.offer-panel--custom {
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+  color: #0f0f10;
+  border: 1px solid rgba(17, 17, 19, 0.1);
+}
+
+.offer-panel--custom .panel__glow {
+  background: radial-gradient(circle at 70% 50%, rgba(225, 111, 115, 0.2), transparent 70%);
+}
+
+.offer-panel:hover {
+  box-shadow: 0 32px 64px rgba(15, 15, 16, 0.25);
+}
+
+.offer-panel:hover .panel__glow {
+  opacity: 1;
+}
+
+.panel__content {
+  position: relative;
+  z-index: 2;
+  padding: 32px 28px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  justify-content: space-between;
 }
 
-.offer__heading h2 {
-  font-size: clamp(1.6rem, 3.6vw, 2rem);
-  font-weight: 600;
+.panel__icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.offer__heading p {
-  color: var(--text-muted);
-  font-style: italic;
-  font-weight: 500;
+.panel__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.5;
 }
 
-.offer__description {
-  max-width: 480px;
-  color: var(--text-muted);
+.offer-panel:hover .panel__icon {
+  transform: rotate(5deg);
+}
+
+.panel__content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.panel__subtitle {
   font-size: 0.95rem;
-  line-height: 1.7;
+  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.offer__cards {
-  display: grid;
-  gap: 32px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+.panel__features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.feature-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.offer-panel--template .feature-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.offer-panel--custom .feature-badge {
+  background: rgba(17, 17, 19, 0.06);
+  border: 1px solid rgba(17, 17, 19, 0.1);
+}
+
+.offer-panel:hover .feature-badge {
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+.panel__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: auto;
+  transition: gap 0.3s ease;
+}
+
+.offer-panel:hover .panel__cta {
+  gap: 12px;
+}
+
+.panel__cta svg {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.offer-panel:hover .panel__cta svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .offer__split {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .panel__content {
+    padding: 28px 24px;
+  }
+  
+  .panel__content h3 {
+    font-size: 1.35rem;
+  }
 }
 
 .offer-card {

@@ -514,3 +514,37 @@ if (builder) {
   });
 })();
 
+// 3D Tilt effect for offer panels
+(() => {
+  const panels = document.querySelectorAll('[data-tilt]');
+  
+  panels.forEach((panel) => {
+    let isHovering = false;
+    
+    panel.addEventListener('mouseenter', () => {
+      isHovering = true;
+    });
+    
+    panel.addEventListener('mousemove', (e) => {
+      if (!isHovering) return;
+      
+      const rect = panel.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 25;
+      const rotateY = (centerX - x) / 25;
+      
+      panel.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+    
+    panel.addEventListener('mouseleave', () => {
+      isHovering = false;
+      panel.style.transform = '';
+    });
+  });
+})();
+
