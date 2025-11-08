@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -24,12 +24,33 @@
     />
   </head>
   <body>
+    <div class="page-loader" id="pageLoader">
+      <div class="page-loader__content">
+        <div class="page-loader__document">
+          <svg class="page-loader__doc-icon" width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <rect x="12" y="8" width="40" height="48" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 20h24M20 28h24M20 36h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 44h24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4"/>
+          </svg>
+          <div class="page-loader__checkmark">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
     <header class="top-bar">
-      <div class="logo"><img src="asset/WhatsApp%20Image%202025-08-23%20at%2016.28.39.jpeg" alt="Kontraktify" class="logo__mark" /><span>Kontraktify</span></div>
-      <nav class="main-nav">
-        <a href="#">Home</a>
-        <a href="#">Artikel Hukum</a>
-      </nav>
+      <div class="top-bar__container">
+        <a href="index.html" class="logo">
+          <img src="asset/WhatsApp%20Image%202025-08-23%20at%2016.28.39.jpeg" alt="Kontraktify" class="logo__mark" />
+          <span>Kontraktify</span>
+        </a>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link-home nav-link-home--active">Home</a>
+          <a href="products.html" class="nav-link-template">Templates</a>
+        </nav>
+      </div>
     </header>
 
     <main>
@@ -79,7 +100,7 @@
               <div class="panel__features">
                 <span class="feature-badge">⚡ Instan</span>
                 <span class="feature-badge">📋 50+ Template</span>
-                <span class="feature-badge">💰 Mulai Rp350rb</span>
+                <span class="feature-badge">💰 Mulai Rp100rb</span>
               </div>
               <div class="panel__cta">
                 <span>Jelajahi Template</span>
@@ -91,7 +112,7 @@
             </div>
           </a>
 
-          <a href="#" class="offer-panel offer-panel--custom" data-tilt>
+          <a href="https://wa.me/6285285995169" class="offer-panel offer-panel--custom" data-tilt target="_blank" rel="noopener noreferrer">
             <div class="panel__glow"></div>
             <div class="panel__content">
               <div class="panel__icon">
@@ -106,7 +127,7 @@
               <div class="panel__features">
                 <span class="feature-badge">👨‍⚖️ Expert Team</span>
                 <span class="feature-badge">🌐 Bilingual</span>
-                <span class="feature-badge">✍️ Revisi Unlimited</span>
+                <span class="feature-badge">✍️ Revisi Gratis</span>
               </div>
               <div class="panel__cta">
                 <span>Konsultasi Sekarang</span>
@@ -126,119 +147,103 @@
             <h2>Kategori Produk,</h2>
             <p>Products Category</p>
           </div>
-          <a href="#" class="products__link">Jelajahi Lebih Lanjut &gt;</a>
+          <a href="products.html" class="products__link">Jelajahi Lebih Lanjut &gt;</a>
         </div>
 
         <div class="product-grid">
-          <a class="product-card product-card--yellow is-link" href="#" data-category="Kontrak Bisnis">
-            <div class="product-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                <line x1="12" y1="22.08" x2="12" y2="12"/>
-              </svg>
+          <a class="product-card product-card--yellow is-link" href="products.html" data-category="Kontrak Bisnis">
+            <div class="product-card__header">
+              <div class="product-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              </div>
+              <span class="product-card__number">01.</span>
             </div>
-            <div class="product-card__top">
+            <div class="product-card__body">
               <h3>Kontrak Bisnis</h3>
-              <button class="arrow-pill" aria-label="Lihat Kontrak Bisnis" tabindex="-1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                  <polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </button>
+              <div class="product-tags"><span>Sewa Menyewa</span><span>Jual Beli</span><span>Joint Venture</span></div>
             </div>
-            <div class="product-tags"><span>Vendor</span><span>MoA</span><span>Distribution</span></div>
-            <span class="card-cta">Explore templates</span>
-          </a>
-
-          <a class="product-card product-card--black is-link" href="#" data-category="Kepemilikan & Saham">
-            <div class="product-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="8.5" cy="7" r="4"/>
-                <path d="M20 8v6M23 11h-6"/>
+            <div class="product-card__arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
               </svg>
             </div>
-            <div class="product-card__top">
+          </a>
+
+          <a class="product-card product-card--black is-link" href="products.html" data-category="Kepemilikan & Saham">
+            <div class="product-card__header">
+              <div class="product-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  <circle cx="7" cy="8.5" r="1" fill="currentColor"/>
+                  <circle cx="17" cy="15.5" r="1" fill="currentColor"/>
+                </svg>
+              </div>
+              <span class="product-card__number">02.</span>
+            </div>
+            <div class="product-card__body">
               <h3>Kepemilikan & Saham</h3>
-              <button class="arrow-pill" aria-label="Lihat Kepemilikan & Saham" tabindex="-1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                  <polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </button>
+              <div class="product-tags"><span>Pemegang Saham</span><span>Investasi Saham</span><span>Bagi Hasil</span></div>
             </div>
-            <div class="product-tags"><span>SHA</span><span>Investment</span><span>Cap Table</span></div>
-            <span class="card-cta">Explore templates</span>
-          </a>
-
-          <a class="product-card product-card--gray is-link" href="#" data-category="Ketenagakerjaan">
-            <div class="product-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            <div class="product-card__arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
               </svg>
             </div>
-            <div class="product-card__top">
+          </a>
+
+          <a class="product-card product-card--gray is-link" href="products.html" data-category="Ketenagakerjaan">
+            <div class="product-card__header">
+              <div class="product-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <span class="product-card__number">03.</span>
+            </div>
+            <div class="product-card__body">
               <h3>Ketenagakerjaan</h3>
-              <button class="arrow-pill" aria-label="Lihat Ketenagakerjaan" tabindex="-1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                  <polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </button>
+              <div class="product-tags"><span>PKWT</span><span>PKWTT</span><span>Freelancer</span></div>
             </div>
-            <div class="product-tags"><span>PKWT</span><span>Freelance</span><span>NDA</span></div>
-            <span class="card-cta">Explore templates</span>
-          </a>
-
-          <a class="product-card product-card--red is-link" href="#" data-category="Tata Kelola Korporasi">
-            <div class="product-card__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
+            <div class="product-card__arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
               </svg>
             </div>
-            <div class="product-card__top">
-              <h3>Tata Kelola Korporasi</h3>
-              <button class="arrow-pill" aria-label="Lihat Tata Kelola Korporasi" tabindex="-1">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                  <polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </button>
-            </div>
-            <div class="product-tags"><span>RUPS</span><span>Resolution</span><span>Minutes</span></div>
-            <span class="card-cta">Explore templates</span>
           </a>
-        </div>
-      </section>
 
-      <section class="how-it-works" aria-labelledby="how-heading">
-        <div class="hiw__header">
-          <p class="hero__eyebrow">How it works</p>
-          <h2 id="how-heading">Tiga langkah mudah</h2>
-        </div>
-        <div class="hiw__steps">
-          <article class="hiw-card">
-            <span class="hiw-num">1</span>
-            <h3>Pilih template</h3>
-            <p>Pilih kontrak yang kamu butuhkan, atau mulailah dari rekomendasi kami.</p>
-          </article>
-          <article class="hiw-card">
-            <span class="hiw-num">2</span>
-            <h3>Isi data</h3>
-            <p>Masukkan detail melalui form interaktif. Preview diperbarui secara real-time.</p>
-          </article>
-          <article class="hiw-card">
-            <span class="hiw-num">3</span>
-            <h3>Bayar & unduh</h3>
-            <p>Setelah pembayaran, kontrak siap diunduh atau dikirim ke emailmu.</p>
-          </article>
+          <a class="product-card product-card--red is-link" href="products.html" data-category="Tata Kelola Korporasi">
+            <div class="product-card__header">
+              <div class="product-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <span class="product-card__number">04.</span>
+            </div>
+            <div class="product-card__body">
+              <h3>Tata Kelola Korporasi</h3>
+              <div class="product-tags"><span>RUPS</span><span>Notulen</span><span>Direksi</span></div>
+            </div>
+            <div class="product-card__arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+          </a>
         </div>
       </section>
 
@@ -331,6 +336,129 @@
               </a>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <div class="container">
+          <h2 class="faq-title">Pertanyaan Umum</h2>
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Apa layanan utama Kontraktify?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Kontraktify menyediakan layanan pembuatan dokumen hukum bisnis. Terdapat dua tipe layanan:</p>
+                <ul>
+                  <li><strong>Template Dokumen Siap Pakai:</strong> dapat dibeli langsung melalui website.</li>
+                  <li><strong>Dokumen Custom:</strong> disusun berdasarkan kebutuhan dan konteks bisnis klien melalui sesi konsultasi.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Apa perbedaan Template Dokumen dan Dokumen Custom?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p><strong>Template Dokumen:</strong> digunakan untuk kebutuhan yang relatif standar. Formatnya sudah terstruktur dan dapat diisi data klien secara mandiri. <strong>Dokumen Custom:</strong> disusun secara khusus berdasarkan struktur kerja sama, risiko, dan preferensi klien. Prosesnya melibatkan diskusi dan penyesuaian isi pasal.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Bagaimana cara membeli Template Dokumen?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Pilih dokumen yang diinginkan, isi data yang diperlukan, lalu lakukan pembayaran. Setelah itu, dokumen akan tersedia untuk diunduh dan digunakan.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Bagaimana proses pembuatan Dokumen Custom?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <ul>
+                  <li>Pengumpulan informasi mengenai konteks dan tujuan</li>
+                  <li>Penyusunan draft</li>
+                  <li>Revisi berdasarkan masukan klien</li>
+                  <li>Finalisasi dokumen</li>
+                </ul>
+                <p>Semua dilakukan secara online dan terjadwal.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Kontraktify dapat membantu kebutuhan hukum apa saja?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Selain pembuatan dokumen, Kontraktify juga dapat membantu:</p>
+                <ul>
+                  <li>Pendirian dan perubahan badan usaha</li>
+                  <li>Dokumen tata kelola perusahaan</li>
+                  <li>Dokumentasi investasi dan kemitraan</li>
+                  <li>Hubungan kepegawaian dan HR Legal</li>
+                </ul>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Siapa yang biasanya menggunakan Kontraktify?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Pendiri startup, pelaku usaha, investor, perusahaan yang sedang berkembang, serta organisasi yang memerlukan standardisasi dokumentasi internal.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Berapa lama waktu pengerjaan?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p><strong>Template:</strong> tersedia instan. <strong>Custom:</strong> estimasi 2–10 hari kerja, tergantung kompleksitas dan jumlah pihak yang terlibat.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Bagaimana kerahasiaan data dijaga?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Semua informasi klien diperlakukan sebagai data rahasia dan dilindungi sesuai prinsip kerahasiaan profesional.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">
+                <span>Bagaimana sistem biaya layanan custom?</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Biaya ditentukan berdasarkan jenis dokumen, ruang lingkup, dan tingkat kompleksitas. Estimasi biaya akan diinformasikan sebelum pekerjaan dimulai.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

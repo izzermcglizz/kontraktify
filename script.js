@@ -1,3 +1,80 @@
+// Header scroll shrink effect
+(() => {
+  const header = document.querySelector('.top-bar');
+  if (!header) return;
+  
+  let lastScrollY = window.scrollY;
+  
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    
+    if (currentScrollY > 100) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+    
+    lastScrollY = currentScrollY;
+  };
+  
+  // Throttle scroll events
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  
+  // Initial check
+  handleScroll();
+})();
+
+// Page loader for navigation (disabled for Template link)
+(() => {
+  const loader = document.getElementById('pageLoader');
+  if (!loader) return;
+
+  // Show loader when clicking any navigation link (except anchor links and Template)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    
+    const href = link.getAttribute('href');
+    
+    // Skip loading screen for Template link
+    if (link.classList.contains('nav-link-template') || href.includes('products.html')) {
+      return;
+    }
+    
+    // Show loader for other external page links (not anchor links)
+    if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+      // Check if it's a different page
+      const currentPath = window.location.pathname;
+      const linkPath = new URL(link.href, window.location.origin).pathname;
+      
+      if (linkPath !== currentPath) {
+        loader.classList.add('is-loading');
+      }
+    }
+  });
+
+  // Hide loader when page is fully loaded
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loader.classList.remove('is-loading');
+    }, 200);
+  });
+
+  // Hide loader immediately if page is already loaded
+  if (document.readyState === 'complete') {
+    loader.classList.remove('is-loading');
+  }
+})();
+
 // Smooth scroll for anchor links
 (() => {
   const handleSmoothScroll = (e) => {
@@ -474,5 +551,42 @@ if (builder) {
       panel.style.transform = '';
     });
   });
+})();
+
+// FAQ Accordion functionality
+(() => {
+  function initFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach((item) => {
+      const question = item.querySelector('.faq-question');
+      if (!question) return;
+      
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('is-open');
+        
+        // Close all other items
+        faqItems.forEach((otherItem) => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('is-open');
+          }
+        });
+        
+        // Toggle current item
+        if (isOpen) {
+          item.classList.remove('is-open');
+        } else {
+          item.classList.add('is-open');
+        }
+      });
+    });
+  }
+  
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFAQ);
+  } else {
+    initFAQ();
+  }
 })();
 
