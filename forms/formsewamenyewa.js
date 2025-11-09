@@ -673,6 +673,56 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (!form || !preview) return;
   
+  // Handle navigation sidebar
+  const navSections = document.querySelectorAll('.form-nav-section');
+  const navItems = document.querySelectorAll('.form-nav-item');
+  const formGroups = document.querySelectorAll('.form-group--collapsible');
+  
+  // Expand first section by default
+  if (navSections.length > 0) {
+    navSections[0].classList.add('is-expanded');
+  }
+  
+  // Handle parent nav item clicks (expand/collapse)
+  navSections.forEach(section => {
+    const parentButton = section.querySelector('.form-nav-item--parent');
+    if (parentButton) {
+      parentButton.addEventListener('click', () => {
+        section.classList.toggle('is-expanded');
+      });
+    }
+  });
+  
+  // Handle submenu nav item clicks (navigate to form group)
+  navItems.forEach(item => {
+    if (!item.classList.contains('form-nav-item--parent')) {
+      item.addEventListener('click', () => {
+        const groupId = item.dataset.group;
+        
+        // Update active state
+        navItems.forEach(i => {
+          if (!i.classList.contains('form-nav-item--parent')) {
+            i.classList.remove('is-active');
+          }
+        });
+        item.classList.add('is-active');
+        
+        // Close all form groups, then open only the selected one
+        formGroups.forEach(group => {
+          group.classList.remove('is-expanded');
+        });
+        
+        // Show only the relevant form group
+        formGroups.forEach(group => {
+          if (group.dataset.group === groupId) {
+            group.classList.add('is-expanded');
+          }
+        });
+      });
+    }
+  });
+  
+  
   // Toggle pembayaran bertahap fields
   const pembayaranBertahapCheckbox = document.getElementById('pembayaran_bertahap');
   const pembayaranBertahapFields = document.getElementById('pembayaran_bertahap_fields');

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <title>Buat Perjanjian Kerja Sama Usaha | Kontraktify</title>
     <link rel="icon" type="image/jpeg" href="../asset/favicon.jpeg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -11,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../style.css?v=3" />
     <meta
       name="description"
       content="Isi form untuk membuat Perjanjian Kerja Sama Usaha (Joint Venture) secara instan. Download dokumen Word siap pakai."
@@ -52,37 +53,91 @@
       <section class="form-section">
         <div class="container">
           <div class="form-layout">
+            <!-- Navigation Sidebar -->
+            <aside class="form-nav-sidebar">
+              <nav class="form-nav">
+                <div class="form-nav-section">
+                  <button class="form-nav-item form-nav-item--parent" data-section="identitas">
+                    <span>Identitas Para Pihak</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                  <div class="form-nav-submenu">
+                    <button class="form-nav-item is-active" data-group="informasi-umum">Informasi Umum</button>
+                    <button class="form-nav-item" data-group="pihak-pertama">Pihak Pertama</button>
+                    <button class="form-nav-item" data-group="pihak-kedua">Pihak Kedua</button>
+                  </div>
+                </div>
+                
+                <div class="form-nav-section">
+                  <button class="form-nav-item form-nav-item--parent" data-section="ketentuan">
+                    <span>Ketentuan Perjanjian</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                  <div class="form-nav-submenu">
+                    <button class="form-nav-item" data-group="informasi-usaha">Informasi Usaha</button>
+                    <button class="form-nav-item" data-group="pembayaran">Pembayaran</button>
+                    <button class="form-nav-item" data-group="jangka-waktu">Jangka Waktu</button>
+                  </div>
+                </div>
+                
+                <div class="form-nav-section">
+                  <button class="form-nav-item form-nav-item--parent" data-section="penutup">
+                    <span>Penutup Perjanjian</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                  <div class="form-nav-submenu">
+                    <button class="form-nav-item" data-group="ketentuan-lainnya">Ketentuan Lainnya</button>
+                  </div>
+                </div>
+              </nav>
+            </aside>
+            
             <!-- Form Sidebar -->
             <div class="form-sidebar">
               <div class="form-card">
-                <div class="form-card__header">
-                  <h2>Isi Informasi</h2>
-                  <div class="progress-container">
-                    <div class="progress-info">
-                      <span class="progress-label">Progress</span>
-                      <span class="progress-percentage" id="progressPercentage">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                      <div class="progress-bar__fill" id="progressBarFill" style="width: 0%"></div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-disclaimer">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="16" x2="12" y2="12"/>
-                    <line x1="12" y1="8" x2="12.01" y2="8"/>
-                  </svg>
-                  <div class="disclaimer-content">
-                    <p><strong>Tidak perlu mengisi semua field.</strong> Anda bisa download dokumen dengan placeholder dan mengisi sendiri nanti di Word.</p>
-                  </div>
-                </div>
-                
                 <form id="documentForm" class="document-form">
+                  <div class="form-top-bar">
+                    <div class="progress-container">
+                      <div class="progress-info">
+                        <span class="progress-label">Progress</span>
+                        <span class="progress-percentage" id="progressPercentage">0%</span>
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-bar__fill" id="progressBarFill" style="width: 0%"></div>
+                      </div>
+                    </div>
+                    
+                    <div class="form-disclaimer">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                      </svg>
+                      <div class="disclaimer-content">
+                        <p><strong>Tidak perlu mengisi semua field.</strong> Anda bisa download dokumen dengan placeholder dan mengisi sendiri nanti di Word.</p>
+                      </div>
+                    </div>
+                  </div>
                   <!-- Informasi Umum -->
-                  <div class="form-group">
-                    <h3>Informasi Umum</h3>
+                  <div class="form-group form-group--collapsible is-expanded" data-group="informasi-umum">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">01</span>
+                        Informasi Umum
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="tempat_penandatanganan">Tempat Penandatanganan</label>
@@ -110,11 +165,23 @@
                         <input type="number" id="tahun" name="tahun" placeholder="Contoh: 2024" />
                       </div>
                     </div>
+                    </div>
                   </div>
 
                   <!-- Pihak Pertama -->
-                  <div class="form-group">
-                    <h3>Pihak Pertama</h3>
+                  <div class="form-group form-group--collapsible" data-group="pihak-pertama">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">02</span>
+                        Pihak Pertama
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="nama_pihak_pertama">Nama Lengkap</label>
@@ -130,11 +197,23 @@
                       <label for="alamat_pihak_pertama">Alamat Tinggal</label>
                       <textarea id="alamat_pihak_pertama" name="alamat_pihak_pertama" rows="3" placeholder="Alamat lengkap pihak pertama"></textarea>
                     </div>
+                    </div>
                   </div>
 
                   <!-- Pihak Kedua -->
-                  <div class="form-group">
-                    <h3>Pihak Kedua</h3>
+                  <div class="form-group form-group--collapsible" data-group="pihak-kedua">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">03</span>
+                        Pihak Kedua
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="nama_pihak_kedua">Nama Lengkap</label>
@@ -150,11 +229,23 @@
                       <label for="alamat_pihak_kedua">Alamat Tinggal</label>
                       <textarea id="alamat_pihak_kedua" name="alamat_pihak_kedua" rows="3" placeholder="Alamat lengkap pihak kedua"></textarea>
                     </div>
+                    </div>
                   </div>
 
                   <!-- Informasi Usaha -->
-                  <div class="form-group">
-                    <h3>Informasi Usaha</h3>
+                  <div class="form-group form-group--collapsible" data-group="informasi-usaha">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">04</span>
+                        Informasi Usaha
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="kegiatan_usaha">Kegiatan Usaha (Sesuai KBLI)</label>
@@ -185,11 +276,23 @@
                         <option value="non-eksklusif (Pemberi Waralaba berhak untuk menunjuk pihak lain sebagai penerima waralaba)">Non-Eksklusif</option>
                       </select>
                     </div>
+                    </div>
                   </div>
 
                   <!-- Pembayaran -->
-                  <div class="form-group">
-                    <h3>Pembayaran</h3>
+                  <div class="form-group form-group--collapsible" data-group="pembayaran">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">05</span>
+                        Pembayaran
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="biaya_awal">Biaya Awal Waralaba</label>
@@ -205,11 +308,23 @@
                       <label for="bank_rekening">Bank dan Rekening Tujuan</label>
                       <textarea id="bank_rekening" name="bank_rekening" rows="2" placeholder="Contoh: BCA a.n. PT XYZ, No. Rek: 1234567890"></textarea>
                     </div>
+                    </div>
                   </div>
 
                   <!-- Jangka Waktu -->
-                  <div class="form-group">
-                    <h3>Jangka Waktu Perjanjian</h3>
+                  <div class="form-group form-group--collapsible" data-group="jangka-waktu">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">06</span>
+                        Jangka Waktu Perjanjian
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="jumlah_tahun">Durasi (Tahun)</label>
@@ -226,11 +341,23 @@
                         <input type="date" id="tanggal_akhir" name="tanggal_akhir" />
                       </div>
                     </div>
+                    </div>
                   </div>
 
                   <!-- Ketentuan Lainnya -->
-                  <div class="form-group">
-                    <h3>Ketentuan Lainnya</h3>
+                  <div class="form-group form-group--collapsible" data-group="ketentuan-lainnya">
+                    <div class="form-group__header">
+                      <h3>
+                        <span class="group-number">07</span>
+                        Ketentuan Lainnya
+                      </h3>
+                      <button type="button" class="group-toggle" aria-label="Toggle section">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="form-group__content">
                     
                     <div class="form-field">
                       <label for="jangka_waktu_pembaruan">Jangka Waktu Pembaruan Sistem (Hari Kerja)</label>
@@ -261,6 +388,7 @@
                     <div class="form-field">
                       <label for="forum_penyelesaian_sengketa">Forum Penyelesaian Sengketa</label>
                       <input type="text" id="forum_penyelesaian_sengketa" name="forum_penyelesaian_sengketa" placeholder="Contoh: Pengadilan Negeri Jakarta Pusat / Arbitrase" />
+                    </div>
                     </div>
                   </div>
 
