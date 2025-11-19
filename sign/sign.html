@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Document - Kontraktify</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+</head>
+<body style="background: #fff;">
+    <!-- Header -->
+    <header class="sign-header">
+        <div class="container">
+            <a href="index.html" class="logo">Kontraktify Sign</a>
+            <span id="signerName" style="font-weight: 600; color: var(--text-light);"></span>
+        </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="loadingState" style="display: flex; align-items: center; justify-content: center; min-height: 60vh; flex-direction: column;">
+        <div class="spinner"></div>
+        <p style="margin-top: 24px; color: var(--text-light); font-weight: 600;">Loading document...</p>
+    </div>
+
+    <!-- Invalid -->
+    <div id="invalidState" style="display: none; text-align: center; padding: 80px 20px;">
+        <div style="width: 80px; height: 80px; background: #fee2e2; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px;">❌</div>
+        <h2 style="margin-bottom: 12px; font-size: 28px;">Invalid Link</h2>
+        <p style="color: var(--text-light); margin-bottom: 32px;">This link is invalid or has expired.</p>
+        <a href="index.html" class="btn btn-primary">Go Home</a>
+    </div>
+
+    <!-- Already Signed -->
+    <div id="signedState" style="display: none; text-align: center; padding: 80px 20px;">
+        <div style="width: 80px; height: 80px; background: #d1fae5; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px;">✓</div>
+        <h2 style="margin-bottom: 12px; font-size: 28px;">Already Signed</h2>
+        <p style="color: var(--text-light); margin-bottom: 8px;">You signed this document on:</p>
+        <p style="font-weight: 700; font-size: 16px; margin-bottom: 32px;" id="signedDate"></p>
+        <a href="index.html" class="btn btn-primary">Go Home</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" style="display: none; padding-bottom: 100px;">
+        <div class="container" style="padding-top: 24px;">
+            <!-- Document Info -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 style="margin-bottom: 8px; font-size: 24px;" id="docTitle"></h2>
+                        <p style="color: var(--text-light); font-size: 14px;">Complete all fields to finish signing</p>
+                    </div>
+                    <button class="btn btn-primary" id="startBtn" style="padding: 14px 32px;">
+                        Start Signing →
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Viewer -->
+            <div style="background: #2a2a2e; border-radius: 16px; padding: 40px; box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);">
+                <div id="pdfPages" style="max-width: 850px; margin: 0 auto;"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div style="position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 16px 0; z-index: 100; box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 14px; font-weight: 700;" id="progressText"></div>
+                        <div style="font-size: 12px; color: var(--text-muted);" id="progressSub"></div>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-secondary" id="prevBtn" disabled>← Previous</button>
+                        <button class="btn btn-primary" id="nextBtn">Next →</button>
+                        <button class="btn btn-primary" id="completeBtn" style="display: none; background: #10b981;">Complete ✓</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Signature Modal -->
+    <div class="modal" id="signatureModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Your Signature</h3>
+                <button class="modal-close" onclick="closeSignatureModal()">×</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('draw')">✍️ Draw</div>
+                <div class="tab" onclick="switchTab('type')">⌨️ Type</div>
+                <div class="tab" onclick="switchTab('upload')">📁 Upload</div>
+            </div>
+
+            <!-- Draw Tab -->
+            <div id="drawTab">
+                <canvas id="signatureCanvas" class="signature-canvas" width="540" height="220"></canvas>
+                <button class="btn btn-secondary btn-full" onclick="clearSignature()" style="margin-top: 12px;">Clear</button>
+            </div>
+
+            <!-- Type Tab -->
+            <div id="typeTab" style="display: none;">
+                <input type="text" id="typedSignature" placeholder="Type your name..." style="width: 100%; padding: 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; font-weight: 500; margin-bottom: 16px;">
+                <div id="signaturePreview" style="height: 140px; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Brush Script MT', cursive; font-size: 42px; background: #F5F5F5;"></div>
+            </div>
+
+            <!-- Upload Tab -->
+            <div id="uploadTab" style="display: none;">
+                <input type="file" id="signatureUpload" accept="image/*" style="display: none;">
+                <div onclick="document.getElementById('signatureUpload').click()" class="upload-area" style="padding: 60px 20px;">
+                    <div style="font-size: 40px; margin-bottom: 12px;">📷</div>
+                    <p style="font-weight: 600; margin-bottom: 6px;">Upload signature image</p>
+                    <p style="font-size: 12px; color: var(--text-muted);">PNG, JPG max 2MB</p>
+                </div>
+                <img id="uploadedSignature" style="max-width: 100%; margin-top: 16px; border-radius: 12px; display: none;">
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="confirmSignature()" style="margin-top: 24px; padding: 16px; font-size: 15px; font-weight: 700;">
+                Use This Signature
+            </button>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/sign.js"></script>
+</body>
+</html>

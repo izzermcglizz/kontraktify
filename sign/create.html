@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepare Document - Kontraktify Sign</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+</head>
+<body>
+    <header class="top-bar">
+      <div class="top-bar__container">
+        <a href="index.html" class="logo">
+          <img src="../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
+          <span>Kontraktify</span>
+        </a>
+        <nav class="main-nav">
+          <a href="../index.html">Home</a>
+          <a href="../templates/index.html" class="nav-link-template">Templates</a>
+          <a href="index.html" class="nav-link-sign nav-link-sign--active">E-Signature</a>
+          <a href="../compare/index.html" class="nav-link-compare">Compare</a>
+        </nav>
+        <button class="btn btn--primary" id="generateBtn" disabled>
+          Generate Links
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        
+        <!-- LEFT SIDEBAR - Tools -->
+        <aside class="sidebar-left">
+            
+            <!-- Upload Section -->
+            <div class="tool-section">
+                <h3 class="section-title">1. Upload Document</h3>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="pdfFile" accept=".pdf" style="display: none;">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">
+                        <strong>Drop PDF here</strong>
+                        <span>or click to browse</span>
+                    </div>
+                </div>
+                <div id="fileInfo" class="file-info" style="display: none;">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+            </div>
+
+            <!-- Signers Section -->
+            <div class="tool-section" id="signersSection" style="display: none;">
+                <h3 class="section-title">2. Add Signers</h3>
+                <div class="signer-input-group">
+                    <input type="text" id="signerName" placeholder="Enter signer name..." class="input-field">
+                    <button class="btn btn-primary btn-sm" id="addSignerBtn">Add</button>
+                </div>
+                <div id="signersList" class="signers-list"></div>
+            </div>
+
+            <!-- Fields Section -->
+            <div class="tool-section" id="fieldsSection" style="display: none;">
+                <h3 class="section-title">3. Add Fields</h3>
+                <div class="signer-select-wrapper">
+                    <label class="label">For signer:</label>
+                    <select id="currentSigner" class="select-field"></select>
+                </div>
+                
+                <div class="fields-grid">
+                    <div class="field-item" data-field-type="signature" draggable="true">
+                        <div class="field-icon">✍️</div>
+                        <div class="field-label">Signature</div>
+                    </div>
+                    <div class="field-item" data-field-type="name" draggable="true">
+                        <div class="field-icon">👤</div>
+                        <div class="field-label">Name</div>
+                    </div>
+                    <div class="field-item" data-field-type="date" draggable="true">
+                        <div class="field-icon">📅</div>
+                        <div class="field-label">Date</div>
+                    </div>
+                    <div class="field-item" data-field-type="text" draggable="true">
+                        <div class="field-icon">📝</div>
+                        <div class="field-label">Text</div>
+                    </div>
+                </div>
+                
+                <div class="help-text">
+                    💡 Drag a field to the document, then drop it where you want it
+                </div>
+            </div>
+        </aside>
+
+        <!-- CENTER: PDF Viewer -->
+        <main class="pdf-viewer-container">
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon">📄</div>
+                <h3>Upload a PDF to get started</h3>
+                <p>Your document will appear here</p>
+            </div>
+            
+            <div id="pdfViewer" style="display: none;">
+                <div id="pdfPages" class="pdf-pages"></div>
+            </div>
+        </main>
+
+        <!-- RIGHT SIDEBAR: Pages -->
+        <aside class="sidebar-right">
+            <h4 class="sidebar-title">Pages</h4>
+            <div id="pageThumbnails" class="thumbnails-list"></div>
+        </aside>
+    </div>
+
+    <!-- Links Modal -->
+    <div class="modal" id="linksModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✓ Document Ready</h2>
+                <button class="modal-close" onclick="closeLinksModal()">×</button>
+            </div>
+            
+            <p class="modal-description">
+                Share these unique links with your signers:
+            </p>
+            
+            <div id="signerLinks" class="signer-links"></div>
+            
+            <div class="track-section">
+                <div class="track-title">🔍 Track Status</div>
+                <div class="link-input">
+                    <input type="text" id="trackLink" readonly onclick="this.select()">
+                    <button class="copy-btn" onclick="copyTrackLink()">Copy</button>
+                </div>
+                <p class="track-help">Use this link to monitor signing progress</p>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="closeLinksModal()">
+                Done
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal" id="loadingModal">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Preparing your document...</p>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/create.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontraktify Sign - E-Signature Platform</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+</head>
+<body>
+    <header class="top-bar">
+      <div class="top-bar__container">
+        <a href="../index.html" class="logo">
+          <img src="../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
+          <span>Kontraktify</span>
+        </a>
+        <nav class="main-nav">
+          <a href="../index.html">Home</a>
+          <a href="../templates/index.html" class="nav-link-template">Templates</a>
+          <a href="index.html" class="nav-link-sign nav-link-sign--active">E-Signature</a>
+          <a href="../compare/index.html" class="nav-link-compare">Compare</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section style="padding: 80px 0 100px; background: #fff; width: 100%;">
+        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+          <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <!-- Coming Soon Badge -->
+            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: var(--bg-light); border-radius: 50px; margin-bottom: 32px; border: 1px solid rgba(17, 17, 19, 0.08);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">Coming Soon</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 24px; color: var(--primary); letter-spacing: -0.02em;">
+              Sistem e-signature yang bekerja seperti <span style="display: inline-block; padding: 4px 16px; background: var(--bg-light); border-radius: 50px; border: 1px solid rgba(17, 17, 19, 0.08);">Notaris Digital</span>
+            </h1>
+            
+            <!-- Description -->
+            <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 48px; max-width: 700px; margin-left: auto; margin-right: auto;">
+              Penandatanganan dokumen yang aman layak mendapat sistem yang mengerjakan semuanya, dari upload PDF dan menempatkan field hingga melacak tanda tangan dan mengelola workflow.
+            </p>
+
+            <!-- Waitlist Form -->
+            <div style="max-width: 500px; margin: 0 auto 32px; background: var(--bg-light); border-radius: 16px; padding: 32px; border: 1px solid rgba(17, 17, 19, 0.08);">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">
+                Dapatkan notifikasi saat fitur tersedia
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">
+                Masukkan email Anda dan kami akan mengirimkan update ketika e-signature siap digunakan.
+              </p>
+              <form style="display: flex; gap: 12px; flex-wrap: wrap;" onsubmit="event.preventDefault(); alert('Terima kasih! Kami akan mengirimkan notifikasi ke email Anda.');">
+                <input 
+                  type="email" 
+                  placeholder="Masukkan email Anda" 
+                  required
+                  style="flex: 1; min-width: 200px; padding: 14px 18px; border: 1px solid rgba(17, 17, 19, 0.12); border-radius: 12px; font-size: 0.95rem; background: #fff; color: var(--primary); font-family: inherit;"
+                />
+                <button 
+                  type="submit"
+                  style="padding: 14px 28px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s ease;"
+                  onmouseover="this.style.opacity='0.9'"
+                  onmouseout="this.style.opacity='1'"
+                >
+                  Daftar
+                </button>
+              </form>
+            </div>
+
+            <!-- Alternative CTA -->
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+              <a href="https://wa.me/6285285995169" class="btn btn--ghost" target="_blank" rel="noopener noreferrer" style="font-size: 16px; padding: 16px 32px; display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--primary); border: 1px solid rgba(17, 17, 19, 0.12); border-radius: 12px; text-decoration: none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+                Tanya lebih lanjut
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding: 100px 0; background: var(--primary); color: #fff; width: 100%;">
+        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+          <div style="text-align: center; margin-bottom: 64px;">
+            <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; color: #fff; line-height: 1.2;">
+              Tool e-signature terbaik untuk produktivitas maksimal
+            </h2>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; max-width: 1200px; margin: 0 auto;">
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; text-align: center;">
+              <div style="width: 56px; height: 56px; background: rgba(255, 255, 255, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: #fff;">Upload PDF</h3>
+              <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; font-size: 0.95rem;">
+                Upload dokumen PDF Anda dan kami akan menyiapkannya untuk ditandatangani
+              </p>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; text-align: center;">
+              <div style="width: 56px; height: 56px; background: rgba(255, 255, 255, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: #fff;">Tempatkan Field</h3>
+              <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; font-size: 0.95rem;">
+                Klik untuk menempatkan field tanda tangan, nama, tanggal, atau teks
+              </p>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; text-align: center;">
+              <div style="width: 56px; height: 56px; background: rgba(255, 255, 255, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="8.5" cy="7" r="4"/>
+                  <path d="M20 8v6M23 11h-6"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: #fff;">Bagikan & Tandatangani</h3>
+              <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; font-size: 0.95rem;">
+                Salin link unik dan kirim ke para penandatangan
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer__container">
+        <div class="footer__content">
+          <div class="footer__column footer__column--brand">
+            <h3>Kontraktify</h3>
+            <p class="footer__tagline">Hukum yang jelas, terstruktur, dan dapat diterapkan untuk bisnis nyata.</p>
+          </div>
+          
+          <div class="footer__column">
+            <h4>Tools</h4>
+            <ul>
+              <li><a href="../templates/index.html">Templates</a></li>
+              <li><a href="index.html">E-Signature</a></li>
+              <li><a href="../compare/index.html">Document Compare</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer__column">
+            <h4>Perusahaan</h4>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">Kontak</a></li>
+              <li><a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">Layanan Custom</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer__column">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Syarat & Ketentuan</a></li>
+              <li><a href="#">Kebijakan Privasi</a></li>
+              <li><a href="#">Kebijakan Refund</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer__divider"></div>
+        
+        <div class="footer__bottom">
+          <p>© 2024 Kontraktify oleh CV Cipta Kontrak Teknologi. Hak cipta dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js" defer></script>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</body>
+</html>

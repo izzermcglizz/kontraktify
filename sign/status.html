@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Status - Kontraktify</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+</head>
+<body style="background: #fff;">
+    <!-- Header -->
+    <header class="sign-header">
+        <div class="container">
+            <a href="index.html" class="logo">Kontraktify Sign</a>
+            <div style="font-size: 13px; color: var(--text-muted); font-weight: 600;">
+                <span style="animation: pulse 2s infinite;">●</span> Auto-refresh in <span id="countdown">30</span>s
+            </div>
+        </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="loadingState" style="display: flex; align-items: center; justify-content: center; min-height: 60vh; flex-direction: column;">
+        <div class="spinner"></div>
+        <p style="margin-top: 24px; color: var(--text-light); font-weight: 600;">Loading status...</p>
+    </div>
+
+    <!-- Invalid -->
+    <div id="invalidState" style="display: none; text-align: center; padding: 80px 20px;">
+        <div style="width: 80px; height: 80px; background: #fee2e2; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px;">❌</div>
+        <h2 style="margin-bottom: 12px; font-size: 28px;">Invalid Link</h2>
+        <p style="color: var(--text-light); margin-bottom: 32px;">This tracking link is invalid.</p>
+        <a href="index.html" class="btn btn-primary">Go Home</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" style="display: none;">
+        <div class="container" style="max-width: 900px; padding-top: 32px; padding-bottom: 60px;">
+            
+            <!-- Status Card -->
+            <div class="card" style="margin-bottom: 24px; border: 2px solid var(--border);">
+                <div style="display: flex; align-items: start; gap: 20px;">
+                    <div id="statusIcon" style="width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);"></div>
+                    <div style="flex: 1;">
+                        <h2 style="margin-bottom: 8px; font-size: 26px; font-weight: 800;" id="docTitle"></h2>
+                        <p style="color: var(--text-light); font-size: 15px; margin-bottom: 12px;" id="statusText"></p>
+                        <div style="font-size: 13px; color: var(--text-muted);">
+                            Created <span id="createdDate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Card -->
+            <div class="card" style="margin-bottom: 24px; border: 2px solid var(--border);">
+                <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Signing Progress</h3>
+                <div class="progress-bar" style="height: 8px; margin-bottom: 12px;">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p style="text-align: center; font-size: 14px; color: var(--text-light); font-weight: 600;" id="progressText"></p>
+            </div>
+
+            <!-- Signers List -->
+            <div class="card" style="margin-bottom: 24px; border: 2px solid var(--border);">
+                <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Signers</h3>
+                <div id="signersList" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            </div>
+
+            <!-- Download (when completed) -->
+            <div id="downloadSection" style="display: none;">
+                <div class="card" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 2px solid #10b981;">
+                    <div style="text-align: center;">
+                        <div style="width: 72px; height: 72px; background: #10b981; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: #fff; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);">
+                            ✓
+                        </div>
+                        <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 12px; color: #065f46;">Document Complete!</h3>
+                        <p style="color: #047857; margin-bottom: 28px; font-size: 15px;">
+                            All parties have signed. Download the final document below.
+                        </p>
+                        <button class="btn btn-primary" id="downloadBtn" style="padding: 16px 48px; font-size: 16px; background: #10b981; font-weight: 700;">
+                            📥 Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/status.js"></script>
+</body>
+</html>

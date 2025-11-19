@@ -1,24 +1,43 @@
-// Header scroll shrink effect
+// Header scroll shrink effect with smooth transparency
 (() => {
   const header = document.querySelector('.top-bar');
-  if (!header) return;
+  const container = document.querySelector('.top-bar__container');
+  if (!header || !container) return;
   
   let lastScrollY = window.scrollY;
+  let ticking = false;
   
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
+    const scrollThreshold = 50;
     
-    if (currentScrollY > 100) {
+    // Add/remove scrolled class
+    if (currentScrollY > scrollThreshold) {
       header.classList.add('is-scrolled');
     } else {
       header.classList.remove('is-scrolled');
     }
     
+    // Smooth opacity transition based on scroll position
+    const maxScroll = 200;
+    const scrollProgress = Math.min(currentScrollY / maxScroll, 1);
+    
+    // Calculate background opacity (0.5 to 0.9)
+    const baseOpacity = 0.5;
+    const maxOpacity = 0.9;
+    const currentOpacity = baseOpacity + (maxOpacity - baseOpacity) * scrollProgress;
+    
+    // Apply dynamic background
+    container.style.background = `rgba(255, 255, 255, ${currentOpacity})`;
+    
+    // Adjust shadow intensity
+    const shadowIntensity = 0.06 + (0.1 - 0.06) * scrollProgress;
+    container.style.boxShadow = `0 ${4 + scrollProgress * 4}px ${16 + scrollProgress * 8}px rgba(0, 0, 0, ${shadowIntensity}), 0 0 0 1px rgba(255, 255, 255, ${0.5 + scrollProgress * 0.3})`;
+    
     lastScrollY = currentScrollY;
   };
   
   // Throttle scroll events
-  let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
