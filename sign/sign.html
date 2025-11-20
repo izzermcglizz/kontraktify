@@ -127,11 +127,33 @@
     </div>
 
     <!-- Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" onerror="console.error('Failed to load Supabase')"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" onerror="console.error('Failed to load PDF.js')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js" onerror="console.error('Failed to load SignaturePad')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" onerror="console.error('Failed to load PDF-lib')"></script>
     
     <!-- Scripts -->
+    <script>
+        // Wait for all libraries to load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, checking libraries...');
+            console.log('Supabase:', typeof window.supabase !== 'undefined' ? '✓' : '✗');
+            console.log('PDF.js:', typeof pdfjsLib !== 'undefined' ? '✓' : '✗');
+            console.log('SignaturePad:', typeof SignaturePad !== 'undefined' ? '✓' : '✗');
+            console.log('PDFLib:', typeof PDFLib !== 'undefined' ? '✓' : '✗');
+            
+            if (typeof pdfjsLib === 'undefined') {
+                console.error('PDF.js not loaded!');
+                document.getElementById('loadingState').innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <h2>Error Loading PDF Library</h2>
+                        <p>Please refresh the page or check your internet connection.</p>
+                        <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                    </div>
+                `;
+            }
+        });
+    </script>
     <script src="js/config.js"></script>
     <script src="js/sign.js"></script>
 </body>

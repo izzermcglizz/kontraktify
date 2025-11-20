@@ -20,7 +20,16 @@
             requestAnimationFrame(animateProgress);
         } else {
             // Add slight delay before redirect
-            setTimeout(() => {
+            setTimeout(async () => {
+                // Check if user is logged in for create.html
+                if (targetUrl === 'create.html' || targetUrl.includes('create.html')) {
+                    const user = await window.authSystem?.getCurrentUser();
+                    if (!user) {
+                        // Redirect to login first
+                        window.location.href = 'login.html?redirect=create.html';
+                        return;
+                    }
+                }
                 window.location.href = targetUrl;
             }, 300);
         }

@@ -147,11 +147,28 @@ function setupAutoRefresh() {
 // Download PDF
 async function downloadPDF() {
     try {
-        const url = envelope.final_pdf_url || envelope.pdf_url;
+        // Prefer final_pdf_url (with all signatures), then signed_pdf_url, then original
+        const url = envelope.final_pdf_url || envelope.signed_pdf_url || envelope.pdf_url;
+        if (!url) {
+            alert('PDF not found');
+            return;
+        }
+        
         const { data } = supabase.storage.from('documents').getPublicUrl(url);
-        window.open(data.publicUrl, '_blank');
+        
+        // Download the file
+        const response = await fetch(data.publicUrl);
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = envelope.title || 'document.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
         console.error('Download error:', error);
-        alert('Failed to download PDF');
+        alert('Failed to download PDF: ' + error.message);
     }
 }

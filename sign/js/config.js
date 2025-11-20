@@ -24,7 +24,13 @@ function initSupabase() {
     }
     
     try {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
+        });
         return true;
     } catch (error) {
         console.error('Failed to initialize Supabase:', error);

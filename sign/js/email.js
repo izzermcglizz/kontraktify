@@ -72,9 +72,10 @@ async function sendEmailWithLinks(email, signerLinks, trackLink, historyLink) {
             return sendEmailViaMailto(email, signerLinks, trackLink, historyLink);
         }
         
+        console.log('Email sent successfully via edge function');
         return { success: true, method: 'edge-function' };
     } catch (error) {
-        console.warn('Error sending email via edge function, using mailto fallback');
+        console.warn('Error sending email via edge function, using mailto fallback:', error);
         return sendEmailViaMailto(email, signerLinks, trackLink, historyLink);
     }
 }
@@ -87,19 +88,19 @@ function sendEmailViaMailto(email, signerLinks, trackLink, historyLink) {
     body += 'Dokumen E-Signature Anda sudah siap. Berikut adalah link-link yang Anda perlukan:\n\n';
     
     if (signerLinks && signerLinks.length > 0) {
-        body += 'Link untuk Signer:\n';
+        body += '📝 LINK UNTUK SIGNER (Bagikan ke penandatangan):\n';
         signerLinks.forEach((link, index) => {
-            body += `${index + 1}. ${link.url}\n`;
+            body += `${index + 1}. ${link.name}: ${link.url}\n`;
         });
         body += '\n';
     }
     
     if (trackLink) {
-        body += `Link untuk Track Progress:\n${trackLink}\n\n`;
+        body += `🔍 LINK TRACKING (Lacak progress penandatanganan):\n${trackLink}\n\n`;
     }
     
     if (historyLink) {
-        body += `Link untuk History:\n${historyLink}\n\n`;
+        body += `📋 LINK HISTORY (Lihat riwayat dokumen):\n${historyLink}\n\n`;
     }
     
     body += 'Terima kasih,\nKontraktify';
@@ -151,16 +152,7 @@ function getEmailFromInput() {
     if (!input) return null;
     
     const email = input.value.trim();
-    if (!email) return null;
-    
-    const validation = validateEmail(email);
-    if (!validation.valid) {
-        showEmailError(validation.message);
-        return null;
-    }
-    
-    hideEmailError();
-    return email;
+    return email; // Return email even if empty, let validation happen in generateLinks
 }
 
 // Show email error
@@ -170,6 +162,10 @@ function showEmailError(message) {
         errorEl.textContent = message;
         errorEl.style.display = 'block';
     }
+    const emailInput = document.getElementById('userEmail');
+    if (emailInput) {
+        emailInput.style.borderColor = '#ef4444';
+    }
 }
 
 // Hide email error
@@ -177,6 +173,10 @@ function hideEmailError() {
     const errorEl = document.getElementById('emailError');
     if (errorEl) {
         errorEl.style.display = 'none';
+    }
+    const emailInput = document.getElementById('userEmail');
+    if (emailInput) {
+        emailInput.style.borderColor = '';
     }
 }
 

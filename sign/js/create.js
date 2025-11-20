@@ -58,10 +58,51 @@ function initCreatePage() {
     }
     
     try {
+        setupEmailInput();
+    } catch (e) {
+        console.error('setupEmailInput error:', e);
+    }
+    
+    try {
         updateStepIndicator(1);
     } catch (e) {
         console.error('updateStepIndicator error:', e);
     }
+}
+
+// Setup Email Input
+function setupEmailInput() {
+    const emailInput = document.getElementById('userEmail');
+    if (!emailInput) return;
+    
+    // Validate email on input
+    emailInput.addEventListener('input', function() {
+        const email = this.value.trim();
+        if (email && window.emailSystem) {
+            const validation = window.emailSystem.validateEmail(email);
+            if (!validation.valid) {
+                window.emailSystem.showEmailError(validation.message);
+            } else {
+                window.emailSystem.hideEmailError();
+            }
+        } else {
+            if (window.emailSystem) {
+                window.emailSystem.hideEmailError();
+            }
+        }
+        updateGenerateButton();
+    });
+    
+    // Validate on blur
+    emailInput.addEventListener('blur', function() {
+        const email = this.value.trim();
+        if (email && window.emailSystem) {
+            const validation = window.emailSystem.validateEmail(email);
+            if (!validation.valid) {
+                window.emailSystem.showEmailError(validation.message);
+            }
+        }
+    });
 }
 
 // Wait for DOM to be ready
@@ -595,12 +636,28 @@ function updateStepIndicator(step) {
 // Update Generate Button
 function updateGenerateButton() {
     const btn = document.getElementById('generateBtn');
-    const ready = pdfFile && signers.length > 0 && fields.length > 0;
+    const emailInput = document.getElementById('userEmail');
+    const email = emailInput ? emailInput.value.trim() : '';
+    const emailValid = email && window.emailSystem && window.emailSystem.validateEmail(email).valid;
+    
+    const ready = pdfFile && signers.length > 0 && fields.length > 0 && emailValid;
     btn.disabled = !ready;
     btn.textContent = ready ? `Generate Links (${fields.length} fields)` : 'Generate Links';
     
+    // Show/hide email section
+    const emailSection = document.getElementById('emailSection');
+    if (emailSection) {
+        if (fields.length > 0) {
+            emailSection.style.display = 'block';
+        } else {
+            emailSection.style.display = 'none';
+        }
+    }
+    
     // Update step indicator
     if (ready) {
+        updateStepIndicator(4);
+    } else if (emailValid && fields.length > 0) {
         updateStepIndicator(4);
     } else if (fields.length > 0) {
         updateStepIndicator(3);
@@ -622,6 +679,37 @@ async function generateLinks() {
         return;
     }
     
+    // Validate email first
+    const userEmail = window.emailSystem ? window.emailSystem.getEmailFromInput() : null;
+    if (!userEmail) {
+        if (window.emailSystem) {
+            window.emailSystem.showEmailError('Email wajib diisi');
+        } else {
+            alert('Email wajib diisi');
+        }
+        const emailInput = document.getElementById('userEmail');
+        if (emailInput) {
+            emailInput.focus();
+            emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+    
+    const emailValidation = window.emailSystem ? window.emailSystem.validateEmail(userEmail) : { valid: false };
+    if (!emailValidation.valid) {
+        if (window.emailSystem) {
+            window.emailSystem.showEmailError(emailValidation.message);
+        } else {
+            alert(emailValidation.message);
+        }
+        const emailInput = document.getElementById('userEmail');
+        if (emailInput) {
+            emailInput.focus();
+            emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+    
     document.getElementById('loadingModal').classList.add('active');
     
     try {
@@ -633,6 +721,10 @@ async function generateLinks() {
         
         if (uploadErr) throw uploadErr;
         
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        const userId = user?.id || null;
+        
         // Create envelope
         const trackToken = generateToken();
         const { data: envelope, error: envErr } = await supabase
@@ -640,7 +732,8 @@ async function generateLinks() {
             .insert({
                 title: pdfFile.name,
                 track_token: trackToken,
-                pdf_url: upload.path
+                pdf_url: upload.path,
+                user_id: userId // Associate with user if logged in
             })
             .select()
             .single();
@@ -686,13 +779,38 @@ async function generateLinks() {
         // Generate history token
         const historyToken = window.emailSystem ? window.emailSystem.generateHistoryToken() : generateToken();
         
-        // Store email if provided
-        const userEmail = window.emailSystem ? window.emailSystem.getEmailFromInput() : null;
+        // Store email (required)
         if (userEmail && window.emailSystem) {
             await window.emailSystem.storeEmailWithDocument(userEmail, envelope.id, historyToken);
         }
         
-        // Show links
+        // Prepare links for email
+        const baseUrl = window.location.origin + window.location.pathname.replace('create.html', '');
+        const trackLink = `${baseUrl}status.html?token=${trackToken}`;
+        const historyLink = `${baseUrl}history.html?token=${historyToken}`;
+        
+        const signerLinksForEmail = recs
+            .sort((a, b) => a.order_num - b.order_num)
+            .map(rec => {
+                const signer = signers.find(s => s.order === rec.order_num);
+                const link = `${baseUrl}sign.html?token=${rec.magic_token}`;
+                return {
+                    name: rec.name,
+                    url: link
+                };
+            });
+        
+        // Send email with links
+        if (window.emailSystem) {
+            await window.emailSystem.sendEmailWithLinks(
+                userEmail,
+                signerLinksForEmail,
+                trackLink,
+                historyLink
+            );
+        }
+        
+        // Show links modal
         showLinksModal(recs, trackToken, envelope.id, historyToken, userEmail);
         
     } catch (error) {
@@ -731,13 +849,6 @@ function showLinksModal(recipients, trackToken, envelopeId, historyToken, userEm
                 </div>
             `;
         }).join('');
-    
-    // Add email input section if email system is available
-    const emailSectionContainer = document.getElementById('emailInputSectionContainer');
-    if (emailSectionContainer && window.emailSystem) {
-        emailSectionContainer.innerHTML = window.emailSystem.createEmailInputHTML();
-        window.emailSystem.showEmailInput();
-    }
     
     // Store data for email sending
     window._modalData = {

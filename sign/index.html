@@ -23,7 +23,8 @@
           <a href="../templates/index.html" class="nav-link-template">Templates</a>
           <a href="index.html" class="nav-link-sign nav-link-sign--active">E-Signature</a>
           <a href="../compare/index.html" class="nav-link-compare">Compare</a>
-          <a href="history.html" class="nav-link-history">History</a>
+          <a href="dashboard.html" class="nav-link-dashboard" id="dashboardLink" style="display: none;">Dashboard</a>
+          <a href="login.html" class="btn btn--primary" id="loginLink" style="padding: 10px 20px; font-size: 14px; text-decoration: none; display: inline-block;">Log In</a>
         </nav>
         </div>
     </header>
@@ -346,6 +347,29 @@
         </div>
     </footer>
     <script src="../script.js" defer></script>
+    
+    <!-- Auth Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Check auth status and update navigation
+        (async function() {
+            const user = await window.authSystem?.getCurrentUser();
+            const loginLink = document.getElementById('loginLink');
+            const dashboardLink = document.getElementById('dashboardLink');
+            
+            if (user) {
+                // User is logged in
+                if (loginLink) loginLink.style.display = 'none';
+                if (dashboardLink) dashboardLink.style.display = 'inline-block';
+            } else {
+                // User is not logged in
+                if (loginLink) loginLink.style.display = 'inline-block';
+                if (dashboardLink) dashboardLink.style.display = 'none';
+            }
+        })();
+    </script>
 
     <style>
         @keyframes pulse {
