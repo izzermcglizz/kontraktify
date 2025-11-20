@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - Kontraktify</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+    <link rel="stylesheet" href="css/history.css" />
+</head>
+<body>
+    <header class="top-bar">
+        <div class="top-bar__container">
+            <a href="../index.html" class="logo">
+                <img src="../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
+                <span>Kontraktify</span>
+            </a>
+            <nav class="main-nav">
+                <a href="../index.html">Home</a>
+                <a href="../templates/index.html" class="nav-link-template">Templates</a>
+                <a href="index.html" class="nav-link-sign">E-Signature</a>
+                <a href="../compare/index.html" class="nav-link-compare">Compare</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="history-main">
+        <div class="history-container">
+            <div class="history-header">
+                <h1 class="history-title">History Dokumen</h1>
+                <p class="history-subtitle">Lihat semua dokumen, template, dan purchase Anda berdasarkan email</p>
+            </div>
+
+            <!-- Email Input Section -->
+            <div class="history-email-section">
+                <div class="email-input-card">
+                    <label for="historyEmail" class="email-label">Masukkan Email Anda</label>
+                    <div class="email-input-group">
+                        <input 
+                            type="email" 
+                            id="historyEmail" 
+                            class="email-input" 
+                            placeholder="nama@email.com"
+                            autocomplete="email"
+                        />
+                        <button class="btn btn--primary" id="loadHistoryBtn">
+                            Lihat History
+                        </button>
+                    </div>
+                    <p class="email-help-text">Atau gunakan link dari email yang kami kirimkan</p>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="history-loading" id="historyLoading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Memuat history...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="history-error" id="historyError" style="display: none;">
+                <div class="error-icon">⚠️</div>
+                <p class="error-message"></p>
+            </div>
+
+            <!-- History List -->
+            <div class="history-content" id="historyContent" style="display: none;">
+                <!-- Filter Tabs -->
+                <div class="history-filters">
+                    <button class="filter-btn active" data-filter="all">Semua</button>
+                    <button class="filter-btn" data-filter="e-signature">E-Signature</button>
+                    <button class="filter-btn" data-filter="compare">Compare</button>
+                    <button class="filter-btn" data-filter="templates">Templates</button>
+                </div>
+
+                <!-- History Items -->
+                <div class="history-list" id="historyList">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="history-empty" id="historyEmpty" style="display: none;">
+                    <div class="empty-icon">📄</div>
+                    <h3>Tidak ada dokumen</h3>
+                    <p>Belum ada dokumen yang ditemukan untuk email ini</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/history.js"></script>
+</body>
+</html>
+

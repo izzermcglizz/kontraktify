@@ -24,6 +24,7 @@ function initCreatePage() {
     setupSignerInput();
     setupFieldSelection();
     setupGenerateButton();
+    updateStepIndicator(1);
 }
 
 if (document.readyState === 'loading') {
@@ -33,50 +34,39 @@ if (document.readyState === 'loading') {
     initCreatePage();
 }
 
-// Upload Area Setup
+// Upload Button Setup
 function setupUploadArea() {
-    const uploadArea = document.getElementById('uploadArea');
+    const uploadButton = document.getElementById('uploadButton');
     const fileInput = document.getElementById('pdfFile');
     
-    if (!uploadArea || !fileInput) {
+    if (!uploadButton || !fileInput) {
         console.error('Upload elements not found');
         return;
     }
     
-    // Click to upload
-    uploadArea.addEventListener('click', (e) => {
+    // Direct click handler - trigger file input when label is clicked
+    uploadButton.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
+        console.log('Upload button clicked, triggering file input...');
         fileInput.click();
     });
     
-    // File input change
+    // File input change - handle file selection
     fileInput.addEventListener('change', (e) => {
-        console.log('File selected:', e.target.files[0]);
-        if (e.target.files[0]) {
-            handleFileUpload(e.target.files[0]);
+        console.log('File input changed:', e.target.files);
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+            console.log('File selected:', file.name, file.type, file.size);
+            handleFileUpload(file);
+        } else {
+            console.log('No file selected');
         }
     });
     
-    // Drag & Drop
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragging');
-    });
-    
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragging');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragging');
-        console.log('File dropped:', e.dataTransfer.files[0]);
-        if (e.dataTransfer.files[0]) {
-            handleFileUpload(e.dataTransfer.files[0]);
-        }
-    });
-    
-    console.log('Upload area setup complete');
+    console.log('Upload button setup complete');
+    console.log('Upload button element:', uploadButton);
+    console.log('File input element:', fileInput);
 }
 
 // Handle File Upload
@@ -116,6 +106,10 @@ async function handleFileUpload(file) {
         signersSection.style.display = 'block';
         console.log('Signers section shown');
     }
+    
+    // Update step indicator
+    updateStepIndicator(1);
+    updateGenerateButton();
     
     // Render PDF
     try {
@@ -242,6 +236,8 @@ function addSigner() {
     
     renderSignersList();
     updateSignerDropdown();
+    updateStepIndicator(2);
+    updateGenerateButton();
     
     // Show fields section
     document.getElementById('fieldsSection').style.display = 'block';
@@ -497,12 +493,45 @@ function removeField(id) {
     updateGenerateButton();
 }
 
+
+// Step Indicator
+function updateStepIndicator(step) {
+    const fill = document.getElementById('stepIndicatorFill');
+    const labels = document.querySelectorAll('.step-label');
+    
+    if (!fill) return;
+    
+    // Update progress (25% per step)
+    const progress = (step / 4) * 100;
+    fill.style.width = progress + '%';
+    
+    // Update active labels
+    labels.forEach((label, index) => {
+        if (index + 1 <= step) {
+            label.classList.add('active');
+        } else {
+            label.classList.remove('active');
+        }
+    });
+}
+
 // Update Generate Button
 function updateGenerateButton() {
     const btn = document.getElementById('generateBtn');
     const ready = pdfFile && signers.length > 0 && fields.length > 0;
     btn.disabled = !ready;
     btn.textContent = ready ? `Generate Links (${fields.length} fields)` : 'Generate Links';
+    
+    // Update step indicator
+    if (ready) {
+        updateStepIndicator(4);
+    } else if (fields.length > 0) {
+        updateStepIndicator(3);
+    } else if (signers.length > 0) {
+        updateStepIndicator(2);
+    } else if (pdfFile) {
+        updateStepIndicator(1);
+    }
 }
 
 // Generate Links
@@ -577,8 +606,17 @@ async function generateLinks() {
         
         if (fieldsErr) throw fieldsErr;
         
+        // Generate history token
+        const historyToken = window.emailSystem ? window.emailSystem.generateHistoryToken() : generateToken();
+        
+        // Store email if provided
+        const userEmail = window.emailSystem ? window.emailSystem.getEmailFromInput() : null;
+        if (userEmail && window.emailSystem) {
+            await window.emailSystem.storeEmailWithDocument(userEmail, envelope.id, historyToken);
+        }
+        
         // Show links
-        showLinksModal(recs, trackToken);
+        showLinksModal(recs, trackToken, envelope.id, historyToken, userEmail);
         
     } catch (error) {
         console.error('Error:', error);
@@ -589,7 +627,7 @@ async function generateLinks() {
 }
 
 // Show Links Modal
-function showLinksModal(recipients, trackToken) {
+function showLinksModal(recipients, trackToken, envelopeId, historyToken, userEmail) {
     const baseUrl = window.location.origin + window.location.pathname.replace('create.html', '');
     
     const html = recipients
@@ -617,8 +655,30 @@ function showLinksModal(recipients, trackToken) {
             `;
         }).join('');
     
+    // Add email input section if email system is available
+    const emailSectionContainer = document.getElementById('emailInputSectionContainer');
+    if (emailSectionContainer && window.emailSystem) {
+        emailSectionContainer.innerHTML = window.emailSystem.createEmailInputHTML();
+        window.emailSystem.showEmailInput();
+    }
+    
+    // Store data for email sending
+    window._modalData = {
+        recipients,
+        trackToken,
+        envelopeId,
+        historyToken,
+        baseUrl
+    };
     document.getElementById('signerLinks').innerHTML = html;
-    document.getElementById('trackLink').value = `${baseUrl}status.html?token=${trackToken}`;
+    const trackLink = `${baseUrl}status.html?token=${trackToken}`;
+    document.getElementById('trackLink').value = trackLink;
+    
+    // Store track link in modal data
+    if (window._modalData) {
+        window._modalData.trackLink = trackLink;
+    }
+    
     document.getElementById('linksModal').classList.add('active');
 }
 
@@ -649,7 +709,38 @@ window.shareWhatsApp = function(name, link) {
     window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
-window.closeLinksModal = function() {
+window.closeLinksModal = async function() {
+    // Send email if email was provided
+    if (window._modalData && window.emailSystem) {
+        const userEmail = window.emailSystem.getEmailFromInput();
+        if (userEmail) {
+            try {
+                const signerLinks = window._modalData.recipients.map(rec => {
+                    const signer = signers.find(s => s.order === rec.order_num);
+                    return {
+                        name: rec.name,
+                        url: `${window._modalData.baseUrl}sign.html?token=${rec.magic_token}`
+                    };
+                });
+                
+                const historyLink = `${window.location.origin}/sign/history.html?token=${window._modalData.historyToken}`;
+                
+                await window.emailSystem.sendEmailWithLinks(
+                    userEmail,
+                    signerLinks,
+                    window._modalData.trackLink,
+                    historyLink
+                );
+            } catch (error) {
+                console.error('Error sending email:', error);
+                // Don't block modal close if email fails
+            }
+        }
+    }
+    
+    // Clear modal data
+    window._modalData = null;
+    
     document.getElementById('linksModal').classList.remove('active');
     if (confirm('Create another document?')) window.location.reload();
 }
