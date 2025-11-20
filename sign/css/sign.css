@@ -766,3 +766,354 @@ body {
     display: none;
   }
 }
+
+/* E-Signature How It Works Animations */
+
+/* Tech Grid Background Animation */
+@keyframes techGridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(20px, 20px);
+  }
+}
+
+.tech-grid-bg {
+  animation: techGridMove 20s linear infinite;
+  pointer-events: none;
+}
+
+/* Step Number Glow Animation */
+@keyframes stepGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.step-number-glow {
+  animation: stepGlow 3s ease-in-out infinite;
+}
+
+/* Step Container Hover Effect */
+.esig-step {
+  transition: transform 0.3s ease;
+}
+
+.esig-step:hover {
+  transform: translateY(-4px);
+}
+
+.esig-animation-container {
+  position: relative;
+  z-index: 1;
+}
+
+.esig-animation-container svg {
+  position: relative;
+  z-index: 2;
+}
+
+/* Step 1: Upload Document Animations */
+@keyframes docDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.7) rotate(-5deg);
+    filter: blur(2px);
+  }
+  30% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(70px) scale(1.1) rotate(2deg);
+    filter: blur(1px);
+  }
+}
+
+@keyframes docAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes checkmarkDraw {
+  0% {
+    stroke-dashoffset: 20;
+    opacity: 0;
+    filter: drop-shadow(0 0 0 rgba(34, 197, 94, 0));
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.6));
+  }
+}
+
+.doc-drop-1 {
+  animation: docDrop 2s ease-in-out 0.5s infinite;
+}
+
+.doc-drop-2 {
+  animation: docDrop 2s ease-in-out 1s infinite;
+}
+
+.doc-uploaded {
+  opacity: 0;
+  animation: docAppear 0.6s ease-out 1.5s forwards;
+}
+
+.check-icon {
+  opacity: 0;
+  animation: docAppear 0.4s ease-out 2s forwards;
+}
+
+.check-path {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: checkmarkDraw 0.5s ease-out 2.2s forwards;
+}
+
+.upload-text {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out 1.5s forwards;
+}
+
+.upload-area {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Step 2: Add Details Animations */
+@keyframes fieldAppear {
+  0% {
+    opacity: 0;
+    transform: scaleY(0) scaleX(0.9);
+    transform-origin: top;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes cursorMove {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(60px, 0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(60px, 30px);
+  }
+}
+
+@keyframes signatureWrite {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.name-field {
+  opacity: 0;
+  transform-origin: top;
+  animation: fieldAppear 0.5s ease-out 0.5s forwards;
+}
+
+.name-text {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out 1s forwards;
+}
+
+.signature-block {
+  opacity: 0;
+  transform-origin: top;
+  animation: fieldAppear 0.5s ease-out 1.5s forwards;
+}
+
+.signature-label {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out 2s forwards;
+}
+
+.signature-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  opacity: 0;
+  animation: signatureWrite 1s ease-out 2.3s forwards;
+}
+
+.cursor-pointer {
+  animation: cursorMove 2.5s ease-in-out 0.5s infinite;
+}
+
+/* Step 3: Generate Links Animations */
+@keyframes linkCardSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.95);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes emailFly {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.7) rotate(-5deg);
+    filter: blur(4px);
+  }
+  40% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translateY(-15px) scale(0.9) rotate(2deg);
+    filter: blur(1px);
+  }
+}
+
+.link-card-1,
+.link-icon-1,
+.link-text-1,
+.copy-btn-1 {
+  opacity: 0;
+  animation: linkCardSlide 0.6s ease-out 0.5s forwards;
+}
+
+.link-card-2,
+.link-icon-2,
+.link-text-2,
+.copy-btn-2 {
+  opacity: 0;
+  animation: linkCardSlide 0.6s ease-out 1s forwards;
+}
+
+.email-flying {
+  animation: emailFly 2s ease-in-out 1.8s infinite;
+}
+
+/* Step 4: Completed Document Animations */
+@keyframes docComplete {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) rotate(-2deg);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0);
+  }
+}
+
+@keyframes checkBadgePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.4));
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.8));
+  }
+}
+
+@keyframes emailNotification {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.completed-doc {
+  opacity: 0;
+  animation: docComplete 0.6s ease-out 0.5s forwards;
+}
+
+.completed-signature {
+  opacity: 0;
+  animation: fieldAppear 0.5s ease-out 1s forwards;
+}
+
+.completed-signature-line {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  opacity: 0;
+  animation: signatureWrite 1s ease-out 1.3s forwards;
+}
+
+.check-badge {
+  opacity: 0;
+  animation: docAppear 0.4s ease-out 1.8s forwards, checkBadgePulse 1.5s ease-in-out 2.2s infinite;
+}
+
+.check-mark {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  opacity: 0;
+  animation: checkmarkDraw 0.5s ease-out 2s forwards;
+}
+
+.email-notification {
+  opacity: 0;
+  animation: emailNotification 0.6s ease-out 2.5s forwards;
+}
+
+/* Responsive for animations */
+@media (max-width: 968px) {
+  .esig-steps-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
