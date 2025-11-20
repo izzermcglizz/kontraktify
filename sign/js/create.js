@@ -15,18 +15,56 @@ let selectedFieldType = null;
 
 // Initialize
 function initCreatePage() {
+    // Initialize Supabase (non-blocking)
     try {
         initSupabase();
     } catch (e) {
         console.error('initSupabase error:', e);
+        // Continue even if Supabase fails
     }
-    setupUploadArea();
-    setupSignerInput();
-    setupFieldSelection();
-    setupGenerateButton();
-    updateStepIndicator(1);
+    
+    // Setup upload area FIRST (critical functionality)
+    try {
+        setupUploadArea();
+    } catch (e) {
+        console.error('setupUploadArea error:', e);
+        // Try again after a short delay
+        setTimeout(() => {
+            try {
+                setupUploadArea();
+            } catch (e2) {
+                console.error('setupUploadArea retry failed:', e2);
+            }
+        }, 100);
+    }
+    
+    // Setup other features
+    try {
+        setupSignerInput();
+    } catch (e) {
+        console.error('setupSignerInput error:', e);
+    }
+    
+    try {
+        setupFieldSelection();
+    } catch (e) {
+        console.error('setupFieldSelection error:', e);
+    }
+    
+    try {
+        setupGenerateButton();
+    } catch (e) {
+        console.error('setupGenerateButton error:', e);
+    }
+    
+    try {
+        updateStepIndicator(1);
+    } catch (e) {
+        console.error('updateStepIndicator error:', e);
+    }
 }
 
+// Wait for DOM to be ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCreatePage);
 } else {
@@ -36,37 +74,76 @@ if (document.readyState === 'loading') {
 
 // Upload Button Setup
 function setupUploadArea() {
+    console.log('Setting up upload area...');
+    
     const uploadButton = document.getElementById('uploadButton');
     const fileInput = document.getElementById('pdfFile');
     
-    if (!uploadButton || !fileInput) {
-        console.error('Upload elements not found');
+    if (!uploadButton) {
+        console.error('Upload button element not found!');
         return;
     }
     
-    // Direct click handler - trigger file input when label is clicked
-    uploadButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Upload button clicked, triggering file input...');
-        fileInput.click();
-    });
+    if (!fileInput) {
+        console.error('File input element not found!');
+        return;
+    }
+    
+    console.log('Upload elements found:', { uploadButton, fileInput });
+    
+    // Since we're using a label with for="pdfFile", clicking the label should automatically work
+    // Don't prevent default - let the label's natural behavior work
+    uploadButton.addEventListener('click', function(e) {
+        console.log('Upload button/label clicked');
+        
+        // If it's a label, don't prevent default - let it work naturally
+        if (uploadButton.tagName.toLowerCase() === 'label') {
+            console.log('Label clicked - should work automatically');
+            // Don't prevent default - let label trigger the input
+        } else {
+            // If it's not a label (div/button), manually trigger
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Not a label, manually triggering file input...');
+            if (fileInput) {
+                fileInput.click();
+                console.log('File input click triggered');
+            }
+        }
+    }, false);
+    
+    // Also handle keyboard (Enter/Space) for accessibility
+    uploadButton.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fileInput.click();
+        }
+    }, false);
     
     // File input change - handle file selection
-    fileInput.addEventListener('change', (e) => {
-        console.log('File input changed:', e.target.files);
+    fileInput.addEventListener('change', function(e) {
+        console.log('File input change event fired');
+        console.log('Files:', e.target.files);
+        
         const file = e.target.files && e.target.files[0];
         if (file) {
-            console.log('File selected:', file.name, file.type, file.size);
+            console.log('File selected:', {
+                name: file.name,
+                type: file.type,
+                size: file.size
+            });
             handleFileUpload(file);
         } else {
             console.log('No file selected');
         }
-    });
+    }, false);
     
+    // Test if elements are clickable
     console.log('Upload button setup complete');
-    console.log('Upload button element:', uploadButton);
-    console.log('File input element:', fileInput);
+    console.log('Upload button:', btn);
+    console.log('File input:', input);
+    console.log('Button style:', window.getComputedStyle(btn));
+    console.log('Button pointer-events:', window.getComputedStyle(btn).pointerEvents);
 }
 
 // Handle File Upload
