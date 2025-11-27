@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Template Dokumen | Kontraktify</title>
-    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="icon" type="image/png" href="../../asset/favicon-removebg-preview.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../../style.css" />
     <meta
       name="description"
       content="Pilih dari ratusan template dokumen hukum yang dibuat oleh ahli hukum untuk kebutuhan bisnismu."
@@ -36,15 +36,14 @@
     </div>
     <header class="top-bar">
       <div class="top-bar__container">
-        <a href="../index.html" class="logo">
-          <img src="../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
+        <a href="../../index.html" class="logo">
+          <img src="../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
           <span>Kontraktify</span>
         </a>
         <nav class="main-nav">
-          <a href="../index.html">Home</a>
-          <a href="index.html" class="nav-link-template nav-link-template--active">Templates</a>
-          <a href="../sign/index.html">E-Signature</a>
-          <a href="../compare/index.html">Compare</a>
+          <a href="../../legal-aid/index.html" class="nav-link">Legal Aid</a>
+          <a href="index.html" class="nav-link nav-link--active">Tools</a>
+          <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="nav-link">Hubungi Kami</a>
         </nav>
       </div>
     </header>
@@ -185,6 +184,40 @@
     </footer>
     <script src="../script.js" defer></script>
     <script src="products.js" defer></script>
+    
+    <!-- Auth Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="../sign/js/config.js"></script>
+    <script src="../sign/js/auth.js"></script>
+    <script>
+        // Check auth status and update navigation
+        (async function() {
+            const user = await window.authSystem?.getCurrentUser();
+            const loginLink = document.getElementById('loginLink');
+            const dashboardLink = document.getElementById('dashboardLink');
+            
+            if (user) {
+                if (loginLink) loginLink.style.display = 'none';
+                if (dashboardLink) dashboardLink.style.display = 'inline-block';
+            } else {
+                if (loginLink) loginLink.style.display = 'inline-block';
+                if (dashboardLink) dashboardLink.style.display = 'none';
+            }
+        })();
+    </script>
+    <style>
+        #loginLink.btn--ghost {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+        #loginLink.btn--ghost:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 15, 16, 0.15);
+        }
+    </style>
   </body>
 </html>
 

@@ -4982,6 +4982,16 @@ main {
   transform: translateX(4px);
 }
 
+/* Legal Aid Button Hover Effect */
+a.btn--primary[href*="legal-aid"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 15, 16, 0.15);
+}
+
+a.btn--primary[href*="legal-aid"]:hover svg {
+  transform: translateX(4px);
+}
+
 .feature-card-link:hover h3 {
   color: var(--primary);
 }
@@ -5142,6 +5152,179 @@ main {
 
 .compare-arrow {
   animation: compareArrow 2s ease-in-out 0.5s infinite;
+}
+
+/* Legal Aid Animations */
+@keyframes companyBuildingAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes companyWindowBlink {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes companyCheckmark {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.company-building {
+  animation: companyBuildingAppear 0.8s ease-out forwards;
+}
+
+.company-window {
+  animation: companyWindowBlink 2s ease-in-out 1s infinite;
+}
+
+.company-checkmark {
+  animation: companyCheckmark 0.6s ease-out 0.5s forwards;
+}
+
+@keyframes trademarkShield {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes trademarkSparkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.trademark-shield {
+  animation: trademarkShield 0.7s ease-out forwards;
+}
+
+.trademark-sparkle {
+  animation: trademarkSparkle 1.5s ease-in-out 0.8s infinite;
+}
+
+@keyframes consultDocAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes consultMagnify {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.1) translate(-2px, -2px);
+  }
+}
+
+@keyframes consultCheckmark {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 20;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+.consult-doc {
+  animation: consultDocAppear 0.6s ease-out forwards;
+}
+
+.consult-magnify {
+  animation: consultMagnify 2s ease-in-out 0.5s infinite;
+}
+
+.consult-checkmark {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: consultCheckmark 0.8s ease-out 1s forwards;
+}
+
+@keyframes otherServicesPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes otherServicesDot {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.other-services-circle {
+  animation: otherServicesPulse 2s ease-in-out infinite;
+}
+
+.other-services-dot {
+  animation: otherServicesDot 1.5s ease-in-out infinite;
+}
+
+.other-services-dot:nth-child(2) {
+  animation-delay: 0s;
+}
+
+.other-services-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.other-services-dot:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+.other-services-dot:nth-child(5) {
+  animation-delay: 0.9s;
+}
+
+.other-services-plus {
+  animation: otherServicesPulse 2s ease-in-out 0.5s infinite;
 }
 
 /* Coming Soon Card Styling */

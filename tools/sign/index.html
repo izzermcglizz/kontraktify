@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontraktify Sign - E-Signature Platform</title>
-    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="icon" type="image/png" href="../../asset/favicon-removebg-preview.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../../style.css" />
     <link rel="stylesheet" href="css/sign.css" />
 </head>
 <body>
@@ -19,12 +19,9 @@
           <span>Kontraktify</span>
         </a>
         <nav class="main-nav">
-          <a href="../index.html">Home</a>
-          <a href="../templates/index.html" class="nav-link-template">Templates</a>
-          <a href="index.html" class="nav-link-sign nav-link-sign--active">E-Signature</a>
-          <a href="../compare/index.html" class="nav-link-compare">Compare</a>
-          <a href="dashboard.html" class="nav-link-dashboard" id="dashboardLink" style="display: none;">Dashboard</a>
-          <a href="login.html" class="btn btn--primary" id="loginLink" style="padding: 10px 20px; font-size: 14px; text-decoration: none; display: inline-block;">Log In</a>
+          <a href="../../legal-aid/index.html" class="nav-link">Legal Aid</a>
+          <a href="index.html" class="nav-link nav-link--active">Tools</a>
+          <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="nav-link">Hubungi Kami</a>
         </nav>
         </div>
     </header>
@@ -375,6 +372,17 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
+        }
+        #loginLink.btn--ghost {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+        #loginLink.btn--ghost:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 15, 16, 0.15);
         }
     </style>
 </body>

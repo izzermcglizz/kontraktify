@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Tracking - Kontraktify Sign</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+            background: #F5F7FB;
+            color: var(--primary);
+            min-height: 100vh;
+        }
+        
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 0;
+            margin-bottom: 24px;
+            border-radius: 16px 16px 0 0;
+        }
+        
+        .top-bar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .document-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .status-waiting {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 24px;
+        }
+        
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        .timeline-content {
+            background: #f9fafb;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        
+        .timeline-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* Signers List */
+        .signer-status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .signer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .signer-info {
+            flex: 1;
+        }
+        
+        .signer-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .signer-email {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .status-chip {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .chip-signed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .chip-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        /* Actions */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: none;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-hover, #000);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: #f9fafb;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <a href="esign-dashboard.html" class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Back to eSign</span>
+                </a>
+                
+                <div>
+                    <div class="document-title" id="documentTitle">Document Name</div>
+                    <div style="margin-top: 8px;">
+                        <span class="status-badge status-waiting" id="documentStatus">Waiting for signature</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left: Timeline -->
+            <div>
+                <div class="card">
+                    <h2 class="card-title">Activity Timeline</h2>
+                    <div class="timeline" id="timeline">
+                        <!-- Timeline items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Signers & Actions -->
+            <div>
+                <div class="card" style="margin-bottom: 24px;">
+                    <h2 class="card-title">Signers</h2>
+                    <div id="signersStatusList"></div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Actions</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline" onclick="resendEmail()">Resend email</button>
+                        <button class="btn btn-primary" onclick="downloadPDF()">Download signed PDF</button>
+                        <button class="btn btn-danger" onclick="voidEnvelope()">Void envelope</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/tracking.js"></script>
+</body>
+</html>
+

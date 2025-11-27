@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New eSign - Upload & Recipients - Kontraktify</title>
+    <link rel="icon" type="image/png" href="../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="css/sign.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+            background: #F5F7FB;
+            color: var(--primary);
+            min-height: 100vh;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .top-bar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            opacity: 0.7;
+        }
+        
+        .top-bar-center {
+            flex: 1;
+            text-align: center;
+            margin: 0 32px;
+        }
+        
+        .top-bar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .step-indicator {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+        
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Upload Area */
+        .upload-zone {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f9fafb;
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: #f3f4f6;
+        }
+        
+        .upload-zone.dragging {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+        
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            color: var(--primary);
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .file-info {
+            display: none;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .file-info.show {
+            display: block;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .file-size {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .remove-file {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            color: var(--primary);
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        /* Recipients */
+        .recipient-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: start;
+        }
+        
+        .recipient-item.has-order {
+            grid-template-columns: auto 1fr 1fr auto;
+        }
+        
+        .order-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 15, 16, 0.1);
+        }
+        
+        .select-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+        }
+        
+        .remove-recipient {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            color: #ef4444;
+        }
+        
+        .remove-recipient:hover {
+            background: #fee2e2;
+        }
+        
+        .add-recipient-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1px dashed #e5e7eb;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .add-recipient-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+        
+        .toggle-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* Bottom Actions */
+        .bottom-actions {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px 32px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: none;
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            color: var(--primary);
+        }
+        
+        .btn-ghost:hover {
+            background: #f9fafb;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-hover, #000);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <a href="esign-dashboard.html" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>Back to eSign</span>
+            </a>
+            
+            <div class="top-bar-center">
+                <div class="top-bar-title">New eSign</div>
+            </div>
+            
+            <div class="step-indicator">Step 1 of 3 · Upload & recipients</div>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="two-column-layout">
+            <!-- Left: Upload -->
+            <div class="card">
+                <h2 class="card-title">Upload document</h2>
+                
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="pdfFileInput" accept=".pdf" style="display: none;" />
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <div class="upload-text">Drop a PDF here or click to upload</div>
+                    <div class="upload-hint">PDF files only, max 10MB</div>
+                </div>
+                
+                <div class="file-info" id="fileInfo">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                    <button class="remove-file" onclick="removeFile()">Remove</button>
+                </div>
+            </div>
+            
+            <!-- Right: Recipients -->
+            <div class="card">
+                <h2 class="card-title">Recipients</h2>
+                
+                <div id="recipientsList"></div>
+                
+                <button class="add-recipient-btn" onclick="addRecipient()">+ Add recipient</button>
+                
+                <div class="toggle-group">
+                    <span class="toggle-label">Sign in order</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="signInOrder" onchange="toggleSignOrder()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Actions -->
+    <div class="bottom-actions">
+        <button class="btn btn-ghost" onclick="window.location.href='esign-dashboard.html'">Cancel</button>
+        <button class="btn btn-primary" id="nextBtn" disabled onclick="goToNextStep()">Next: Add fields</button>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+        // Initialize Supabase
+        if (typeof initSupabase === 'function') {
+            initSupabase();
+        }
+    </script>
+    <script src="js/esign-upload.js"></script>
+</body>
+</html>
+

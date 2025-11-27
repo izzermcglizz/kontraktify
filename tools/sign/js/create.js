@@ -58,7 +58,7 @@ function initCreatePage() {
     }
     
     try {
-        setupEmailInput();
+        // Email is now from user session, no need to setup input
     } catch (e) {
         console.error('setupEmailInput error:', e);
     }
@@ -636,35 +636,23 @@ function updateStepIndicator(step) {
 // Update Generate Button
 function updateGenerateButton() {
     const btn = document.getElementById('generateBtn');
-    const emailInput = document.getElementById('userEmail');
-    const email = emailInput ? emailInput.value.trim() : '';
-    const emailValid = email && window.emailSystem && window.emailSystem.validateEmail(email).valid;
     
-    const ready = pdfFile && signers.length > 0 && fields.length > 0 && emailValid;
+    // No email validation needed - user is already logged in
+    const ready = pdfFile && signers.length > 0 && fields.length > 0;
     btn.disabled = !ready;
     btn.textContent = ready ? `Generate Links (${fields.length} fields)` : 'Generate Links';
     
-    // Show/hide email section
-    const emailSection = document.getElementById('emailSection');
-    if (emailSection) {
-        if (fields.length > 0) {
-            emailSection.style.display = 'block';
-        } else {
-            emailSection.style.display = 'none';
-        }
-    }
-    
-    // Update step indicator
+    // Update step indicator (only 3 steps now: Upload, Signers, Fields, Generate)
     if (ready) {
-        updateStepIndicator(4);
-    } else if (emailValid && fields.length > 0) {
-        updateStepIndicator(4);
+        updateStepIndicator(4); // All steps complete, ready to generate
     } else if (fields.length > 0) {
-        updateStepIndicator(3);
+        updateStepIndicator(3); // Fields added
     } else if (signers.length > 0) {
-        updateStepIndicator(2);
+        updateStepIndicator(2); // Signers added
     } else if (pdfFile) {
-        updateStepIndicator(1);
+        updateStepIndicator(1); // PDF uploaded
+    } else {
+        updateStepIndicator(0); // Nothing yet
     }
 }
 
@@ -679,36 +667,23 @@ async function generateLinks() {
         return;
     }
     
-    // Validate email first
-    const userEmail = window.emailSystem ? window.emailSystem.getEmailFromInput() : null;
-    if (!userEmail) {
-        if (window.emailSystem) {
-            window.emailSystem.showEmailError('Email wajib diisi');
-        } else {
-            alert('Email wajib diisi');
-        }
-        const emailInput = document.getElementById('userEmail');
-        if (emailInput) {
-            emailInput.focus();
-            emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+    // Get current user and email from session
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (userError || !user) {
+        alert('⚠️ Anda harus login terlebih dahulu');
+        window.location.href = 'login.html';
         return;
     }
     
-    const emailValidation = window.emailSystem ? window.emailSystem.validateEmail(userEmail) : { valid: false };
-    if (!emailValidation.valid) {
-        if (window.emailSystem) {
-            window.emailSystem.showEmailError(emailValidation.message);
-        } else {
-            alert(emailValidation.message);
-        }
-        const emailInput = document.getElementById('userEmail');
-        if (emailInput) {
-            emailInput.focus();
-            emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+    const userEmail = user.email;
+    if (!userEmail) {
+        alert('⚠️ Email tidak ditemukan. Silakan login ulang.');
+        window.location.href = 'login.html';
         return;
     }
+    
+    const userId = user.id;
     
     document.getElementById('loadingModal').classList.add('active');
     
@@ -721,10 +696,6 @@ async function generateLinks() {
         
         if (uploadErr) throw uploadErr;
         
-        // Get current user
-        const { data: { user } } = await supabase.auth.getUser();
-        const userId = user?.id || null;
-        
         // Create envelope
         const trackToken = generateToken();
         const { data: envelope, error: envErr } = await supabase
@@ -733,7 +704,7 @@ async function generateLinks() {
                 title: pdfFile.name,
                 track_token: trackToken,
                 pdf_url: upload.path,
-                user_id: userId // Associate with user if logged in
+                user_id: userId // User is required (already logged in)
             })
             .select()
             .single();
@@ -779,8 +750,8 @@ async function generateLinks() {
         // Generate history token
         const historyToken = window.emailSystem ? window.emailSystem.generateHistoryToken() : generateToken();
         
-        // Store email (required)
-        if (userEmail && window.emailSystem) {
+        // Store email with document (user is logged in, so email is always available)
+        if (window.emailSystem) {
             await window.emailSystem.storeEmailWithDocument(userEmail, envelope.id, historyToken);
         }
         
@@ -900,7 +871,10 @@ window.shareWhatsApp = function(name, link) {
 window.closeLinksModal = async function() {
     // Send email if email was provided
     if (window._modalData && window.emailSystem) {
-        const userEmail = window.emailSystem.getEmailFromInput();
+        // Get user email from session
+        const { data: { user } } = await supabase.auth.getUser();
+        const userEmail = user?.email;
+        
         if (userEmail) {
             try {
                 const signerLinks = window._modalData.recipients.map(rec => {
