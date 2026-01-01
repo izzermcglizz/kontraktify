@@ -359,3 +359,7 @@ function performSearch(query) {
   
   document.addEventListener('click', handleSmoothScroll);
 })();
+
+// Make templates and svgIcons globally accessible
+window.templates = templates;
+window.svgIcons = svgIcons;
