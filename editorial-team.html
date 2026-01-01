@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Editorial - Kontraktify</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .editorial-page {
+      padding: 80px 0 100px;
+      background: var(--bg-light);
+    }
+    
+    .editorial-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    
+    .editorial-hero {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    
+    .editorial-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: var(--primary);
+      line-height: 1.2;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .editorial-hero p {
+      font-size: 1.0625rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .editorial-section {
+      margin-bottom: 80px;
+    }
+    
+    .editorial-section-title {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
+      margin-bottom: 32px;
+      color: var(--primary);
+      line-height: 1.3;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .editorial-section-intro {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .ethics-grid {
+      display: grid;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    
+    .ethics-card {
+      padding: 28px;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(15, 15, 16, 0.08);
+      transition: all 0.2s ease;
+    }
+    
+    .ethics-card:hover {
+      border-color: rgba(15, 15, 16, 0.12);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .ethics-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .ethics-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .process-grid {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .process-item {
+      padding: 24px;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+      transition: all 0.2s ease;
+    }
+    
+    .process-item:hover {
+      border-left-color: var(--accent-red);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .process-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .process-item p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    
+    .why-card {
+      padding: 32px;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(15, 15, 16, 0.08);
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    
+    .why-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    
+    .why-card-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    
+    .why-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--primary);
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .why-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .cta-box {
+      padding: 48px;
+      background: linear-gradient(135deg, rgba(15, 15, 16, 0.02) 0%, rgba(15, 15, 16, 0.05) 100%);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(15, 15, 16, 0.08);
+      text-align: center;
+    }
+    
+    .cta-box h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--primary);
+      line-height: 1.3;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .cta-box p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .contact-box {
+      padding: 48px;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(15, 15, 16, 0.08);
+      text-align: center;
+    }
+    
+    .contact-box h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--primary);
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    .contact-box p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+    
+    @media (max-width: 768px) {
+      .editorial-page {
+        padding: 60px 0 80px;
+      }
+      
+      .editorial-hero {
+        margin-bottom: 60px;
+      }
+      
+      .editorial-section {
+        margin-bottom: 60px;
+      }
+      
+      .cta-box,
+      .contact-box {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-bar" id="topBar">
+    <div class="top-bar__container">
+      <a href="index.html" class="logo">
+        <img src="asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
+        <span>Kontraktify</span>
+      </a>
+      <nav class="main-nav">
+        <!-- Dokumen Hukum Dropdown -->
+        <div class="nav-dropdown">
+          <a href="#" class="nav-link nav-link--dropdown">
+            Dokumen Hukum
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="tools/templates/index.html#Kontrak Bisnis" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Bisnis</div>
+                <div class="dropdown-item-desc">Kontrak dan formulir untuk memulai, mengelola, dan mengembangkan bisnis Anda.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="tools/templates/index.html#Perjanjian Sewa" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Properti</div>
+                <div class="dropdown-item-desc">Sederhanakan sewa properti, penjualan, dan perjanjian sewa-menyewa.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="tools/templates/index.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Perencanaan Estate</div>
+                <div class="dropdown-item-desc">Dokumen untuk melindungi aset Anda dan merencanakan masa depan.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="tools/templates/index.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Personal & Keluarga</div>
+                <div class="dropdown-item-desc">Dokumen sehari-hari untuk mengelola urusan personal dan keuangan.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="tools/templates/index.html" class="dropdown-item dropdown-item--all">
+              <span>Semua Dokumen</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Alat Hukum Dropdown -->
+        <div class="nav-dropdown">
+          <a href="#" class="nav-link nav-link--dropdown">
+            Alat Hukum
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="tools/sign/index.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="12" y1="18" x2="12" y2="12"/>
+                  <line x1="9" y1="15" x2="15" y2="15"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">E-Signature</div>
+                <div class="dropdown-item-desc">Tandatangani dokumen secara digital dengan legalitas yang sama dengan tanda tangan basah.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="tools/compare/index.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Document Compare</div>
+                <div class="dropdown-item-desc">Bandingkan versi dokumen dan temukan perbedaan dengan mudah.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bantuan Hukum Dropdown -->
+        <div class="nav-dropdown">
+          <a href="#" class="nav-link nav-link--dropdown">
+            Bantuan Hukum
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="legal-aid/pembentukan-perusahaan.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="9" y1="3" x2="9" y2="21"/>
+                  <line x1="3" y1="9" x2="21" y2="9"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Pembentukan Perusahaan</div>
+                <div class="dropdown-item-desc">Pendirian PT, CV, atau bentuk badan usaha lainnya dengan pendampingan ahli hukum.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="legal-aid/pendaftaran-merek.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Pendaftaran Merek</div>
+                <div class="dropdown-item-desc">Layanan pendaftaran merek dagang dengan pendampingan ahli hukum.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="legal-aid/konsultasi-dokumen.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Konsultasi Dokumen</div>
+                <div class="dropdown-item-desc">Tinjauan dan konsultasi dokumen hukum dengan ahli hukum untuk kontrak khusus.</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="legal-aid/index.html" class="dropdown-item dropdown-item--all">
+              <span>Lihat Semua Bantuan Hukum</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Search Icon -->
+        <a href="tools/templates/index.html" class="nav-link" style="display: flex; align-items: center; padding: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </a>
+
+        <!-- Support Dropdown -->
+        <div class="nav-dropdown">
+          <a href="#" class="nav-link nav-link--dropdown">
+            Support
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">Hubungi Kami</div>
+                <div class="dropdown-item-desc">Chat dengan tim support kami via WhatsApp</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+            <a href="legal-aid/konsultasi-dokumen.html" class="dropdown-item">
+              <div class="dropdown-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <div class="dropdown-item-content">
+                <div class="dropdown-item-title">FAQ</div>
+                <div class="dropdown-item-desc">Pertanyaan yang sering diajukan</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="editorial-page">
+      <div class="container">
+        <div class="editorial-container">
+          <!-- Hero Section -->
+          <div class="editorial-hero">
+            <h1>Tentang Kami & Panduan Editorial</h1>
+            <p>
+              Kami adalah tim ahli hukum yang memahami kompleksitas hukum bisnis di Indonesia. Kami membuat Kontraktify karena percaya bahwa setiap bisnis berhak mendapatkan akses ke dokumen hukum yang berkualitas, terjangkau, dan mudah digunakan.
+            </p>
+          </div>
+
+          <!-- Editorial Code of Ethics -->
+          <div class="editorial-section">
+            <h2 class="editorial-section-title">Kode Etik Editorial</h2>
+            <p class="editorial-section-intro">
+              Kami berusaha membuat proses hukum lebih mudah diakses dan dipahami oleh semua orang. Dalam melakukannya, kami mematuhi Kode Etik Editorial yang ketat untuk memastikan integritas dan keandalan konten kami. Ini termasuk:
+            </p>
+
+            <div class="ethics-grid">
+              <div class="ethics-card">
+                <h3>Kejelasan</h3>
+                <p>
+                  Konten kami ditulis dalam bahasa yang mudah dipahami untuk membuat informasi hukum yang kompleks menjadi mudah dimengerti.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Relevansi</h3>
+                <p>
+                  Kami fokus pada penyediaan informasi terkini yang relevan dengan kebutuhan pengguna.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Ketidakberpihakan</h3>
+                <p>
+                  Konten kami tidak bias dan tidak memihak hasil atau layanan hukum tertentu.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Transparansi</h3>
+                <p>
+                  Kami mengungkapkan konflik kepentingan atau afiliasi apa pun yang dapat mempengaruhi konten kami.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Koreksi & Pembaruan</h3>
+                <p>
+                  Kami segera memperbaiki informasi yang sudah tidak relevan yang ditemukan dalam konten kami dan memperbaruinya sesuai kebutuhan.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Akurasi</h3>
+                <p>
+                  Kami menggunakan sumber berkualitas tinggi, termasuk dokumen hukum resmi, undang-undang yang relevan, dan publikasi pemerintah, untuk memastikan akurasi konten.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Creation Process -->
+          <div class="editorial-section">
+            <h2 class="editorial-section-title">Proses Pembuatan Konten</h2>
+            <p class="editorial-section-intro">
+              Misi kami adalah menyederhanakan proses yang seringkali kompleks dalam membuat dokumen hukum. Kami menginvestasikan waktu dan sumber daya yang signifikan untuk memecah jargon hukum, mencerminkan undang-undang federal dan daerah terbaru, dan menyajikan informasi dengan jelas.
+            </p>
+
+            <div class="process-grid">
+              <div class="process-item">
+                <h3>1. Riset dan Ideasi</h3>
+                <p>
+                  Kami mengeksplorasi kebutuhan pengguna dan persyaratan hukum untuk memilih topik formulir yang paling relevan. Sumber otoritatif, termasuk publikasi pemerintah dan asosiasi profesional, memandu keputusan kami.
+                </p>
+              </div>
+
+              <div class="process-item">
+                <h3>2. Penulisan</h3>
+                <p>
+                  Penulis berpengalaman kami membuat konten yang jelas dan ramah pengguna yang menjelaskan setiap formulir dan cara melengkapinya. Mereka menawarkan pertimbangan hukum penting, menyeimbangkan aksesibilitas dengan akurasi.
+                </p>
+              </div>
+
+              <div class="process-item">
+                <h3>3. Pemeriksaan Fakta dan Penyuntingan</h3>
+                <p>
+                  Setiap artikel diperiksa secara ketat untuk akurasi hukum dan diverifikasi terhadap sumber terpercaya. Tim editorial kami memastikan kejelasan, koherensi, dan konsistensi agar konten profesional dan mudah dipahami.
+                </p>
+              </div>
+
+              <div class="process-item">
+                <h3>4. Tinjauan Hukum dan Kepatuhan</h3>
+                <p>
+                  Pengacara yang memenuhi syarat meninjau semua konten untuk memastikan kepatuhan dengan undang-undang federal dan daerah saat ini, mengutip sumber secara akurat, dan mencerminkan praktik hukum terbaik sesuai dengan hukum Indonesia.
+                </p>
+              </div>
+
+              <div class="process-item">
+                <h3>5. Penyuntingan Akhir dan Pemformatan</h3>
+                <p>
+                  Tim editorial menyempurnakan bahasa, tata letak, dan struktur untuk memastikan konten jelas secara visual, konsisten dengan standar, dan selaras dengan kuesioner formulir kami.
+                </p>
+              </div>
+
+              <div class="process-item">
+                <h3>6. Publikasi</h3>
+                <p>
+                  Kami mengunggah konten ke Kontraktify dengan struktur dan tautan yang tepat, membuatnya mudah dinavigasi dan berfungsi penuh di semua perangkat Anda.
+                </p>
+              </div>
+
+              <div class="process-item">
+                <h3>7. Tinjauan dan Pembaruan</h3>
+                <p>
+                  Komitmen kami terhadap akurasi berlanjut setelah publikasi. Kami secara teratur memperbarui konten untuk tetap akurat, patuh, dan selaras dengan undang-undang dan peraturan saat ini di Indonesia.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Why We Built This -->
+          <div class="editorial-section">
+            <h2 class="editorial-section-title">Mengapa Kami Membuat Kontraktify?</h2>
+            <p class="editorial-section-intro">
+              Sebagai praktisi hukum yang telah bertahun-tahun membantu bisnis di Indonesia, kami melihat bahwa banyak pengusaha kesulitan mendapatkan dokumen hukum yang berkualitas karena biaya yang mahal atau proses yang rumit. Kami percaya bahwa akses ke dokumen hukum yang baik seharusnya tidak menjadi hambatan bagi pertumbuhan bisnis.
+            </p>
+            <p class="editorial-section-intro" style="margin-top: -16px;">
+              Kontraktify lahir dari keinginan untuk membuat hukum bisnis lebih mudah diakses, terjangkau, dan dapat dipahami oleh semua orang—tanpa mengorbankan kualitas dan akurasi hukum.
+            </p>
+
+            <div class="why-grid">
+              <div class="why-card">
+                <span class="why-card-icon">⚖️</span>
+                <h3>Ditinjau oleh Ahli Hukum</h3>
+                <p>
+                  Setiap template dan artikel kami ditinjau oleh ahli hukum berpengalaman untuk memastikan akurasi dan kepatuhan dengan hukum Indonesia.
+                </p>
+              </div>
+
+              <div class="why-card">
+                <span class="why-card-icon">🇮🇩</span>
+                <h3>Sesuai Hukum Indonesia</h3>
+                <p>
+                  Semua dokumen kami disesuaikan dengan peraturan dan praktik hukum yang berlaku di Indonesia, termasuk UU Perdata, UU Perusahaan, dan peraturan terkait lainnya.
+                </p>
+              </div>
+
+              <div class="why-card">
+                <span class="why-card-icon">📚</span>
+                <h3>Terus Diperbarui</h3>
+                <p>
+                  Kami secara rutin memperbarui konten kami untuk mengikuti perubahan peraturan dan praktik hukum terbaru di Indonesia.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Join Our Team -->
+          <div class="editorial-section">
+            <div class="cta-box">
+              <h2>Ahli Hukum? Bergabunglah dengan Kami</h2>
+              <p>
+                Kami selalu mencari ahli hukum yang berpengalaman dan memiliki passion untuk membuat hukum lebih mudah diakses. Jika Anda adalah praktisi hukum yang ingin berkontribusi dalam membuat konten hukum yang berkualitas untuk bisnis Indonesia, kami ingin mendengar dari Anda.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                <a href="https://wa.me/6285285995169?text=Halo,%20saya%20ahli%20hukum%20dan%20tertarik%20untuk%20bergabung%20dengan%20tim%20editorial%20Kontraktify" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="font-family: 'Poppins', system-ui, sans-serif;">
+                  Hubungi Kami untuk Bergabung
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 8px;">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ethical Considerations -->
+          <div class="editorial-section">
+            <h2 class="editorial-section-title">Pertimbangan Etis dan Hukum</h2>
+            <p class="editorial-section-intro">
+              Di Kontraktify, kami menganggap serius tanggung jawab etis dan hukum ketika menyediakan konten hukum.
+            </p>
+
+            <div class="ethics-grid">
+              <div class="ethics-card">
+                <h3>Representasi Ahli Hukum</h3>
+                <p>
+                  Kami menghormati peran profesional hukum dan berhati-hati untuk tidak salah menyatakan keahlian mereka dalam komunikasi atau kolaborasi kami.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Penyediaan Informasi Hukum</h3>
+                <p>
+                  Konten kami dimaksudkan untuk mendidik dan menginformasikan. Ini tidak boleh dianggap sebagai nasihat hukum yang dipersonalisasi. Kami bekerja dengan profesional hukum untuk memastikan formulir dan artikel kami memenuhi standar etis dan hukum saat ini sesuai dengan hukum Indonesia.
+                </p>
+              </div>
+
+              <div class="ethics-card">
+                <h3>Referensi, Sumber, dan Kutipan</h3>
+                <p>
+                  Setiap bagian konten diperiksa faktanya. Kami selalu memverifikasi undang-undang, referensi, dan panduan, dan kami hanya menyertakan sumber terpercaya dalam konten kami.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact -->
+          <div class="editorial-section" style="margin-bottom: 0;">
+            <div class="contact-box">
+              <h2>Hubungi Kami</h2>
+              <p>
+                Jika Anda memiliki pertanyaan atau kekhawatiran tentang Kebijakan Editorial kami atau konten apa pun di situs kami, kami mendorong Anda untuk menghubungi kami.
+              </p>
+              <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="font-family: 'Poppins', system-ui, sans-serif;">
+                Hubungi Kami
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer__container">
+      <div class="footer__content">
+        <div class="footer__tagline-section">
+          <h3 class="footer__brand">Kontraktify</h3>
+          <p class="footer__tagline">Hukum yang jelas,<br>terstruktur, dan dapat<br>diterapkan untuk bisnis nyata.</p>
+        </div>
+        <div class="footer__nav-columns">
+          <div class="footer__column">
+            <h4>DOKUMEN HUKUM</h4>
+            <ul>
+              <li><a href="tools/templates/index.html">Template</a></li>
+              <li><a href="tools/templates/index.html#Kontrak Bisnis">Kontrak Bisnis</a></li>
+              <li><a href="tools/templates/index.html#Ketenagakerjaan">Ketenagakerjaan</a></li>
+            </ul>
+          </div>
+          <div class="footer__column">
+            <h4>ALAT</h4>
+            <ul>
+              <li><a href="tools/sign/index.html">Tanda Tangan Digital</a></li>
+              <li><a href="tools/compare/index.html">Bandingkan Dokumen</a></li>
+            </ul>
+          </div>
+          <div class="footer__column">
+            <h4>BANTUAN HUKUM</h4>
+            <ul>
+              <li><a href="legal-aid/pembentukan-perusahaan.html">Pembentukan Perusahaan</a></li>
+              <li><a href="legal-aid/pendaftaran-merek.html">Pendaftaran Merek</a></li>
+              <li><a href="legal-aid/konsultasi-dokumen.html">Konsultasi Dokumen</a></li>
+            </ul>
+          </div>
+          <div class="footer__column">
+            <h4>LEGAL</h4>
+            <ul>
+              <li><a href="#">Syarat & Ketentuan</a></li>
+              <li><a href="#">Kebijakan Privasi</a></li>
+              <li><a href="#">Kebijakan Refund</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2024 Kontraktify oleh CV Cipta Kontrak Teknologi. Hak cipta dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

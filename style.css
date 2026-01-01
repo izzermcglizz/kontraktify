@@ -29,19 +29,19 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-light);
   color: var(--primary);
   line-height: 1.6;
   min-height: 100vh;
-  font-size: 14px;
+  font-size: 13px;
   margin: 0;
   padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-weight: 600;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 500;
 }
 
 a {
@@ -184,8 +184,8 @@ button {
 }
 
 .logo {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.125rem;
+  font-weight: 500;
   letter-spacing: 0.3px;
   display: inline-flex;
   align-items: center;
@@ -193,6 +193,7 @@ button {
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 .logo:hover {
@@ -200,7 +201,7 @@ button {
 }
 
 .top-bar.is-scrolled .logo {
-  font-size: 1.15rem;
+  font-size: 1rem;
   gap: 8px;
 }
 
@@ -220,14 +221,15 @@ button {
 .main-nav {
   display: flex;
   gap: 36px;
-  font-weight: 500;
-  font-size: 0.85rem;
+  font-weight: 400;
+  font-size: 0.8125rem;
   align-items: center;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 .top-bar.is-scrolled .main-nav {
   gap: 28px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .main-nav a {
@@ -259,7 +261,7 @@ button {
 .nav-link-home--active,
 .nav-link-template--active {
   color: var(--accent-yellow);
-  font-weight: 600;
+  font-weight: 500;
   position: relative;
 }
 
@@ -327,7 +329,7 @@ button {
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   background: #fff;
@@ -343,11 +345,30 @@ button {
   pointer-events: none;
 }
 
+/* Add invisible bridge between nav-link and dropdown to prevent gap */
+.nav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 12px;
+  z-index: 999;
+  pointer-events: auto;
+}
+
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown.is-open .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Ensure nav-link stays clickable */
+.nav-link--dropdown {
+  position: relative;
+  z-index: 1001;
   pointer-events: auto;
 }
 
@@ -1782,7 +1803,7 @@ main {
   background: #000000;
   color: rgba(255, 255, 255, 0.65);
   padding: 64px 48px 40px;
-  margin-top: 80px;
+  margin-top: 0;
 }
 
 .footer__container {
@@ -1792,7 +1813,7 @@ main {
 
 .footer__content {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: 64px;
   margin-bottom: 48px;
 }
@@ -1804,30 +1825,30 @@ main {
 }
 
 .footer__column--brand h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 500;
   color: #ffffff;
   margin: 0 0 12px 0;
   letter-spacing: -0.01em;
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 .footer__tagline {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
   max-width: 320px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 .footer__column h4 {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.9375rem;
+  font-weight: 500;
   color: #ffffff;
   margin: 0 0 16px 0;
   letter-spacing: -0.01em;
-  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 .footer__column ul {
@@ -1846,10 +1867,10 @@ main {
 .footer__column a {
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   transition: color 0.2s ease;
   display: inline-block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 .footer__column a:hover {
@@ -1868,20 +1889,16 @@ main {
 
 .footer__bottom p {
   color: rgba(255, 255, 255, 0.5);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   margin: 0;
   letter-spacing: 0.01em;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
 @media (max-width: 1024px) {
   .footer__content {
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
     gap: 40px;
-  }
-  
-  .footer__column:last-child {
-    grid-column: span 3;
   }
 }
 
@@ -1950,12 +1967,12 @@ main {
   }
 
   .logo {
-    font-size: 1rem;
+    font-size: 0.9375rem;
     gap: 8px;
   }
 
   .top-bar.is-scrolled .logo {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     gap: 6px;
   }
 
