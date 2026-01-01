@@ -3,132 +3,303 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kontraktify | Template Marketplace untuk Dokumen Hukum</title>
+    <title>Kontraktify | Template Kontrak & Dokumen Hukum Profesional</title>
     <link rel="icon" type="image/png" href="asset/favicon-removebg-preview.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
     <meta
       name="description"
-      content="150+ template dokumen hukum siap pakai. Dibuat oleh ahli hukum, download instan, format Word yang bisa diedit. Platform tools hukum modern untuk bisnis."
+      content="150+ template kontrak dan dokumen hukum siap pakai. Dibuat oleh ahli hukum, download instan, format Word yang bisa diedit. Platform tools hukum modern untuk bisnis."
     />
     <style>
-      /* Additional styles for new homepage */
-      .hero-gradient {
-        background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+      /* Hero Search Styles - menggunakan CSS variables yang sudah ada */
+      .hero-search-container {
+        max-width: 680px;
+        margin: 0 auto 32px;
         position: relative;
-        overflow: hidden;
+        display: flex;
+        gap: 10px;
       }
       
-      .hero-gradient::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -20%;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(15, 15, 16, 0.03) 0%, transparent 70%);
-        border-radius: 50%;
+      .hero-search-box {
+        flex: 1;
+        background: rgba(15, 15, 16, 0.03);
+        border: 1px solid rgba(15, 15, 16, 0.1);
+        border-radius: 12px;
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
       }
       
-      .template-card-featured {
+      .hero-search-box:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(15, 15, 16, 0.05);
+      }
+      
+      .hero-search-box svg {
+        flex-shrink: 0;
+        color: var(--text-muted);
+        width: 20px;
+        height: 20px;
+      }
+      
+      .hero-search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 0.875rem;
+        font-family: 'Inter', system-ui, sans-serif;
+        color: var(--primary);
+        background: transparent;
+      }
+      
+      .hero-search-input::placeholder {
+        color: var(--text-muted);
+      }
+      
+      .hero-search-button {
+        padding: 14px 24px;
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+      
+      .hero-search-button:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      
+      /* Category Cards Grid */
+      .category-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        max-width: 900px;
+        margin: 0 auto 32px;
+      }
+      
+      .category-card {
         background: #fff;
-        border-radius: 20px;
-        padding: 24px;
-        border: 1px solid rgba(17, 17, 19, 0.08);
+        border: 1px solid rgba(15, 15, 16, 0.08);
+        border-radius: 12px;
+        padding: 20px 16px;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
         transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
-        height: 100%;
-        position: relative;
-        overflow: hidden;
+        align-items: center;
+        gap: 10px;
       }
       
-      .template-card-featured:hover {
+      .category-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-color: rgba(15, 15, 16, 0.12);
+      }
+      
+      .category-card-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+      }
+      
+      .category-card-icon svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .category-card-text {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--primary);
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.4;
+      }
+      
+      /* Value Props Grid */
+      .value-props-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        max-width: 580px;
+        margin: 0 auto;
+      }
+      
+      .value-prop-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .value-prop-icon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        color: var(--primary);
+      }
+      
+      .value-prop-text {
+        font-size: 0.75rem;
+        color: var(--primary);
+        font-weight: 400;
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.4;
+      }
+      
+      /* How It Works */
+      .how-it-works-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        margin-top: 64px;
+      }
+      
+      .how-it-works-card {
+        text-align: center;
+        padding: 40px 32px;
+        background: #fff;
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(15, 15, 16, 0.08);
+        transition: all 0.3s ease;
+      }
+      
+      .how-it-works-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      }
+      
+      .how-it-works-number {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, rgba(15, 15, 16, 0.08) 0%, rgba(15, 15, 16, 0.04) 100%);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--primary);
+      }
+      
+      /* Tools Grid */
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 32px;
+        margin-top: 64px;
+      }
+      
+      .tool-card {
+        background: #fff;
+        border-radius: var(--radius-sm);
+        padding: 40px;
+        border: 1px solid rgba(15, 15, 16, 0.08);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      
+      .tool-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
         border-color: rgba(15, 15, 16, 0.12);
       }
       
-      .template-card-featured::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, var(--primary) 0%, rgba(15, 15, 16, 0.1) 100%);
-      }
-      
-      .template-icon {
-        width: 64px;
-        height: 64px;
+      .tool-icon {
+        width: 72px;
+        height: 72px;
         background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%);
-        border-radius: 16px;
+        border-radius: var(--radius-sm);
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 20px;
-        font-size: 32px;
+        margin-bottom: 24px;
+        font-size: 36px;
       }
       
-      .template-price {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--primary);
-        margin-top: auto;
-        padding-top: 16px;
-      }
-      
-      .feature-grid-modern {
+      /* Legal Aid Compact */
+      .legal-aid-services {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 24px;
+        margin-top: 48px;
       }
       
-      .value-prop-card {
+      .legal-aid-service-card {
         background: #fff;
-        border-radius: 16px;
+        border-radius: var(--radius-sm);
         padding: 32px;
-        border: 1px solid rgba(17, 17, 19, 0.08);
-        text-align: center;
+        border: 1px solid rgba(15, 15, 16, 0.08);
         transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
       }
       
-      .value-prop-card:hover {
+      .legal-aid-service-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
       }
       
-      .value-prop-icon {
-        width: 56px;
-        height: 56px;
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%);
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-      }
-      
-      .legal-aid-compact {
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.02) 0%, rgba(15, 15, 16, 0.01) 100%);
-        border-radius: 24px;
-        padding: 60px 40px;
-        border: 1px solid rgba(17, 17, 19, 0.06);
-      }
-      
       @media (max-width: 768px) {
-        .feature-grid-modern {
-          grid-template-columns: 1fr;
+        .hero-search-container {
+          flex-direction: column;
         }
         
-        .template-grid-featured {
+        .hero-search-button {
+          width: 100%;
+          justify-content: center;
+        }
+        
+        .category-cards-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        
+        .category-card {
+          padding: 20px 16px;
+        }
+        
+        .category-card-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+        }
+        
+        .category-card-text {
+          font-size: 0.8125rem;
+        }
+        
+        .value-props-grid {
           grid-template-columns: 1fr;
+          gap: 16px;
         }
       }
     </style>
@@ -158,88 +329,393 @@
           <span>Kontraktify</span>
         </a>
         <nav class="main-nav">
-          <a href="tools/index.html" class="nav-link" style="font-weight: 600;">Tools</a>
-          <a href="legal-aid/index.html" class="nav-link">Legal Aid</a>
-          <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="nav-link">Hubungi Kami</a>
+          <!-- Dokumen Hukum Dropdown -->
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link nav-link--dropdown">
+              Dokumen Hukum
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="tools/templates/index.html#Kontrak Bisnis" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Bisnis</div>
+                  <div class="dropdown-item-desc">Kontrak dan formulir untuk memulai, mengelola, dan mengembangkan bisnis Anda.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="tools/templates/index.html#Perjanjian Sewa" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Properti</div>
+                  <div class="dropdown-item-desc">Sederhanakan sewa properti, penjualan, dan perjanjian penyewa.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="tools/templates/index.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Perencanaan Estate</div>
+                  <div class="dropdown-item-desc">Dokumen untuk melindungi aset Anda dan merencanakan masa depan.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="tools/templates/index.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Personal & Keluarga</div>
+                  <div class="dropdown-item-desc">Dokumen sehari-hari untuk mengelola urusan personal dan keuangan.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="tools/templates/index.html" class="dropdown-item dropdown-item--all">
+                <span>Semua Dokumen</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Alat Hukum Dropdown -->
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link nav-link--dropdown">
+              Alat Hukum
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="tools/sign/index.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="12" y1="18" x2="12" y2="12"/>
+                    <line x1="9" y1="15" x2="15" y2="15"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">E-Signature</div>
+                  <div class="dropdown-item-desc">Tandatangani dokumen secara digital dengan legalitas yang sama.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="tools/compare/index.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Document Compare</div>
+                  <div class="dropdown-item-desc">Bandingkan versi dokumen dan temukan perbedaan dengan mudah.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Bantuan Hukum Dropdown -->
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link nav-link--dropdown">
+              Bantuan Hukum
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="legal-aid/pembentukan-perusahaan.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="9" y1="3" x2="9" y2="21"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Pembentukan Perusahaan</div>
+                  <div class="dropdown-item-desc">Pendirian PT, CV, atau bentuk badan usaha lainnya dengan pendampingan lawyer.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="legal-aid/pendaftaran-merek.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Pendaftaran Merek</div>
+                  <div class="dropdown-item-desc">Layanan pendaftaran merek dagang dengan pendampingan lawyer.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="legal-aid/konsultasi-dokumen.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Konsultasi Dokumen</div>
+                  <div class="dropdown-item-desc">Review dan konsultasi dokumen hukum dengan lawyer untuk kontrak custom.</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Search Icon -->
+          <a href="tools/templates/index.html" class="nav-link" style="display: flex; align-items: center; padding: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </a>
+
+          <!-- Support Dropdown -->
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link nav-link--dropdown">
+              Support
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Hubungi Kami</div>
+                  <div class="dropdown-item-desc">Chat dengan tim support kami via WhatsApp</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="legal-aid/konsultasi-dokumen.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">FAQ</div>
+                  <div class="dropdown-item-desc">Pertanyaan yang sering diajukan</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
         </nav>
       </div>
     </header>
 
     <main>
-      <!-- Hero Section - Templates Focus -->
-      <section class="hero-gradient" style="padding: 120px 0 100px; background: #fff; width: 100%; position: relative;">
-        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
-          <div style="max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
-            <!-- Banner Badge -->
-            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(15, 15, 16, 0.04); border-radius: 50px; margin-bottom: 32px; border: 1px solid rgba(17, 17, 19, 0.08); backdrop-filter: blur(10px);">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
+      <!-- Hero Section -->
+      <section style="padding: 48px 0 64px; background: var(--bg-light); width: 100%;">
+        <div class="container">
+          <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            
+            <!-- Trust Badge -->
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(15, 15, 16, 0.05); border-radius: 50px; margin-bottom: 24px; border: 1px solid rgba(15, 15, 16, 0.1);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
                 <path d="M9 11l3 3L22 4"/>
                 <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
               </svg>
-              <span style="font-size: 0.875rem; font-weight: 600; color: var(--primary);">150+ Templates</span>
-              <span style="font-size: 0.875rem; color: var(--text-muted);">•</span>
-              <span style="font-size: 0.875rem; color: var(--text-muted);">Dibuat oleh Ahli Hukum</span>
+              <span style="font-size: 0.75rem; font-weight: 500; color: var(--primary); font-family: 'Inter', system-ui, sans-serif;">10.000+ Dokumen Legal Dibuat</span>
             </div>
 
             <!-- Headline -->
-            <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 28px; color: var(--primary); letter-spacing: -0.02em;">
-              150+ Template Dokumen Hukum.<br/>
-              <span style="display: inline-block; padding: 6px 20px; background: rgba(15, 15, 16, 0.04); border-radius: 50px; border: 1px solid rgba(17, 17, 19, 0.08); margin-top: 12px;">Siap Pakai dalam Hitungan Menit</span>
+            <h1 style="font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 600; line-height: 1.15; margin-bottom: 12px; color: var(--primary); letter-spacing: -0.01em; font-family: 'Cormorant Garamond', 'Playfair Display', serif;">
+              Buat Dokumen Hukum dalam Hitungan Menit.
             </h1>
             
             <!-- Description -->
-            <p style="font-size: 1.25rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 48px; max-width: 700px; margin-left: auto; margin-right: auto;">
-              Template profesional yang dibuat oleh ahli hukum. Pilih, isi form, dan download dokumen Word siap pakai—semuanya dalam hitungan menit.
+            <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; font-family: 'Inter', system-ui, sans-serif;">
+              Template kontrak legal untuk bisnis di Indonesia, tanpa ribet atau mahal.
             </p>
 
-            <!-- CTAs -->
-            <div style="display: flex; gap: 16px; margin-bottom: 64px; justify-content: center; flex-wrap: wrap;">
-              <a class="btn btn--primary" href="tools/templates/index.html" style="font-size: 17px; padding: 18px 40px; display: inline-flex; align-items: center; gap: 10px; background: var(--primary); color: #fff; border: none; font-weight: 600; box-shadow: 0 4px 16px rgba(15, 15, 16, 0.15);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            <!-- Search Bar with Button -->
+            <div class="hero-search-container">
+              <div class="hero-search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
                 </svg>
-                Jelajahi Templates
+                <input 
+                  type="text" 
+                  class="hero-search-input" 
+                  placeholder="Cari kontrak hukum... (contoh: perjanjian kerja)"
+                  id="heroSearch"
+                />
+              </div>
+              <button type="button" class="hero-search-button" onclick="handleSearch()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
+                </svg>
+                Cari
+              </button>
+            </div>
+
+            <!-- Category Cards -->
+            <div class="category-cards-grid">
+              <a href="tools/templates/index.html#Perjanjian Sewa" class="category-card">
+                <div class="category-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                </div>
+                <div class="category-card-text">Perjanjian Sewa</div>
               </a>
-              <a class="btn btn--ghost" href="tools/sign/index.html" style="font-size: 17px; padding: 18px 40px; display: inline-flex; align-items: center; gap: 10px; border: 2px solid rgba(15, 15, 16, 0.1); font-weight: 600;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
+              
+              <a href="tools/templates/index.html#Kontrak Karyawan" class="category-card">
+                <div class="category-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                </div>
+                <div class="category-card-text">Kontrak Karyawan</div>
+              </a>
+              
+              <a href="tools/templates/index.html#NDA" class="category-card">
+                <div class="category-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <div class="category-card-text">NDA (Non-Disclosure Agreement)</div>
+              </a>
+              
+              <a href="tools/templates/index.html#Perjanjian Kerjasama" class="category-card">
+                <div class="category-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="9" y1="15" x2="15" y2="15"/>
+                    <line x1="12" y1="12" x2="12" y2="18"/>
+                  </svg>
+                </div>
+                <div class="category-card-text">Perjanjian Kerjasama</div>
+              </a>
+              
+              <a href="tools/templates/index.html#Kontrak Freelance" class="category-card">
+                <div class="category-card-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
                 </svg>
-                Coba E-Signature Gratis
+                </div>
+                <div class="category-card-text">Kontrak Freelance</div>
               </a>
             </div>
 
-            <!-- Trust Indicators -->
-            <div style="display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; opacity: 0.8;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                  <path d="M9 11l3 3L22 4"/>
-                  <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            <!-- Value Propositions -->
+            <div class="value-props-grid">
+              <div class="value-prop-item">
+                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                  <path d="M8 12h8M12 8v8"/>
                 </svg>
-                <span style="font-size: 0.9375rem; color: var(--text-muted); font-weight: 500;">Dibuat oleh Ahli Hukum</span>
+                <span class="value-prop-text">Disusun oleh ahli hukum Indonesia</span>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              
+              <div class="value-prop-item">
+                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
+                  <line x1="9" y1="15" x2="15" y2="15"/>
                 </svg>
-                <span style="font-size: 0.9375rem; color: var(--text-muted); font-weight: 500;">Format Word (.docx)</span>
+                <span class="value-prop-text">Mudah digunakan & siap edit</span>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                  <polyline points="20 6 9 17 4 12"/>
+              
+              <div class="value-prop-item">
+                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
                 </svg>
-                <span style="font-size: 0.9375rem; color: var(--text-muted); font-weight: 500;">Download Instan</span>
+                <span class="value-prop-text">Sesuai hukum Indonesia</span>
+              </div>
+              
+              <div class="value-prop-item">
+                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span class="value-prop-text">Hemat waktu & biaya legal</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Featured Templates Showcase -->
+      <!-- Featured Templates Section -->
       <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
-        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+        <div class="container">
           <div style="max-width: 1200px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 64px;">
               <div style="font-size: 0.875rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;">Template Populer</div>
@@ -252,37 +728,64 @@
             </div>
 
             <!-- Template Grid -->
-            <div class="template-grid-featured" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 64px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 64px;">
               
               <!-- Template 1: Perjanjian Sewa Menyewa -->
-              <a href="tools/templates/perjanjian-sewa-menyewa-tempat.html" class="template-card-featured" style="text-decoration: none; color: inherit;">
-                <div class="template-icon">🏠</div>
+              <a href="tools/templates/perjanjian-sewa-menyewa-tempat.html" style="text-decoration: none; color: inherit;">
+                <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                  <div style="width: 64px; height: 64px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 32px;">
+                    🏠
+                  </div>
                 <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Perjanjian Sewa Menyewa Tempat</h3>
-                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; flex: 1;">
+                  <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; flex: 1;">
                   Dokumen lengkap untuk sewa-menyewa properti komersial atau residensial. Mencakup 11 pasal termasuk ketentuan pembayaran, jaminan, dan penyelesaian sengketa.
                 </p>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
-                  <div class="template-price">Rp 350.000</div>
+                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">Rp 350.000</div>
                   <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.9375rem;">
                     <span>Lihat Detail</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <!-- Template 2: Perjanjian Kerja Sama -->
-              <a href="tools/templates/perjanjian-kerja-sama-usaha-joint-venture.html" class="template-card-featured" style="text-decoration: none; color: inherit;">
-                <div class="template-icon">🤝</div>
+              <a href="tools/templates/perjanjian-kerja-sama-usaha-joint-venture.html" style="text-decoration: none; color: inherit;">
+                <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                  <div style="width: 64px; height: 64px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 32px;">
+                    🤝
+                  </div>
                 <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Perjanjian Kerja Sama Usaha</h3>
-                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; flex: 1;">
+                  <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; flex: 1;">
                   Dokumen hukum lengkap untuk kemitraan bisnis dan joint venture. Mencakup 14 pasal termasuk hak kekayaan intelektual, pembagian hasil, dan force majeure.
                 </p>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
-                  <div class="template-price">Rp 350.000</div>
+                    <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">Rp 350.000</div>
                   <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.9375rem;">
                     <span>Lihat Detail</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Template 3: CTA to Browse More -->
+              <a href="tools/templates/index.html" style="text-decoration: none; color: inherit;">
+                <div style="background: linear-gradient(135deg, rgba(15, 15, 16, 0.02) 0%, rgba(15, 15, 16, 0.01) 100%); border-radius: var(--radius-sm); padding: 32px; border: 2px dashed rgba(15, 15, 16, 0.15); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                  <div style="width: 64px; height: 64px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 32px;">
+                    📚
+                  </div>
+                  <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Jelajahi 150+ Templates</h3>
+                  <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px;">
+                    Temukan template lainnya untuk berbagai kebutuhan dokumen hukum bisnis Anda.
+                  </p>
+                  <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.9375rem;">
+                    <span>Lihat Semua Templates</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
@@ -290,30 +793,12 @@
                 </div>
               </a>
 
-              <!-- Template 3: Coming Soon Placeholder -->
-              <div class="template-card-featured" style="opacity: 0.6; cursor: default;">
-                <div class="template-icon">📄</div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Template Lainnya</h3>
-                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; flex: 1;">
-                  Jelajahi 150+ template lainnya untuk berbagai kebutuhan dokumen hukum bisnis Anda.
-                </p>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
-                  <div class="template-price">Mulai dari Rp 250.000</div>
-                  <a href="tools/templates/index.html" style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.9375rem; text-decoration: none;">
-                    <span>Lihat Semua</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
             </div>
 
             <div style="text-align: center;">
-              <a href="tools/templates/index.html" class="btn btn--primary" style="font-size: 16px; padding: 18px 40px; display: inline-flex; align-items: center; gap: 12px; background: var(--primary); color: #fff; border: none; font-weight: 600; text-decoration: none;">
+              <a href="tools/templates/index.html" class="btn btn--primary">
                 <span>Lihat Semua 150+ Templates</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 8px;">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </a>
@@ -322,53 +807,69 @@
         </div>
       </section>
 
-      <!-- Tools Section - PRIMARY FOCUS -->
-      <section style="padding: 100px 0; background: #fff; width: 100%;">
-        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+      <!-- How It Works Section -->
+      <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
+        <div class="container">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 64px;">
+              <div style="font-size: 0.875rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;">Cara Kerja</div>
+              <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 20px; color: var(--primary); line-height: 1.2;">
+                Buat Dokumen dalam 3 Langkah Sederhana
+              </h2>
+              <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto;">
+                Jawab beberapa pertanyaan singkat dan dapatkan dokumen hukum yang disesuaikan dengan kebutuhan Anda
+              </p>
+            </div>
+
+            <div class="how-it-works-grid">
+              <div class="how-it-works-card">
+                <div class="how-it-works-number">01</div>
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Pilih Template</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7;">
+                  Jelajahi perpustakaan kami yang berisi ratusan template dokumen hukum yang dibuat oleh ahli hukum. Temukan dokumen yang tepat untuk kebutuhan Anda.
+                </p>
+              </div>
+
+              <div class="how-it-works-card">
+                <div class="how-it-works-number">02</div>
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Isi Form Online</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7;">
+                  Lengkapi form yang mudah digunakan dalam hitungan menit. Respons Anda akan menyesuaikan dokumen dengan situasi dan hukum yang berlaku.
+                </p>
+              </div>
+
+              <div class="how-it-works-card">
+                <div class="how-it-works-number">03</div>
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Download & Gunakan</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7;">
+                  Dapatkan dokumen hukum Anda secara instan dalam format Word atau PDF. Cetak, tanda tangani, dan gunakan segera.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools Section -->
+      <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
+        <div class="container">
           <div style="max-width: 1200px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 64px;">
               <div style="font-size: 0.875rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;">Platform Tools</div>
               <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 20px; color: var(--primary); line-height: 1.2;">
-                Semua yang Anda Butuhkan untuk<br/>Mengelola Dokumen Hukum
+                Lebih dari Sekadar Template
               </h2>
               <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; max-width: 700px; margin: 0 auto;">
-                Platform tools hukum lengkap untuk bisnis modern. Semua yang Anda butuhkan dalam satu tempat.
+                Platform tools hukum lengkap untuk mengelola dokumen Anda dari awal hingga akhir
               </p>
             </div>
 
-            <!-- Tools Grid -->
-            <div class="feature-grid-modern" style="margin-bottom: 64px;">
-              
-              <!-- Template Marketplace - Featured -->
-              <a href="tools/templates/index.html" class="feature-card-link" style="text-decoration: none; color: inherit;">
-                <div class="feature-card-clickable" style="background: linear-gradient(135deg, rgba(15, 15, 16, 0.02) 0%, #fff 100%); border-radius: 24px; padding: 48px 40px; border: 2px solid rgba(15, 15, 16, 0.1); transition: all 0.3s; height: 100%; display: flex; flex-direction: column; cursor: pointer; position: relative; overflow: hidden;">
-                  <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(15, 15, 16, 0.03) 0%, transparent 70%); border-radius: 50%;"></div>
-                  <div style="position: relative; z-index: 1;">
-                    <div style="width: 72px; height: 72px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.08) 0%, rgba(15, 15, 16, 0.04) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; font-size: 40px;">
-                      📚
-                    </div>
-                    <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Template Marketplace</h3>
-                    <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px;">
-                      150+ template dokumen hukum profesional. Pilih, isi form online, dan download dokumen Word siap pakai dalam hitungan menit.
-                    </p>
-                    <div style="display: flex; align-items: center; gap: 12px; color: var(--primary); font-weight: 700; font-size: 1rem;">
-                      <span>Jelajahi Templates</span>
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </a>
-
+            <div class="tools-grid">
               <!-- E-Signature -->
-              <a href="tools/sign/index.html" class="feature-card-link" style="text-decoration: none; color: inherit;">
-                <div class="feature-card-clickable" style="background: #fff; border-radius: 24px; padding: 48px 40px; border: 1px solid rgba(17, 17, 19, 0.08); transition: all 0.3s; height: 100%; display: flex; flex-direction: column; cursor: pointer;">
-                  <div style="width: 72px; height: 72px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; font-size: 40px;">
-                    ✍️
-                  </div>
+              <a href="tools/sign/index.html" class="tool-card">
+                <div class="tool-icon">✍️</div>
                   <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; color: var(--primary);">E-Signature</h3>
-                  <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px;">
+                <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px;">
                     Tandatangani dokumen secara digital dengan legalitas yang sama dengan tanda tangan basah. Kirim, tanda tangani, dan kelola semua dalam satu platform.
                   </p>
                   <div style="display: flex; align-items: center; gap: 12px; color: var(--primary); font-weight: 700; font-size: 1rem;">
@@ -376,50 +877,44 @@
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
-                  </div>
                 </div>
               </a>
 
               <!-- Document Compare -->
-              <a href="tools/compare/index.html" class="feature-card-link" style="text-decoration: none; color: inherit;">
-                <div class="feature-card-clickable" style="background: #fff; border-radius: 24px; padding: 48px 40px; border: 1px solid rgba(17, 17, 19, 0.08); transition: all 0.3s; height: 100%; display: flex; flex-direction: column; cursor: pointer;">
-                  <div style="width: 72px; height: 72px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; font-size: 40px;">
-                    🔍
-                  </div>
+              <a href="tools/compare/index.html" class="tool-card">
+                <div class="tool-icon">🔍</div>
                   <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 16px; color: var(--primary);">Document Compare</h3>
-                  <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px;">
-                    Bandingkan versi dokumen dan temukan perbedaan dengan mudah. Perfect untuk version control dan review dokumen hukum.
+                <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px;">
+                  Bandingkan versi dokumen dan temukan perbedaan dengan mudah. Perfect untuk version control dan review dokumen hukum dengan visual highlight.
                   </p>
                   <div style="display: flex; align-items: center; gap: 12px; color: var(--primary); font-weight: 700; font-size: 1rem;">
                     <span>Coba Compare</span>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
-                  </div>
                 </div>
               </a>
-
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Why Choose Templates Section -->
+      <!-- Why Choose Section -->
       <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
-        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+        <div class="container">
           <div style="max-width: 1200px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 64px;">
               <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 20px; color: var(--primary); line-height: 1.2;">
-                Mengapa Memilih Template Kontraktify?
+                Mengapa Memilih Kontraktify?
               </h2>
               <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto;">
                 Template yang dibuat dengan standar profesional untuk memastikan dokumen Anda sesuai hukum
               </p>
             </div>
 
-            <div class="feature-grid-modern">
-              <div class="value-prop-card">
-                <div class="value-prop-icon">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                     <path d="M9 11l3 3L22 4"/>
                     <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
@@ -431,8 +926,8 @@
                 </p>
               </div>
 
-              <div class="value-prop-card">
-                <div class="value-prop-icon">
+              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                     <polyline points="17 8 12 3 7 8"/>
@@ -445,8 +940,8 @@
                 </p>
               </div>
 
-              <div class="value-prop-card">
-                <div class="value-prop-icon">
+              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                     <polyline points="14 2 14 8 20 8"/>
@@ -460,8 +955,8 @@
                 </p>
               </div>
 
-              <div class="value-prop-card">
-                <div class="value-prop-icon">
+              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                   </svg>
@@ -472,8 +967,8 @@
                 </p>
               </div>
 
-              <div class="value-prop-card">
-                <div class="value-prop-icon">
+              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                     <circle cx="12" cy="12" r="10"/>
                     <polyline points="12 6 12 12 16 14"/>
@@ -485,8 +980,8 @@
                 </p>
               </div>
 
-              <div class="value-prop-card">
-                <div class="value-prop-icon">
+              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
@@ -502,129 +997,103 @@
         </div>
       </section>
 
-      <!-- Legal Aid Section - REPOSITIONED AS SECONDARY -->
-      <section style="padding: 100px 0; background: #fff; width: 100%;">
-        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+      <!-- Legal Aid Section -->
+      <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
+        <div class="container">
           <div style="max-width: 1200px; margin: 0 auto;">
-            <div class="legal-aid-compact">
-              <div style="text-align: center; margin-bottom: 48px;">
+            <div style="text-align: center; margin-bottom: 64px;">
                 <div style="font-size: 0.875rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;">Layanan Tambahan</div>
-                <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 16px; color: var(--primary); line-height: 1.2;">
-                  Butuh Bantuan Profesional?<br/>Kami Siap Membantu
+              <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 20px; color: var(--primary); line-height: 1.2;">
+                Butuh Bantuan Profesional?
                 </h2>
-                <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto;">
+              <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto;">
                   Tim lawyer berpengalaman kami siap membantu ketika Anda membutuhkan pendampingan profesional lebih lanjut
                 </p>
               </div>
 
-              <!-- Legal Aid Services - Compact Grid -->
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 48px;">
-                
-                <a href="legal-aid/pembentukan-perusahaan.html" style="text-decoration: none; color: inherit;">
-                  <div style="background: #fff; border-radius: 16px; padding: 32px; border: 1px solid rgba(17, 17, 19, 0.08); transition: all 0.3s; cursor: pointer;">
+            <div class="legal-aid-services">
+              <a href="legal-aid/pembentukan-perusahaan.html" class="legal-aid-service-card">
                     <div style="font-size: 32px; margin-bottom: 16px;">🏢</div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--primary);">Pembentukan Perusahaan</h3>
                     <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;">
-                      Pendirian PT, CV, atau bentuk badan usaha lainnya
+                  Pendirian PT, CV, atau bentuk badan usaha lainnya dengan pendampingan lawyer
                     </p>
-                  </div>
                 </a>
 
-                <a href="legal-aid/pendaftaran-merek.html" style="text-decoration: none; color: inherit;">
-                  <div style="background: #fff; border-radius: 16px; padding: 32px; border: 1px solid rgba(17, 17, 19, 0.08); transition: all 0.3s; cursor: pointer;">
+              <a href="legal-aid/pendaftaran-merek.html" class="legal-aid-service-card">
                     <div style="font-size: 32px; margin-bottom: 16px;">™️</div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--primary);">Pendaftaran Merek</h3>
                     <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;">
                       Layanan pendaftaran merek dagang dengan pendampingan lawyer
                     </p>
-                  </div>
                 </a>
 
-                <a href="legal-aid/konsultasi-dokumen.html" style="text-decoration: none; color: inherit;">
-                  <div style="background: #fff; border-radius: 16px; padding: 32px; border: 1px solid rgba(17, 17, 19, 0.08); transition: all 0.3s; cursor: pointer;">
+              <a href="legal-aid/konsultasi-dokumen.html" class="legal-aid-service-card">
                     <div style="font-size: 32px; margin-bottom: 16px;">📋</div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--primary);">Konsultasi Dokumen</h3>
                     <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;">
-                      Review dan konsultasi dokumen hukum dengan lawyer
+                  Review dan konsultasi dokumen hukum dengan lawyer untuk kontrak custom
                     </p>
-                  </div>
                 </a>
-
               </div>
 
-              <div style="text-align: center;">
-                <a href="legal-aid/index.html" class="btn btn--ghost" style="font-size: 16px; padding: 16px 32px; display: inline-flex; align-items: center; gap: 10px; border: 2px solid rgba(15, 15, 16, 0.1); font-weight: 600; text-decoration: none;">
+            <div style="text-align: center; margin-top: 48px;">
+              <a href="legal-aid/index.html" class="btn btn--ghost">
                   Pelajari Lebih Lanjut
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 8px;">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </a>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Final CTA Section -->
-      <section style="padding: 120px 0; background: var(--primary); width: 100%; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%); border-radius: 50%;"></div>
-        <div style="position: absolute; bottom: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%); border-radius: 50%;"></div>
-        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1;">
-          <div style="max-width: 700px; margin: 0 auto; text-align: center;">
-            <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 24px; color: #fff; line-height: 1.2;">
-              Siap Membuat Dokumen Hukum?
-            </h2>
-            <p style="font-size: 1.125rem; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 48px;">
-              Mulai dengan template profesional dan buat dokumen hukum dalam hitungan menit
-            </p>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-              <a href="tools/templates/index.html" class="btn" style="font-size: 17px; padding: 20px 48px; display: inline-flex; align-items: center; gap: 12px; background: #fff; color: var(--primary); border: none; font-weight: 600; text-decoration: none; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); border-radius: 12px; transition: all 0.3s ease;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                Jelajahi Templates Sekarang
-              </a>
-              <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" style="font-size: 0.9375rem; color: rgba(255, 255, 255, 0.7); text-decoration: none; font-weight: 500; transition: color 0.2s ease;">
-                Butuh bantuan? Hubungi kami
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer__container">
         <div class="footer__content">
+          <!-- Column 1: Brand + Legal -->
           <div class="footer__column footer__column--brand">
             <h3>Kontraktify</h3>
             <p class="footer__tagline">Hukum yang jelas, terstruktur, dan dapat diterapkan untuk bisnis nyata.</p>
+            <div style="margin-top: 32px;">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="#">Syarat & Ketentuan</a></li>
+                <li><a href="#">Kebijakan Privasi</a></li>
+                <li><a href="#">Kebijakan Refund</a></li>
+              </ul>
+            </div>
           </div>
           
+          <!-- Column 2: Legal Documents -->
           <div class="footer__column">
-            <h4>Legal Tools</h4>
+            <h4>Legal Documents</h4>
             <ul>
               <li><a href="tools/templates/index.html">Templates</a></li>
+              <li><a href="tools/templates/index.html#Kontrak Bisnis">Kontrak Bisnis</a></li>
+              <li><a href="tools/templates/index.html#Ketenagakerjaan">Ketenagakerjaan</a></li>
+            </ul>
+          </div>
+          
+          <!-- Column 3: Tools -->
+          <div class="footer__column">
+            <h4>Tools</h4>
+            <ul>
               <li><a href="tools/sign/index.html">E-Signature</a></li>
               <li><a href="tools/compare/index.html">Document Compare</a></li>
             </ul>
           </div>
           
+          <!-- Column 4: Legal Aid -->
           <div class="footer__column">
             <h4>Legal Aid</h4>
             <ul>
               <li><a href="legal-aid/pembentukan-perusahaan.html">Pembentukan Perusahaan</a></li>
               <li><a href="legal-aid/pendaftaran-merek.html">Pendaftaran Merek</a></li>
               <li><a href="legal-aid/konsultasi-dokumen.html">Konsultasi Dokumen</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer__column">
-            <h4>Legal</h4>
-            <ul>
-              <li><a href="#">Syarat & Ketentuan</a></li>
-              <li><a href="#">Kebijakan Privasi</a></li>
-              <li><a href="#">Kebijakan Refund</a></li>
             </ul>
           </div>
         </div>
@@ -638,6 +1107,23 @@
     </footer>
     
     <script src="script.js" defer></script>
+    <script>
+      // Search functionality
+      function handleSearch() {
+        const searchInput = document.getElementById('heroSearch');
+        const query = searchInput?.value.trim();
+        if (query) {
+          window.location.href = `tools/templates/index.html?search=${encodeURIComponent(query)}`;
+        } else {
+          window.location.href = 'tools/templates/index.html';
+        }
+      }
+      
+      document.getElementById('heroSearch')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          handleSearch();
+        }
+      });
+    </script>
   </body>
 </html>
-
