@@ -355,54 +355,15 @@
           </div>
           
           <div class="payment-methods">
-            <h2>Pilih Metode Pembayaran</h2>
+            <h2>Pembayaran QRIS</h2>
+            <p style="text-align: center; color: rgba(15, 15, 16, 0.7); margin-bottom: 24px; font-size: 0.875rem;">
+              Scan QR Code dengan aplikasi pembayaran Anda (GoPay, OVO, DANA, LinkAja, dll)
+            </p>
             
             <div class="method-group">
-              <div class="method-group-label">Virtual Account</div>
-              <div class="method-options" id="vaMethods">
-                <label class="method-option" data-method="va" data-channel="bca">
-                  <input type="radio" name="paymentMethod" value="va-bca" />
-                  <div class="method-option-content">
-                    <div class="method-icon">🏦</div>
-                    <div class="method-name">BCA</div>
-                    <div class="method-description">Virtual Account</div>
-                  </div>
-                </label>
-                
-                <label class="method-option" data-method="va" data-channel="mandiri">
-                  <input type="radio" name="paymentMethod" value="va-mandiri" />
-                  <div class="method-option-content">
-                    <div class="method-icon">🏦</div>
-                    <div class="method-name">Mandiri</div>
-                    <div class="method-description">Virtual Account</div>
-                  </div>
-                </label>
-                
-                <label class="method-option" data-method="va" data-channel="bni">
-                  <input type="radio" name="paymentMethod" value="va-bni" />
-                  <div class="method-option-content">
-                    <div class="method-icon">🏦</div>
-                    <div class="method-name">BNI</div>
-                    <div class="method-description">Virtual Account</div>
-                  </div>
-                </label>
-                
-                <label class="method-option" data-method="va" data-channel="bri">
-                  <input type="radio" name="paymentMethod" value="va-bri" />
-                  <div class="method-option-content">
-                    <div class="method-icon">🏦</div>
-                    <div class="method-name">BRI</div>
-                    <div class="method-description">Virtual Account</div>
-                  </div>
-                </label>
-              </div>
-            </div>
-            
-            <div class="method-group">
-              <div class="method-group-label">QRIS</div>
-              <div class="method-options" id="qrisMethods">
-                <label class="method-option" data-method="qris" data-channel="qris">
-                  <input type="radio" name="paymentMethod" value="qris" />
+              <div class="method-options" id="qrisMethods" style="justify-content: center;">
+                <label class="method-option selected" data-method="qris" data-channel="qris" style="max-width: 200px;">
+                  <input type="radio" name="paymentMethod" value="qris" checked />
                   <div class="method-option-content">
                     <div class="method-icon">📱</div>
                     <div class="method-name">QRIS</div>
@@ -446,7 +407,7 @@
       <div class="loading-text">Memproses pembayaran...</div>
     </div>
     
-    <script src="formsewamenyewa.js"></script>
+    <script src="payment.js"></script>
     <script>
       let selectedMethod = null;
       let selectedChannel = null;
