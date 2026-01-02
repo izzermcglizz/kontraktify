@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pembayaran | Kontraktify</title>
+    <link rel="icon" type="image/png" href="../../../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../style.css?v=14" />
+    <meta
+      name="description"
+      content="Pilih metode pembayaran untuk dokumen Perjanjian Sewa Menyewa Tempat."
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fafafa;
+        font-family: 'Manrope', sans-serif;
+        min-height: 100vh;
+      }
+      
+      .payment-page {
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+      
+      .payment-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      .payment-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      
+      .payment-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 0 0 8px 0;
+      }
+      
+      .payment-header p {
+        font-size: 1rem;
+        color: rgba(15, 15, 16, 0.7);
+        margin: 0;
+      }
+      
+      .payment-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(15, 15, 16, 0.08);
+        margin-bottom: 24px;
+      }
+      
+      .payment-summary {
+        margin-bottom: 32px;
+      }
+      
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(15, 15, 16, 0.08);
+      }
+      
+      .summary-item:last-child {
+        border-bottom: none;
+        font-weight: 600;
+        font-size: 1.125rem;
+        padding-top: 16px;
+      }
+      
+      .summary-label {
+        color: rgba(15, 15, 16, 0.7);
+      }
+      
+      .summary-value {
+        color: var(--primary);
+        font-weight: 500;
+      }
+      
+      .payment-methods {
+        margin-top: 32px;
+      }
+      
+      .payment-methods h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin: 0 0 20px 0;
+      }
+      
+      .method-group {
+        margin-bottom: 24px;
+      }
+      
+      .method-group-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: rgba(15, 15, 16, 0.7);
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .method-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+      }
+      
+      .method-option {
+        position: relative;
+        border: 2px solid rgba(15, 15, 16, 0.1);
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #fff;
+      }
+      
+      .method-option:hover {
+        border-color: var(--primary);
+        background: rgba(15, 15, 16, 0.02);
+      }
+      
+      .method-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .method-option.selected {
+        border-color: var(--primary);
+        background: rgba(15, 15, 16, 0.03);
+      }
+      
+      .method-option-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .method-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 15, 16, 0.05);
+        font-size: 1.5rem;
+      }
+      
+      .method-name {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: var(--primary);
+        text-align: center;
+      }
+      
+      .method-description {
+        font-size: 0.75rem;
+        color: rgba(15, 15, 16, 0.6);
+        text-align: center;
+      }
+      
+      .payment-actions {
+        margin-top: 32px;
+        display: flex;
+        gap: 12px;
+      }
+      
+      .btn {
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .btn--full {
+        flex: 1;
+      }
+      
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(15, 15, 16, 0.15);
+        color: var(--primary);
+      }
+      
+      .btn--ghost:hover {
+        background: rgba(15, 15, 16, 0.05);
+        border-color: rgba(15, 15, 16, 0.25);
+      }
+      
+      .btn--primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      
+      .btn--primary:hover {
+        background: rgba(15, 15, 16, 0.9);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(15, 15, 16, 0.15);
+      }
+      
+      .btn--primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .payment-info {
+        background: rgba(59, 130, 246, 0.08);
+        border: 1px solid rgba(59, 130, 246, 0.15);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 24px;
+      }
+      
+      .payment-info-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin: 0 0 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .payment-info-content {
+        font-size: 0.875rem;
+        color: rgba(15, 15, 16, 0.7);
+        line-height: 1.6;
+      }
+      
+      .payment-info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(15, 15, 16, 0.05);
+      }
+      
+      .payment-info-item:last-child {
+        border-bottom: none;
+      }
+      
+      .payment-info-label {
+        font-weight: 500;
+      }
+      
+      .payment-info-value {
+        font-family: 'Courier New', monospace;
+        font-weight: 600;
+        color: var(--primary);
+      }
+      
+      .loading-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .loading-overlay.active {
+        display: flex;
+      }
+      
+      .loading-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(15, 15, 16, 0.1);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .loading-text {
+        font-size: 1rem;
+        color: var(--primary);
+        font-weight: 500;
+      }
+      
+      @media (max-width: 768px) {
+        .payment-page {
+          padding: 24px 16px;
+        }
+        
+        .payment-card {
+          padding: 24px;
+        }
+        
+        .method-options {
+          grid-template-columns: 1fr;
+        }
+        
+        .payment-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="payment-page">
+      <div class="payment-container">
+        <div class="payment-header">
+          <h1>Pembayaran</h1>
+          <p>Pilih metode pembayaran yang Anda inginkan</p>
+        </div>
+        
+        <div class="payment-card">
+          <div class="payment-summary">
+            <div class="summary-item">
+              <span class="summary-label">Paket</span>
+              <span class="summary-value">Template Standar</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Harga</span>
+              <span class="summary-value">Rp 350.000</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Total Pembayaran</span>
+              <span class="summary-value">Rp 350.000</span>
+            </div>
+          </div>
+          
+          <div class="payment-methods">
+            <h2>Pilih Metode Pembayaran</h2>
+            
+            <div class="method-group">
+              <div class="method-group-label">Virtual Account</div>
+              <div class="method-options" id="vaMethods">
+                <label class="method-option" data-method="va" data-channel="bca">
+                  <input type="radio" name="paymentMethod" value="va-bca" />
+                  <div class="method-option-content">
+                    <div class="method-icon">🏦</div>
+                    <div class="method-name">BCA</div>
+                    <div class="method-description">Virtual Account</div>
+                  </div>
+                </label>
+                
+                <label class="method-option" data-method="va" data-channel="mandiri">
+                  <input type="radio" name="paymentMethod" value="va-mandiri" />
+                  <div class="method-option-content">
+                    <div class="method-icon">🏦</div>
+                    <div class="method-name">Mandiri</div>
+                    <div class="method-description">Virtual Account</div>
+                  </div>
+                </label>
+                
+                <label class="method-option" data-method="va" data-channel="bni">
+                  <input type="radio" name="paymentMethod" value="va-bni" />
+                  <div class="method-option-content">
+                    <div class="method-icon">🏦</div>
+                    <div class="method-name">BNI</div>
+                    <div class="method-description">Virtual Account</div>
+                  </div>
+                </label>
+                
+                <label class="method-option" data-method="va" data-channel="bri">
+                  <input type="radio" name="paymentMethod" value="va-bri" />
+                  <div class="method-option-content">
+                    <div class="method-icon">🏦</div>
+                    <div class="method-name">BRI</div>
+                    <div class="method-description">Virtual Account</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            
+            <div class="method-group">
+              <div class="method-group-label">QRIS</div>
+              <div class="method-options" id="qrisMethods">
+                <label class="method-option" data-method="qris" data-channel="qris">
+                  <input type="radio" name="paymentMethod" value="qris" />
+                  <div class="method-option-content">
+                    <div class="method-icon">📱</div>
+                    <div class="method-name">QRIS</div>
+                    <div class="method-description">Scan QR Code</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="payment-actions">
+            <a href="preview-sewa-menyewa.html" class="btn btn--ghost btn--full">
+              Kembali
+            </a>
+            <button type="button" class="btn btn--primary btn--full" id="proceedPaymentBtn" disabled>
+              Lanjutkan Pembayaran
+            </button>
+          </div>
+        </div>
+        
+        <div class="payment-card" id="paymentInfoCard" style="display: none;">
+          <div class="payment-info">
+            <h3 class="payment-info-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              Instruksi Pembayaran
+            </h3>
+            <div class="payment-info-content" id="paymentInfoContent">
+              <!-- Payment info will be inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Memproses pembayaran...</div>
+    </div>
+    
+    <script src="formsewamenyewa.js"></script>
+    <script>
+      let selectedMethod = null;
+      let selectedChannel = null;
+      let formData = null;
+      
+      // Load form data from sessionStorage
+      document.addEventListener('DOMContentLoaded', () => {
+        // Check if payment was successful (from URL param)
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentStatus = urlParams.get('payment');
+        
+        if (paymentStatus === 'success') {
+          // Load payment info from sessionStorage
+          const paymentInfo = sessionStorage.getItem('paymentInfo');
+          if (paymentInfo) {
+            try {
+              const info = JSON.parse(paymentInfo);
+              if (typeof showPaymentInfo === 'function') {
+                showPaymentInfo(info);
+              }
+            } catch (error) {
+              console.error('Error loading payment info:', error);
+            }
+          }
+        }
+        
+        const previewData = sessionStorage.getItem('previewDocumentData');
+        
+        if (!previewData) {
+          alert('Tidak ada data dokumen. Silakan isi form terlebih dahulu.');
+          window.location.href = 'formsewamenyewa.html';
+          return;
+        }
+        
+        try {
+          formData = JSON.parse(previewData);
+        } catch (error) {
+          console.error('Error loading form data:', error);
+          alert('Terjadi kesalahan saat memuat data. Silakan coba lagi.');
+          window.location.href = 'formsewamenyewa.html';
+        }
+        
+        // Handle payment method selection
+        const methodOptions = document.querySelectorAll('.method-option');
+        methodOptions.forEach(option => {
+          option.addEventListener('click', () => {
+            // Remove selected class from all options
+            methodOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            option.classList.add('selected');
+            
+            // Get selected method and channel
+            selectedMethod = option.getAttribute('data-method');
+            selectedChannel = option.getAttribute('data-channel');
+            
+            // Enable proceed button
+            const proceedBtn = document.getElementById('proceedPaymentBtn');
+            if (proceedBtn) {
+              proceedBtn.disabled = false;
+            }
+          });
+        });
+        
+        // Handle proceed payment button
+        const proceedBtn = document.getElementById('proceedPaymentBtn');
+        if (proceedBtn) {
+          proceedBtn.addEventListener('click', async () => {
+            if (!selectedMethod || !selectedChannel) {
+              alert('Silakan pilih metode pembayaran terlebih dahulu.');
+              return;
+            }
+            
+            // Show loading
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+              loadingOverlay.classList.add('active');
+            }
+            
+            // Update formData with selected payment method
+            const paymentFormData = {
+              ...formData,
+              paymentMethod: selectedMethod,
+              paymentChannel: selectedChannel
+            };
+            
+            try {
+              // Call initiatePayment with selected method
+              if (typeof initiatePayment === 'function') {
+                await initiatePayment(paymentFormData, selectedMethod, selectedChannel);
+              } else {
+                throw new Error('initiatePayment function not found');
+              }
+            } catch (error) {
+              console.error('Payment error:', error);
+              alert('Terjadi kesalahan saat memproses pembayaran: ' + error.message);
+            } finally {
+              // Hide loading
+              if (loadingOverlay) {
+                loadingOverlay.classList.remove('active');
+              }
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
+

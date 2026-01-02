@@ -8,11 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../style.css" />
@@ -40,7 +36,7 @@
     </div>
     <header class="top-bar">
       <div class="top-bar__container">
-        <a href="../../index.html" class="logo">
+        <a href="index.html" class="logo">
           <img src="../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
           <span>Kontraktify</span>
         </a>
@@ -229,7 +225,6 @@
             </div>
           </div>
 
-          <a href="../../index.html#how-it-works" class="nav-link">Cara Kerja</a>
         </nav>
       </div>
     </header>
@@ -239,7 +234,7 @@
       <section class="product-detail-hero">
         <div class="container">
           <nav class="breadcrumb">
-            <a href="../../index.html">Home</a>
+            <a href="index.html">Templates</a>
             <span>/</span>
             <a href="index.html">Templates</a>
             <span>/</span>
@@ -381,9 +376,9 @@
                     <span>Panduan penggunaan</span>
                   </div>
                 </div>
-                <a href="forms/formsewamenyewa.html" class="btn btn--primary btn--full">
+                <button type="button" id="createDocumentBtn" class="btn btn--primary btn--full" data-form-url="forms/formsewamenyewa.html">
                   Buat Dokumen Sekarang
-                </a>
+                </button>
                 <p class="purchase-note">Setelah konfirmasi, dokumen akan dikirim langsung.</p>
               </div>
             </div>
@@ -682,7 +677,7 @@
           <div class="footer__column">
             <h4>Perusahaan</h4>
             <ul>
-              <li><a href="../../index.html">Tentang</a></li>
+              <li><a href="../../../index.html">Tentang</a></li>
               <li><a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">Kontak</a></li>
               <li><a href="#">Blog</a></li>
             </ul>
@@ -705,7 +700,236 @@
         </div>
       </div>
     </footer>
+    
+    <!-- Loading Screen Overlay -->
+    <div id="documentLoadingScreen" class="document-loading-screen" style="display: none;">
+      <div class="loading-content">
+        <div class="loading-logo">
+          <img src="../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo-image" />
+          <span class="logo-text">Kontraktify</span>
+        </div>
+        <div class="loading-progress">
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <div class="loading-info">
+            <p class="loading-text">Loading</p>
+            <p class="loading-percentage">0%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <script src="../../script.js" defer></script>
+    <script>
+      // Document Loading Screen Handler
+      (function() {
+        const createBtn = document.getElementById('createDocumentBtn');
+        const loadingScreen = document.getElementById('documentLoadingScreen');
+        const progressFill = loadingScreen?.querySelector('.progress-fill');
+        const loadingPercentage = loadingScreen?.querySelector('.loading-percentage');
+        const formUrl = createBtn?.getAttribute('data-form-url');
+        
+        if (!createBtn || !loadingScreen || !formUrl) return;
+        
+        createBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Show loading screen
+          loadingScreen.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+          
+          // Animate progress
+          let progress = 0;
+          const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress > 100) progress = 100;
+            
+            if (progressFill) {
+              progressFill.style.width = progress + '%';
+            }
+            if (loadingPercentage) {
+              loadingPercentage.textContent = Math.round(progress) + '%';
+            }
+            
+            if (progress >= 100) {
+              clearInterval(interval);
+              // Redirect after a short delay
+              setTimeout(() => {
+                window.location.href = formUrl;
+              }, 300);
+            }
+          }, 100);
+        });
+      })();
+    </script>
+    <style>
+        /* Header Override - Clean Full Width */
+        .top-bar {
+            top: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+            background: #fff;
+            border-bottom: 1px solid rgba(15, 15, 16, 0.08);
+        }
+        
+        .top-bar__container {
+            max-width: 100% !important;
+            border-radius: 0 !important;
+            background: #fff !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            padding: 16px 24px !important;
+            margin: 0 !important;
+        }
+        
+        .top-bar.is-scrolled .top-bar__container {
+            border-radius: 0 !important;
+            background: #fff !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(15, 15, 16, 0.08) !important;
+            padding: 12px 24px !important;
+        }
+        
+        body {
+            background: #fff;
+        }
+        
+        /* Hero Section Spacing Balance */
+        .product-detail-hero {
+            padding: 40px 0 40px !important;
+        }
+        
+        .product-detail-hero .container {
+            margin-top: 0;
+        }
+        
+        /* Document Preview Section - Remove spacing */
+        .document-preview {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Remove any spacing between hero and preview */
+        .product-detail-hero + .document-preview {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        /* Remove spacing from SEO article section */
+        .seo-article {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Remove spacing before seo-article */
+        .product-description + .seo-article {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        /* Document Loading Screen */
+        .document-loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', system-ui, sans-serif;
+        }
+        
+        .loading-content {
+            text-align: center;
+            width: 100%;
+            max-width: 360px;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 80px;
+        }
+        
+        .loading-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .loading-logo .logo-image {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+        
+        .loading-logo .logo-text {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+        
+        .loading-progress {
+            width: 100%;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: rgba(15, 15, 16, 0.08);
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 1px;
+            width: 0%;
+            transition: width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .loading-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        
+        .loading-text {
+            color: rgba(15, 15, 16, 0.5);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        
+        .loading-percentage {
+            color: var(--primary);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+    </style>
   </body>
 </html>
 

@@ -345,6 +345,103 @@ function collectFormData() {
   return data;
 }
 
+// Save progress to localStorage
+function saveProgressToLocalStorage() {
+  const formData = collectFormData();
+  const timestamp = Date.now();
+  const saveKey = `formsewamenyewa_progress_${timestamp}`;
+  
+  // Also save to a "latest" key for easy retrieval
+  const latestKey = 'formsewamenyewa_progress_latest';
+  
+  const saveData = {
+    data: formData,
+    timestamp: timestamp,
+    savedAt: new Date().toISOString()
+  };
+  
+  try {
+    localStorage.setItem(saveKey, JSON.stringify(saveData));
+    localStorage.setItem(latestKey, JSON.stringify(saveData));
+    
+    // Show save indicator
+    const indicator = document.getElementById('saveProgressIndicator');
+    if (indicator) {
+      indicator.style.display = 'flex';
+      setTimeout(() => {
+        indicator.style.opacity = '0';
+        setTimeout(() => {
+          indicator.style.display = 'none';
+          indicator.style.opacity = '1';
+        }, 300);
+      }, 2000);
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error saving progress:', error);
+    return false;
+  }
+}
+
+// Load progress from localStorage
+function loadProgressFromLocalStorage() {
+  const latestKey = 'formsewamenyewa_progress_latest';
+  
+  try {
+    const savedData = localStorage.getItem(latestKey);
+    if (!savedData) return false;
+    
+    const parsed = JSON.parse(savedData);
+    const formData = parsed.data;
+    
+    // Restore form fields
+    Object.keys(formData).forEach(key => {
+      const element = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
+      if (element) {
+        if (element.type === 'checkbox') {
+          element.checked = formData[key];
+        } else {
+          element.value = formData[key] || '';
+        }
+      }
+    });
+    
+    // Trigger change event for checkbox to show/hide conditional fields
+    const pembayaranBertahap = document.getElementById('pembayaran_bertahap');
+    if (pembayaranBertahap) {
+      pembayaranBertahap.dispatchEvent(new Event('change'));
+    }
+    
+    // Update preview and progress
+    generatePreview(formData);
+    updateProgress();
+    
+    return true;
+  } catch (error) {
+    console.error('Error loading progress:', error);
+    return false;
+  }
+}
+
+// Debounce function for auto-save
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Auto-save function (debounced)
+const autoSave = debounce(() => {
+  saveProgressToLocalStorage();
+}, 2000);
+
 // Update progress bar
 function updateProgress() {
   const form = document.getElementById('documentForm');
@@ -381,6 +478,85 @@ function updateProgress() {
   }
 }
 
+// Generate full document preview for preview view
+function generateFullDocumentPreview(formData) {
+  const fullPreview = document.getElementById('fullDocumentPreview');
+  if (!fullPreview) return;
+  
+  // Start with original template (before variable replacement)
+  let htmlContent = documentTemplate;
+  
+  // Extract body content only
+  const bodyMatch = htmlContent.match(/<body>([\s\S]*?)<\/body>/);
+  if (bodyMatch) {
+    htmlContent = bodyMatch[1];
+  }
+  
+  // Format dates for preview
+  const previewData = { ...formData };
+  if (previewData.tanggal_mulai) {
+    previewData.tanggal_mulai = formatDate(previewData.tanggal_mulai);
+  }
+  if (previewData.tanggal_akhir) {
+    previewData.tanggal_akhir = formatDate(previewData.tanggal_akhir);
+  }
+  if (previewData.batas_akhir_pelunasan) {
+    previewData.batas_akhir_pelunasan = formatDate(previewData.batas_akhir_pelunasan);
+  }
+  
+  // Handle conditional pembayaran bertahap
+  const conditionalContent = previewData.pembayaran_bertahap ? `
+        <li>Apabila disepakati pembayaran secara bertahap, maka:
+            <ol>
+                <li>Penyewa wajib membayar deposit awal sebesar Rp <strong>${previewData.nominal_deposit || '[nominal deposit]'}</strong> (<strong>${previewData.nominal_deposit_huruf || '[deposit huruf]'}</strong>) pada saat penandatanganan Perjanjian ini; dan</li>
+                <li>Sisa Harga Sewa dibayarkan dalam <strong>${previewData.jumlah_cicilan || '[jumlah cicilan]'}</strong> kali cicilan, masing-masing sebesar Rp <strong>${previewData.nominal_cicilan || '[nominal cicilan]'}</strong>, paling lambat setiap tanggal <strong>${previewData.tanggal_pembayaran || '[tanggal pembayaran]'}</strong>;</li>
+                <li>Seluruh Harga Sewa harus telah dibayar lunas paling lambat pada tanggal <strong>${previewData.batas_akhir_pelunasan || '[batas akhir pelunasan]'}</strong>.</li>
+            </ol>
+        </li>` : '';
+  
+  htmlContent = htmlContent.replace('{{CONDITIONAL_PEMBAYARAN_BERTAHAP}}', conditionalContent);
+  
+  // Replace variables: filled ones get blue highlight, empty ones get placeholder
+  Object.keys(variableMapping).forEach(key => {
+    const value = previewData[key];
+    const regex = new RegExp(`{{${key}}}`, 'g');
+    
+    if (value && value !== '') {
+      // Filled field - highlight in blue
+      htmlContent = htmlContent.replace(regex, `<span class="filled-field">${value}</span>`);
+    } else {
+      // Empty field - show placeholder
+      const fieldName = key.replace(/_/g, ' ');
+      htmlContent = htmlContent.replace(regex, `<span class="placeholder-field">[${fieldName}]</span>`);
+    }
+  });
+  
+  // Add blur to sections that don't require user input (Pasal 3-12 are standard legal clauses)
+  // Only Pasal 1 and 2 need user input, so we blur everything from Pasal 3 onwards
+  // Wrap each pasal section (3-12) with blurred div
+  for (let pasalNum = 3; pasalNum <= 12; pasalNum++) {
+    // Match from section title to next section title or signature table
+    const regex = new RegExp(
+      `(<div class="section-title">PASAL ${pasalNum}<br>[^<]*</div>)([\\s\\S]*?)(?=<div class="section-title">PASAL ${pasalNum + 1}|<table class="signature-table"|$)`,
+      'g'
+    );
+    
+    htmlContent = htmlContent.replace(regex, (match, title, content) => {
+      return `<div class="blurred-section">${title}${content}</div>`;
+    });
+  }
+  
+  // Also blur signature table
+  htmlContent = htmlContent.replace(
+    /(<table class="signature-table"[\s\S]*?<\/table>)/g,
+    '<div class="blurred-section">$1</div>'
+  );
+  
+  fullPreview.innerHTML = htmlContent;
+}
+
+// Preview view functions removed - now using separate page
+
 // Generate and download Word document
 function generateWordDocument(formData) {
   const fullHtml = replaceVariables(documentTemplate, formData);
@@ -399,6 +575,392 @@ function generateWordDocument(formData) {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+}
+
+// SHA256 and HMAC-SHA256 using Web Crypto API (native browser, no CSP issues)
+// This avoids CSP errors from crypto-js library
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function hmacSha256(message, key) {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(key);
+  const messageData = encoder.encode(message);
+  
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  
+  const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData);
+  const hashArray = Array.from(new Uint8Array(signature));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Clean function to remove special characters and null values
+// According to iPaymu docs: "Can be caused by illegal characters (like ` or special quotes) or sending data with null values"
+function cleanPaymentData(data) {
+  const cleaned = {};
+  
+  Object.keys(data).forEach(key => {
+    let value = data[key];
+    
+    // Skip null or undefined values
+    if (value === null || value === undefined) {
+      return;
+    }
+    
+    // Keep numbers as numbers (for amount field)
+    if (typeof value === 'number') {
+      cleaned[key] = value;
+      return;
+    }
+    
+    // Handle arrays
+    if (Array.isArray(value)) {
+      cleaned[key] = value.map(item => {
+        if (item === null || item === undefined) return '';
+        // Remove special characters that might interfere with signature
+        return String(item).replace(/[`'"]/g, '').trim();
+      });
+    } else {
+      // Remove special characters and ensure no null
+      cleaned[key] = String(value).replace(/[`'"]/g, '').trim();
+    }
+  });
+  
+  return cleaned;
+}
+
+// Show payment information on payment page
+function showPaymentInfo(paymentInfo) {
+  // Check if we're on payment page
+  if (!window.location.pathname.includes('payment-sewa-menyewa.html')) {
+    // If not on payment page, redirect to payment page with info
+    sessionStorage.setItem('paymentInfo', JSON.stringify(paymentInfo));
+    window.location.href = 'payment-sewa-menyewa.html?payment=success';
+    return;
+  }
+  
+  // Show payment info card
+  const paymentInfoCard = document.getElementById('paymentInfoCard');
+  const paymentInfoContent = document.getElementById('paymentInfoContent');
+  
+  if (paymentInfoCard && paymentInfoContent) {
+    let infoHTML = '';
+    
+    if (paymentInfo.paymentNo) {
+      infoHTML += `
+        <div class="payment-info-item">
+          <span class="payment-info-label">Nomor ${paymentInfo.method}:</span>
+          <span class="payment-info-value">${paymentInfo.paymentNo}</span>
+        </div>
+      `;
+    }
+    
+    infoHTML += `
+      <div class="payment-info-item">
+        <span class="payment-info-label">Jumlah:</span>
+        <span class="payment-info-value">Rp ${paymentInfo.amount.toLocaleString('id-ID')}</span>
+      </div>
+    `;
+    
+    if (paymentInfo.expired) {
+      infoHTML += `
+        <div class="payment-info-item">
+          <span class="payment-info-label">Batas Waktu:</span>
+          <span class="payment-info-value">${paymentInfo.expired}</span>
+        </div>
+      `;
+    }
+    
+    infoHTML += `
+      <div class="payment-info-item">
+        <span class="payment-info-label">Reference ID:</span>
+        <span class="payment-info-value">${paymentInfo.referenceId}</span>
+      </div>
+    `;
+    
+    paymentInfoContent.innerHTML = infoHTML;
+    paymentInfoCard.style.display = 'block';
+    
+    // Scroll to payment info
+    paymentInfoCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Hide payment method selection
+    const paymentMethods = document.querySelector('.payment-methods');
+    const proceedBtn = document.getElementById('proceedPaymentBtn');
+    if (paymentMethods) paymentMethods.style.display = 'none';
+    if (proceedBtn) proceedBtn.style.display = 'none';
+  }
+}
+
+// Generate signature for iPaymu API v2
+// According to iPaymu PHP sample: https://github.com/ipaymu/ipaymu-payment-v2-sample-php
+// Format: 
+// 1. requestBody = SHA256(jsonBody) (lowercase)
+// 2. stringToSign = "POST:va:requestBody:apiKey"
+// 3. signature = HMAC-SHA256(stringToSign, apiKey)
+async function generateIpaymuSignature(va, apiKey, bodyString, timestamp) {
+  try {
+    // Step 1: Hash body with SHA256 (lowercase)
+    const requestBody = await sha256(bodyString);
+    
+    // Step 2: Create string to sign: POST:va:requestBody:apiKey
+    const stringToSign = `POST:${va}:${requestBody}:${apiKey}`;
+    
+    // Step 3: Generate HMAC-SHA256 signature
+    const signature = await hmacSha256(stringToSign, apiKey);
+    
+    // Debug log - remove in production
+    console.log('=== iPaymu Signature Debug (v2) ===');
+    console.log('VA:', va);
+    console.log('API Key (first 10):', apiKey.substring(0, 10) + '...');
+    console.log('Body (JSON):', bodyString);
+    console.log('RequestBody (SHA256 of body):', requestBody);
+    console.log('String to sign:', stringToSign);
+    console.log('Signature (HMAC-SHA256):', signature);
+    console.log('Timestamp:', timestamp);
+    console.log('===================================');
+    
+    return signature;
+  } catch (error) {
+    console.error('Error generating signature:', error);
+    throw new Error('Crypto API not available. Please use a modern browser.');
+  }
+}
+
+// Initiate payment with iPaymu
+async function initiatePayment(formData, paymentMethod = null, paymentChannel = null) {
+  try {
+    // Use direct values to avoid conflict with payment.js
+    // These match the credentials from iPaymu dashboard
+    const IPAYMU_VA = '0000005776604685';
+    const IPAYMU_API_KEY = 'SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC';
+    const PRICE = 350000;
+    
+    // Get proper base URL (handle file:// protocol for local testing)
+    let baseUrl = window.location.origin;
+    if (baseUrl.startsWith('file://')) {
+      // For local testing, use a placeholder URL that iPaymu can redirect to
+      // In production, this should be your actual domain
+      baseUrl = 'https://kontraktify.com'; // Change to your actual domain
+    }
+    
+    // Clean pathname - remove local file paths
+    let cleanPath = window.location.pathname;
+    if (cleanPath.includes('/Users/') || cleanPath.includes('kontraktify/')) {
+      // Extract just the filename or use a simple path
+      cleanPath = cleanPath.split('/').pop() || '/tools/templates/forms/formsewamenyewa.html';
+    }
+    
+    // Generate unique reference ID
+    // iPaymu referenceId should be alphanumeric, max 50 characters
+    // Format: alphanumeric only, no special characters
+    const refTimestamp = Date.now();
+    const randomStr = Math.random().toString(36).substr(2, 9).toUpperCase();
+    const referenceId = `SEWA${refTimestamp}${randomStr}`.substring(0, 50); // Max 50 chars
+    
+    // Get timestamp for iPaymu (format: YYYYMMDDHHmmss)
+    const now = new Date();
+    const timestamp = now.getFullYear().toString() +
+      String(now.getMonth() + 1).padStart(2, '0') +
+      String(now.getDate()).padStart(2, '0') +
+      String(now.getHours()).padStart(2, '0') +
+      String(now.getMinutes()).padStart(2, '0') +
+      String(now.getSeconds()).padStart(2, '0');
+    
+    // Prepare request body for iPaymu API v2 (JSON format)
+    // According to iPaymu PHP sample: https://github.com/ipaymu/ipaymu-payment-v2-sample-php
+    // Format: name, phone, email, amount, notifyUrl, referenceId, paymentMethod, paymentChannel
+    // Note: For sandbox, some payment channels might not be available
+    const rawRequestBody = {
+      name: (formData.nama_penyewa || 'Customer').trim(),
+      phone: (formData.phone || '081234567890').trim(),
+      email: (formData.email || 'customer@example.com').trim(),
+      amount: PRICE, // Number, not string
+      notifyUrl: `${baseUrl}/api/payment/notify`,
+      referenceId: referenceId,
+      paymentMethod: 'va', // Virtual Account (more reliable in sandbox)
+      paymentChannel: 'bca' // BCA Virtual Account (commonly available in sandbox)
+    };
+    
+    // Clean the data - remove special characters and null values
+    // This is critical to avoid "unauthorized signature" error
+    const requestBody = cleanPaymentData(rawRequestBody);
+    
+    // Validate - ensure no null values
+    Object.keys(requestBody).forEach(key => {
+      if (requestBody[key] === null || requestBody[key] === undefined) {
+        throw new Error(`Parameter ${key} cannot be null or undefined`);
+      }
+    });
+    
+    // Store form data in sessionStorage for after payment
+    sessionStorage.setItem('pendingDocument', JSON.stringify({
+      formData: formData,
+      referenceId: referenceId,
+      timestamp: Date.now()
+    }));
+    
+    // Convert body to JSON string - must be same for signature and request
+    // According to iPaymu PHP sample, use JSON_UNESCAPED_SLASHES equivalent
+    // Sort parameters alphabetically for consistency
+    const sortedBody = {};
+    Object.keys(requestBody).sort().forEach(key => {
+      sortedBody[key] = requestBody[key];
+    });
+    // JSON.stringify with no escaped slashes (like JSON_UNESCAPED_SLASHES in PHP)
+    const bodyString = JSON.stringify(sortedBody).replace(/\\\//g, '/');
+    
+    // Generate signature using iPaymu v2 format (HMAC-SHA256, not MD5!)
+    const signature = await generateIpaymuSignature(IPAYMU_VA, IPAYMU_API_KEY, bodyString, timestamp);
+    
+    // Call iPaymu API (Sandbox)
+    const response = await fetch('https://sandbox.ipaymu.com/api/v2/payment/direct', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'va': IPAYMU_VA,
+        'signature': signature,
+        'timestamp': timestamp
+      },
+      body: bodyString // Use same sorted body for request
+    });
+    
+    const result = await response.json();
+    
+    // Debug: Log full response
+    console.log('iPaymu API Response:', result);
+    console.log('Response Data:', result.Data);
+    console.log('Data type:', typeof result.Data);
+    console.log('Data keys:', result.Data ? Object.keys(result.Data) : 'No Data');
+    console.log('ReferenceId used:', referenceId);
+    
+    // Check for success response
+    if (result.Status === 200 && result.Success === true) {
+      // Log all Data properties for debugging
+      if (result.Data) {
+        console.log('All Data properties:', Object.keys(result.Data));
+        Object.keys(result.Data).forEach(key => {
+          console.log(`  ${key}:`, result.Data[key], typeof result.Data[key]);
+        });
+      }
+      
+      // Check for payment URL in different possible locations
+      // iPaymu might return URL in different formats
+      const paymentUrl = result.Data?.Url || 
+                        result.Data?.url || 
+                        result.Data?.paymentUrl || 
+                        result.Data?.PaymentUrl ||
+                        result.Data?.SessionUrl ||
+                        result.Data?.redirectUrl ||
+                        result.Data?.RedirectUrl ||
+                        result.Url || 
+                        result.url;
+      
+      if (paymentUrl) {
+        // Redirect to iPaymu payment page
+        console.log('✅ Payment successful! Redirecting to:', paymentUrl);
+        window.location.href = paymentUrl;
+        return; // Exit function successfully
+      } else {
+        // If no URL but success, log the full response structure for debugging
+        console.warn('⚠️ Payment successful but no URL found.');
+        console.warn('Full response:', JSON.stringify(result, null, 2));
+        console.warn('Data keys:', result.Data ? Object.keys(result.Data) : 'No Data object');
+        console.warn('ReferenceId used:', referenceId);
+        
+        // iPaymu doesn't return payment URL for Virtual Account (VA) payments
+        // Instead, it returns Virtual Account number that user needs to pay
+        const paymentData = result.Data;
+        const paymentNo = paymentData?.PaymentNo || paymentData?.paymentNo;
+        const totalAmount = paymentData?.Total || paymentData?.total || PRICE;
+        const expired = paymentData?.Expired || paymentData?.expired;
+        const channel = paymentData?.Channel || paymentData?.channel || 'BCA';
+        const via = paymentData?.Via || paymentData?.via || 'VA';
+        
+        console.log('⚠️ No payment URL in response (VA payment)');
+        console.log('Payment Data:', paymentData);
+        
+        // Show payment information on payment page
+        showPaymentInfo({
+          method: via === 'VA' ? 'Virtual Account' : via,
+          channel: channel,
+          paymentNo: paymentNo,
+          amount: totalAmount,
+          expired: expired,
+          referenceId: referenceId
+        });
+        
+        console.log('Payment created successfully. User needs to pay to VA number:', paymentNo);
+        return;
+      }
+    } else {
+      // More detailed error message
+      const errorMsg = result.Keterangan || result.Message || result.Error || 'Payment initiation failed';
+      console.error('Payment failed:', result);
+      throw new Error(errorMsg);
+    }
+  } catch (error) {
+    console.error('Payment error:', error);
+    alert(`Terjadi kesalahan saat memproses pembayaran: ${error.message}\n\nSilakan coba lagi atau hubungi support jika masalah berlanjut.`);
+  }
+}
+
+// Download document after payment confirmation
+function downloadDocument(formData) {
+  if (!formData) {
+    // Try to get from sessionStorage
+    const pendingDoc = sessionStorage.getItem('pendingDocument');
+    if (pendingDoc) {
+      const parsed = JSON.parse(pendingDoc);
+      formData = parsed.formData;
+    }
+  }
+  
+  if (formData) {
+    generateWordDocument(formData);
+    // Clear sessionStorage after download
+    sessionStorage.removeItem('pendingDocument');
+  }
+}
+
+// Check payment status from URL parameters
+function checkPaymentStatus() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentStatus = urlParams.get('payment');
+  
+  if (paymentStatus === 'success') {
+    // Payment successful, enable download
+    const pendingDoc = sessionStorage.getItem('pendingDocument');
+    if (pendingDoc) {
+      const parsed = JSON.parse(pendingDoc);
+      const formData = parsed.formData;
+      
+      // Generate preview if on preview page
+      if (window.location.pathname.includes('preview-sewa-menyewa.html')) {
+        generateFullDocumentPreview(formData);
+        
+        // Enable download button
+        const payBtn = document.getElementById('payAndDownloadBtn');
+        if (payBtn) {
+          payBtn.textContent = 'Download Dokumen';
+          payBtn.onclick = () => downloadDocument(formData);
+        }
+      }
+    }
+  } else if (paymentStatus === 'cancel') {
+    // Payment cancelled
+    alert('Pembayaran dibatalkan. Anda dapat mencoba lagi nanti.');
+  }
 }
 
 // Initialize
@@ -462,11 +1024,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // Update preview and progress on input
+  // Update preview and progress on input (with auto-save)
   form.addEventListener('input', () => {
     const formData = collectFormData();
     generatePreview(formData);
     updateProgress();
+    autoSave(); // Auto-save on input
   });
   
   // Also update when checkbox changes
@@ -475,8 +1038,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = collectFormData();
       generatePreview(formData);
       updateProgress();
+      autoSave(); // Auto-save on checkbox change
     });
   }
+  
+  // Manual save button
+  const saveProgressBtn = document.getElementById('saveProgressBtn');
+  if (saveProgressBtn) {
+    saveProgressBtn.addEventListener('click', () => {
+      saveProgressToLocalStorage();
+    });
+  }
+  
+  // Load progress on page load
+  loadProgressFromLocalStorage();
   
   // Auto-scroll preview to corresponding section when field is focused
   const formFields = form.querySelectorAll('input, textarea, select');
@@ -534,7 +1109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // Handle form submission
+  // Handle form submission - show preview instead of download
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -561,17 +1136,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) success.style.display = 'block';
         if (loaderText) loaderText.textContent = 'Dokumen berhasil dibuat!';
         
-        // Generate document
-        generateWordDocument(formData);
+        // Save form data to sessionStorage for preview page
+        sessionStorage.setItem('previewDocumentData', JSON.stringify(formData));
         
-        // Hide loader after download
+        // Redirect to preview page after delay
         setTimeout(() => {
           if (loader) loader.style.display = 'none';
           if (generateBtn) generateBtn.disabled = false;
           if (spinner) spinner.style.display = 'block';
           if (success) success.style.display = 'none';
           if (loaderText) loaderText.textContent = 'Memproses dokumen Anda...';
-        }, 2000);
+          
+          // Redirect to preview page
+          window.location.href = 'preview-sewa-menyewa.html';
+        }, 1000);
       }, 1500);
       
     } catch (error) {
@@ -581,4 +1159,11 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Terjadi kesalahan saat membuat dokumen. Silakan coba lagi.');
     }
   });
+  
+  // Preview view buttons removed - now handled in preview-sewa-menyewa.html
+  
+  // Check payment status on page load (only for preview page)
+  if (window.location.pathname.includes('preview-sewa-menyewa.html')) {
+    checkPaymentStatus();
+  }
 });

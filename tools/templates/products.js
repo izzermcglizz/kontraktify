@@ -8,7 +8,7 @@ const templates = [
   { name: 'Perjanjian Keagenan', category: 'Kontrak Bisnis', color: 'purple', icon: 'agency', available: false },
   { name: 'Surat Penawaran Kerja Sama', category: 'Kontrak Bisnis', color: 'orange', icon: 'offerletter', available: false },
   { name: 'Perjanjian Rahasia Dagang (NDA)', category: 'Kontrak Bisnis', color: 'red', icon: 'nda', available: false },
-  { name: 'Perjanjian Waralaba (Tanpa Pendaftaran)', category: 'Kontrak Bisnis', color: 'teal', icon: 'franchise', available: true },
+  { name: 'Perjanjian Waralaba (Tanpa Pendaftaran)', category: 'Kontrak Bisnis', color: 'teal', icon: 'franchise', available: false },
   { name: 'Perjanjian Distribusi', category: 'Kontrak Bisnis', color: 'green', icon: 'distribution', available: false },
   { name: 'Perjanjian Jasa (Service Agreement)', category: 'Kontrak Bisnis', color: 'blue', icon: 'service', available: false },
   { name: 'Perjanjian Pembuatan Barang', category: 'Kontrak Bisnis', color: 'yellow', icon: 'manufacturing', available: false },

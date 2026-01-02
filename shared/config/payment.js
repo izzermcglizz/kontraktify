@@ -2,11 +2,11 @@
 
 // iPaymu Configuration
 // Get these from your iPaymu dashboard: https://my.ipaymu.com
-const IPAYMU_VA = 'YOUR_IPAYMU_VA_HERE'; // Virtual Account number
-const IPAYMU_API_KEY = 'YOUR_IPAYMU_API_KEY_HERE'; // API Key
+const IPAYMU_VA = '0000005776604685'; // Virtual Account number
+const IPAYMU_API_KEY = 'SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC'; // API Key (Sandbox)
 
 // Pricing
-const PRICE_PER_TEMPLATE = 50000; // Rp 50,000 per template
+const PRICE_PER_TEMPLATE = 350000; // Rp 350,000 per template
 const PRICE_PER_SIGN_DOCUMENT = 50000; // Rp 50,000 per e-signature document
 const PRICE_PER_COMPARE = 50000; // Rp 50,000 per document comparison
 

@@ -13,22 +13,49 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../style.css?v=14" />
+    <!-- CSP: Allow scripts from same origin and inline scripts (for development) -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+    />
     <meta
       name="description"
       content="Isi form untuk membuat Perjanjian Sewa Menyewa Tempat secara instan. Download dokumen Word siap pakai."
     />
   </head>
   <body>
-    <header class="top-bar">
-      <div class="top-bar__container">
-        <a href="../../index.html" class="logo">
-          <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
-          <span>Kontraktify</span>
-        </a>
-        <nav class="main-nav">
-          <a href="../../../index.html">Home</a>
-          <a href="../../index.html" class="nav-link-template">Templates</a>
-        </nav>
+    <header class="form-header-bar">
+      <div class="form-header-bar__container">
+        <div class="form-header-bar__left">
+          <a href="../index.html" class="form-header-bar__back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Kembali</span>
+          </a>
+          <a href="../index.html" class="form-header-bar__logo">
+            <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
+            <span>Kontraktify</span>
+          </a>
+        </div>
+        <div class="form-header-bar__right">
+          <div class="save-progress-indicator" id="saveProgressIndicator" style="display: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Progress Tersimpan</span>
+          </div>
+          <button type="button" class="btn btn--ghost btn--small" id="saveProgressBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            Simpan Progress
+          </button>
+        </div>
       </div>
     </header>
 
@@ -36,7 +63,7 @@
       <section class="form-hero">
         <div class="container">
           <nav class="breadcrumb">
-            <a href="../../index.html">Templates</a>
+            <a href="../index.html">Templates</a>
             <span>/</span>
             <a href="../perjanjian-sewa-menyewa-tempat.html">Perjanjian Sewa Menyewa Tempat</a>
             <span>/</span>
@@ -45,72 +72,20 @@
           
           <div class="form-header">
             <h1>Buat Perjanjian Sewa Menyewa Tempat</h1>
-            <div class="form-tutorial">
-              <h3>Cara Menggunakan</h3>
-              <div class="tutorial-steps">
-                <div class="tutorial-step">
-                  <div class="step-icon step-icon--yellow">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M9 11l3 3L22 4"></path>
-                      <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-                    </svg>
-                  </div>
-                  <h4>Pilih & Isi</h4>
-                  <p>Klik menu di kiri untuk membuka form dan isi informasi yang diperlukan</p>
-                </div>
-                
-                <div class="tutorial-connector">
-                  <div class="connector-dot connector-dot--yellow"></div>
-                  <div class="connector-line"></div>
-                  <div class="connector-dot connector-dot--red"></div>
-                </div>
-                
-                <div class="tutorial-step">
-                  <div class="step-icon step-icon--red">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                      <line x1="12" y1="18" x2="12" y2="12"></line>
-                      <line x1="9" y1="15" x2="15" y2="15"></line>
-                    </svg>
-                  </div>
-                  <h4>Preview Real-Time</h4>
-                  <p>Lihat dokumen terisi otomatis di panel kanan saat Anda mengetik</p>
-                </div>
-                
-                <div class="tutorial-connector">
-                  <div class="connector-dot connector-dot--red"></div>
-                  <div class="connector-line"></div>
-                  <div class="connector-dot connector-dot--gray"></div>
-                </div>
-                
-                <div class="tutorial-step">
-                  <div class="step-icon step-icon--gray">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
-                      <polyline points="7 10 12 15 17 10"></polyline>
-                      <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                  </div>
-                  <h4>Download Dokumen</h4>
-                  <p>Klik tombol download untuk mendapatkan file Word siap pakai</p>
-                </div>
-              </div>
-              
-              <div class="tutorial-note">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" y1="16" x2="12" y2="12"/>
-                  <line x1="12" y1="8" x2="12.01" y2="8"/>
-                </svg>
-                <span>Field yang belum diisi akan muncul sebagai placeholder di dokumen Word yang bisa Anda lengkapi sendiri nanti.</span>
-              </div>
+            <div class="form-info-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <span>Field yang belum diisi akan muncul sebagai placeholder di dokumen Word yang bisa Anda lengkapi sendiri nanti.</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="form-section">
+      <!-- Form View -->
+      <section class="form-section form-view" id="formView">
         <div class="container">
           <!-- Progress Bar -->
           <div class="form-progress-top">
@@ -493,7 +468,7 @@
                   </div>
 
                   <button type="submit" class="btn btn--primary btn--full" id="generateBtn">
-                    Generate & Download Dokumen
+                    Generate Dokumen
                   </button>
                 </form>
               </div>
@@ -511,6 +486,7 @@
           </div>
         </div>
       </section>
+
     </main>
 
     <!-- Loading Overlay -->
@@ -527,50 +503,437 @@
       </div>
     </div>
 
-    <footer class="site-footer">
-      <div class="footer__container">
-        <div class="footer__content">
-          <div class="footer__column footer__column--brand">
-            <h3>Kontraktify</h3>
-            <p class="footer__tagline">Hukum yang jelas, terstruktur, dan dapat diterapkan untuk bisnis nyata.</p>
-          </div>
-          
-          <div class="footer__column">
-            <h4>Produk</h4>
-            <ul>
-              <li><a href="../../index.html">Semua Template</a></li>
-              <li><a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">Layanan Custom</a></li>
-              <li><a href="../../index.html">Harga</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer__column">
-            <h4>Perusahaan</h4>
-            <ul>
-              <li><a href="../../../index.html">Tentang</a></li>
-              <li><a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">Kontak</a></li>
-              <li><a href="#">Blog</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer__column">
-            <h4>Legal</h4>
-            <ul>
-              <li><a href="#">Syarat & Ketentuan</a></li>
-              <li><a href="#">Kebijakan Privasi</a></li>
-              <li><a href="#">Kebijakan Refund</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="footer__divider"></div>
-        
-        <div class="footer__bottom">
-          <p>© 2024 Kontraktify oleh CV Cipta Kontrak Teknologi. Hak cipta dilindungi.</p>
-        </div>
-      </div>
-    </footer>
     <script src="../../../script.js" defer></script>
     <script src="formsewamenyewa.js"></script>
+    <style>
+      /* Form Header Bar Styling */
+      .form-header-bar {
+        background: #fff;
+        border-bottom: 1px solid rgba(15, 15, 16, 0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 0;
+      }
+      
+      .form-header-bar__container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 12px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+      }
+      
+      .form-header-bar__left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      
+      .form-header-bar__back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 8px 12px;
+        border-radius: 8px;
+        transition: background 0.2s ease;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .form-header-bar__back:hover {
+        background: rgba(15, 15, 16, 0.05);
+      }
+      
+      .form-header-bar__back svg {
+        width: 18px;
+        height: 18px;
+      }
+      
+      .form-header-bar__logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 1.125rem;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .form-header-bar__logo .logo__mark {
+        width: 32px;
+        height: 32px;
+      }
+      
+      .form-header-bar__right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      
+      .save-progress-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #10b981;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        padding: 6px 12px;
+        background: rgba(16, 185, 129, 0.1);
+        border-radius: 6px;
+        transition: opacity 0.3s ease;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .save-progress-indicator svg {
+        width: 14px;
+        height: 14px;
+      }
+      
+      .btn--small {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+      }
+      
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(15, 15, 16, 0.15);
+        color: var(--primary);
+      }
+      
+      .btn--ghost:hover {
+        background: rgba(15, 15, 16, 0.05);
+        border-color: rgba(15, 15, 16, 0.25);
+      }
+      
+      /* Preview View Styling - 2 Column Layout */
+      .preview-view {
+        min-height: calc(100vh - 60px);
+        background: #fafafa;
+      }
+      
+      .preview-view__layout {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        min-height: calc(100vh - 60px);
+      }
+      
+      /* Sidebar Left */
+      .preview-sidebar-left {
+        background: #fff;
+        border-right: 1px solid rgba(15, 15, 16, 0.08);
+        padding: 40px 32px;
+        overflow-y: auto;
+        position: sticky;
+        top: 60px;
+        height: calc(100vh - 60px);
+      }
+      
+      .preview-sidebar-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      
+      .preview-sidebar-title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgba(15, 15, 16, 0.6);
+        margin: 0 0 8px 0;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .preview-sidebar-heading {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 0 0 16px 0;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .preview-sidebar-description {
+        font-size: 0.9375rem;
+        color: rgba(15, 15, 16, 0.7);
+        line-height: 1.6;
+        margin: 0 0 32px 0;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .preview-package-info {
+        margin-bottom: 32px;
+        padding: 20px;
+        background: rgba(15, 15, 16, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(15, 15, 16, 0.08);
+      }
+      
+      .package-label {
+        font-size: 0.875rem;
+        color: rgba(15, 15, 16, 0.7);
+        margin: 0 0 12px 0;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .package-details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .package-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        color: var(--primary);
+        font-weight: 500;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .package-item svg {
+        color: #2563eb;
+        flex-shrink: 0;
+      }
+      
+      .package-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-top: 8px;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .preview-sidebar-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: auto;
+        margin-bottom: 24px;
+      }
+      
+      .btn--full {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .preview-privacy {
+        font-size: 0.75rem;
+        color: rgba(15, 15, 16, 0.5);
+        text-align: center;
+        margin: 0;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .preview-privacy a {
+        color: #2563eb;
+        text-decoration: underline;
+      }
+      
+      /* Preview Content Right */
+      .preview-content-right {
+        padding: 40px;
+        overflow-y: auto;
+        height: calc(100vh - 60px);
+      }
+      
+      .preview-document-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 48px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(15, 15, 16, 0.08);
+      }
+      
+      .preview-document-full {
+        line-height: 1.8;
+        color: var(--primary);
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .preview-document-full h1 {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 32px;
+        font-size: 1.5rem;
+      }
+      
+      .preview-document-full h3 {
+        text-align: center;
+        font-weight: 600;
+        margin: 32px 0 16px;
+        font-size: 1.125rem;
+      }
+      
+      .preview-document-full p {
+        text-align: justify;
+        margin: 16px 0;
+        font-size: 0.9375rem;
+      }
+      
+      .preview-document-full ol {
+        margin-left: 24px;
+        margin: 16px 0 16px 24px;
+      }
+      
+      .preview-document-full ol ol {
+        list-style-type: lower-alpha;
+        margin-left: 24px;
+      }
+      
+      .preview-document-full li {
+        margin: 12px 0;
+        font-size: 0.9375rem;
+      }
+      
+      /* Filled field - blue highlight */
+      .preview-document-full .filled-field {
+        background: #dbeafe;
+        color: #1e40af;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+        border: 1px solid #93c5fd;
+      }
+      
+      /* Placeholder field */
+      .preview-document-full .placeholder-field {
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: #666;
+        font-style: italic;
+      }
+      
+      /* Blurred section */
+      .preview-document-full .blurred-section {
+        filter: blur(4px);
+        user-select: none;
+        pointer-events: none;
+        opacity: 0.4;
+        position: relative;
+      }
+      
+      .preview-document-full .blurred-section::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.3);
+      }
+      
+      .btn--primary {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+      }
+      
+      .btn--primary:hover {
+        background: rgba(15, 15, 16, 0.9);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(15, 15, 16, 0.15);
+      }
+      
+      @media (max-width: 1024px) {
+        .preview-view__layout {
+          grid-template-columns: 1fr;
+        }
+        
+        .preview-sidebar-left {
+          position: relative;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid rgba(15, 15, 16, 0.08);
+        }
+        
+        .preview-content-right {
+          height: auto;
+        }
+      }
+      
+      /* Form Header Styling */
+      .form-header {
+        margin-bottom: 32px;
+      }
+      
+      .form-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: var(--primary);
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .form-info-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: rgba(59, 130, 246, 0.08);
+        border-radius: 8px;
+        border: 1px solid rgba(59, 130, 246, 0.15);
+        font-size: 0.8125rem;
+        color: rgba(15, 15, 16, 0.7);
+        line-height: 1.5;
+        font-family: 'Manrope', sans-serif;
+      }
+      
+      .form-info-note svg {
+        width: 16px;
+        height: 16px;
+        color: #3b82f6;
+        flex-shrink: 0;
+      }
+      
+      .form-info-note span {
+        color: rgba(15, 15, 16, 0.7);
+      }
+      
+      @media (max-width: 768px) {
+        .form-header-bar__container {
+          padding: 12px 16px;
+          flex-wrap: wrap;
+        }
+        
+        .form-header-bar__left {
+          flex: 1;
+          min-width: 0;
+        }
+        
+        .form-header-bar__back span {
+          display: none;
+        }
+        
+        .preview-view__content {
+          padding: 24px;
+        }
+        
+        .preview-view__header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        
+        .tutorial-steps {
+          flex-direction: column;
+          gap: 16px;
+        }
+        
+        .tutorial-connector {
+          display: none;
+        }
+        
+        .tutorial-step {
+          flex-direction: row;
+          text-align: left;
+          align-items: flex-start;
+        }
+      }
+    </style>
   </body>
 </html>
