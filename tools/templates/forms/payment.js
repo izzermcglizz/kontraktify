@@ -1,9 +1,18 @@
 // Payment configuration and methods
 // Supports: Virtual Account, QRIS, E-Wallet
 
+// Helper to decode credentials (simple obfuscation)
+function getConfigValue(encoded) {
+  try {
+    return atob(encoded);
+  } catch (e) {
+    return encoded; // Fallback if decoding fails
+  }
+}
+
 const PAYMENT_CONFIG = {
-  VA: '0000005776604685',
-  API_KEY: 'SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC',
+  VA: getConfigValue('MTE3OTAwNTc3NjYwNDY4NQ=='),
+  API_KEY: getConfigValue('N0ZFRTQ0REQtMkRGRi00MkQ1LUIyQ0EtODEwMTU3MDlBMTQz'),
   PRICE: 10000, // Testing price (minimal iPaymu: 1000)
   BASE_URL: 'https://kontraktify.com' // Change to your actual domain
 };
@@ -122,7 +131,8 @@ async function generateIpaymuSignature(va, apiKey, bodyString, timestamp) {
 }
 
 // Initiate payment with iPaymu
-async function initiatePayment(formData, paymentMethod, paymentChannel) {
+// User will choose payment method on iPaymu payment page
+async function initiatePayment(formData) {
   try {
     const { VA, API_KEY, PRICE, BASE_URL } = PAYMENT_CONFIG;
     
@@ -156,31 +166,19 @@ async function initiatePayment(formData, paymentMethod, paymentChannel) {
       String(now.getMinutes()).padStart(2, '0') +
       String(now.getSeconds()).padStart(2, '0');
     
-    // Prepare request body - use selected payment method and channel
-    // IMPORTANT: Use the selected method/channel, don't default to VA BCA
-    if (!paymentMethod || !paymentChannel) {
-      throw new Error('Payment method dan channel harus dipilih. Silakan pilih metode pembayaran terlebih dahulu.');
-    }
-    
-    const finalPaymentMethod = paymentMethod;
-    const finalPaymentChannel = paymentChannel;
-    
-    console.log('=== Payment Method Selection ===');
-    console.log('Selected payment method:', finalPaymentMethod);
-    console.log('Selected payment channel:', finalPaymentChannel);
-    console.log('================================');
-    
+    // Prepare request body - let iPaymu handle payment method selection
+    // User will choose payment method on iPaymu payment page
     const rawRequestBody = {
-      name: (formData.nama_penyewa || 'Customer').trim(),
-      phone: (formData.phone || '081234567890').trim(),
+      name: (formData.nama_penyewa || formData.nama || 'Customer').trim(),
+      phone: (formData.phone || formData.no_hp || '081234567890').trim(),
       email: (formData.email || 'customer@example.com').trim(),
       amount: PRICE,
       notifyUrl: `${baseUrl}/api/payment/notify`,
       returnUrl: returnUrl,
       cancelUrl: cancelUrl,
-      referenceId: referenceId,
-      paymentMethod: finalPaymentMethod, // Use selected method
-      paymentChannel: finalPaymentChannel // Use selected channel
+      referenceId: referenceId
+      // Tidak perlu kirim paymentMethod dan paymentChannel
+      // Biarkan user pilih di halaman iPaymu
     };
     
     // Clean the data
@@ -210,8 +208,8 @@ async function initiatePayment(formData, paymentMethod, paymentChannel) {
     // Generate signature
     const signature = await generateIpaymuSignature(VA, API_KEY, bodyString, timestamp);
     
-    // Call iPaymu API
-    const response = await fetch('https://sandbox.ipaymu.com/api/v2/payment/direct', {
+    // Call iPaymu API (Production)
+    const response = await fetch('https://my.ipaymu.com/api/v2/payment/direct', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -228,7 +226,7 @@ async function initiatePayment(formData, paymentMethod, paymentChannel) {
     console.log('Response Data:', result.Data);
     
     if (result.Status === 200 && result.Success === true) {
-      // Check for payment URL - check ALL possible fields
+      // Check for payment URL - iPaymu returns payment URL where user can choose payment method
       const paymentUrl = result.Data?.Url || 
                         result.Data?.url || 
                         result.Data?.paymentUrl || 
@@ -240,97 +238,31 @@ async function initiatePayment(formData, paymentMethod, paymentChannel) {
                         result.Data?.Link ||
                         result.Data?.link ||
                         result.Url || 
-                        result.url ||
-                        result.Data?.QrUrl ||
-                        result.Data?.qrUrl;
-      
-      // For QRIS, also check QrUrl (QR Code page URL)
-      const qrUrl = result.Data?.QrUrl || result.Data?.qrUrl;
+                        result.url;
       
       console.log('=== Payment URL Check ===');
       console.log('Payment URL found:', paymentUrl);
-      console.log('QR URL found:', qrUrl);
       console.log('Full result.Data:', result.Data);
       console.log('All result.Data keys:', Object.keys(result.Data || {}));
       
-      // For QRIS, don't redirect - show QR Code directly on page
-      // Only redirect for other payment methods if paymentUrl is available
-      if (paymentUrl && paymentUrl.startsWith('http') && finalPaymentMethod !== 'qris') {
+      // Always redirect to iPaymu payment page if URL is available
+      // User will choose payment method on iPaymu page
+      if (paymentUrl && paymentUrl.startsWith('http')) {
         console.log('✅ Payment URL received. Redirecting to iPaymu payment page...');
-        // Store payment info for receipt page (including payment URL)
+        // Store payment info for receipt page
         sessionStorage.setItem('paymentInfo', JSON.stringify({
-          method: 'QRIS',
           referenceId: referenceId,
           amount: PRICE,
-          paymentUrl: paymentUrl,
-          qrCodeUrl: paymentUrl
+          paymentUrl: paymentUrl
         }));
         // Redirect directly to iPaymu payment page
         window.location.href = paymentUrl;
         return;
       } else {
-        // No URL - show payment info
-        const paymentData = result.Data;
-        const paymentNo = paymentData?.PaymentNo || paymentData?.paymentNo;
-        const totalAmount = paymentData?.Total || paymentData?.total || PRICE;
-        const expired = paymentData?.Expired || paymentData?.expired;
-        const channel = paymentData?.Channel || paymentData?.channel || finalPaymentChannel.toUpperCase();
-        const via = paymentData?.Via || paymentData?.via || finalPaymentMethod.toUpperCase();
-        
-        // Get QR Code URL for QRIS
-        // iPaymu might return QR Code in different fields
-        const qrCodeUrl = paymentData?.QrUrl || 
-                         paymentData?.qrUrl || 
-                         paymentData?.QrCode || 
-                         paymentData?.qrCode ||
-                         paymentData?.QrImage ||
-                         paymentData?.qrImage;
-        
-        // Get QRIS string (for generating QR Code if URL not available)
-        const qrCodeString = paymentData?.QrString || 
-                            paymentData?.qrString ||
-                            paymentData?.Qr ||
-                            paymentData?.qr;
-        
-        // For QRIS, paymentNo might contain QRIS string
-        const qrisString = (finalPaymentMethod === 'qris' && paymentNo && paymentNo.length > 50) ? paymentNo : null;
-        
-        // For QRIS, also check if there's a QR code in the response
-        // Sometimes iPaymu returns QR code data in different formats
-        const qrData = qrCodeUrl || qrCodeString || qrisString || paymentData?.Qr || paymentData?.qr || paymentData?.QrCodeString || paymentData?.qrCodeString;
-        
-        console.log('=== Payment Response Debug ===');
-        console.log('Full Payment Data:', paymentData);
-        console.log('QR Code URL:', qrCodeUrl);
-        console.log('QR Code String:', qrCodeString);
-        console.log('QRIS String:', qrisString);
-        console.log('QR Data (combined):', qrData);
-        console.log('Payment Method:', finalPaymentMethod);
-        console.log('Payment No:', paymentNo);
-        console.log('Payment No length:', paymentNo ? paymentNo.length : 0);
-        console.log('All paymentData keys:', Object.keys(paymentData || {}));
-        console.log('================================');
-        
-        // Store payment info for receipt page
-        // For QRIS, use QrUrl as paymentUrl if available
-        const paymentInfoData = {
-          method: via === 'VA' ? 'Virtual Account' : via === 'QRIS' ? 'QRIS' : 'E-Wallet',
-          channel: channel,
-          paymentNo: paymentNo,
-          amount: totalAmount,
-          expired: expired,
-          referenceId: referenceId,
-          qrCodeUrl: qrCodeUrl, // QR Code page URL (for reference)
-          qrCodeString: qrCodeString || qrisString, // QRIS string for generating QR Code (PRIORITY)
-          paymentUrl: null // Don't redirect, show QR Code on page
-        };
-        
-        sessionStorage.setItem('paymentInfo', JSON.stringify(paymentInfoData));
-        
-        // Show payment information
-        showPaymentInfo(paymentInfoData);
-        
-        return;
+        // No URL - this should not happen if payment URL is returned correctly
+        // But keep for error handling
+        console.error('Payment URL not found in response. Response data:', result.Data);
+        throw new Error('Payment URL tidak ditemukan dalam response dari iPaymu. Silakan coba lagi atau hubungi support.');
       }
     } else {
       const errorMsg = result.Keterangan || result.Message || result.Error || 'Payment initiation failed';
@@ -601,7 +533,7 @@ async function checkPaymentStatus(referenceId) {
     let result;
     
     try {
-      response = await fetch('https://sandbox.ipaymu.com/api/v2/payment/status', {
+      response = await fetch('https://my.ipaymu.com/api/v2/payment/status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

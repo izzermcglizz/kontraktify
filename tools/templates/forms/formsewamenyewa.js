@@ -744,7 +744,7 @@ async function initiatePayment(formData, paymentMethod = null, paymentChannel = 
     // These match the credentials from iPaymu dashboard
     const IPAYMU_VA = '0000005776604685';
     const IPAYMU_API_KEY = 'SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC';
-    const PRICE = 350000;
+    const PRICE = 10000;
     
     // Get proper base URL (handle file:// protocol for local testing)
     let baseUrl = window.location.origin;
@@ -780,7 +780,10 @@ async function initiatePayment(formData, paymentMethod = null, paymentChannel = 
     // Prepare request body for iPaymu API v2 (JSON format)
     // According to iPaymu PHP sample: https://github.com/ipaymu/ipaymu-payment-v2-sample-php
     // Format: name, phone, email, amount, notifyUrl, referenceId, paymentMethod, paymentChannel
-    // Note: For sandbox, some payment channels might not be available
+    // Use paymentMethod and paymentChannel from parameters if provided, otherwise use defaults
+    const defaultPaymentMethod = paymentMethod || 'qris'; // Default to QRIS for easier payment
+    const defaultPaymentChannel = paymentChannel || 'qris'; // Default to QRIS
+    
     const rawRequestBody = {
       name: (formData.nama_penyewa || 'Customer').trim(),
       phone: (formData.phone || '081234567890').trim(),
@@ -788,8 +791,8 @@ async function initiatePayment(formData, paymentMethod = null, paymentChannel = 
       amount: PRICE, // Number, not string
       notifyUrl: `${baseUrl}/api/payment/notify`,
       referenceId: referenceId,
-      paymentMethod: 'va', // Virtual Account (more reliable in sandbox)
-      paymentChannel: 'bca' // BCA Virtual Account (commonly available in sandbox)
+      paymentMethod: defaultPaymentMethod,
+      paymentChannel: defaultPaymentChannel
     };
     
     // Clean the data - remove special characters and null values

@@ -8,17 +8,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../style.css" />
     <style>
         body {
             background: #fff;
+            font-family: 'Poppins', system-ui, sans-serif;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+            border-color: rgba(15, 15, 16, 0.12);
+        }
+        
+        @media (max-width: 768px) {
+            section[style*="padding: 80px 0"] {
+                padding: 48px 0 !important;
+            }
+            
+            section[style*="padding: 100px 0"] {
+                padding: 64px 0 !important;
+            }
         }
     </style>
 </head>
@@ -110,8 +123,8 @@
             </div>
           </div>
 
-          <!-- Alat Hukum Dropdown -->
-          <div class="nav-dropdown">
+          <!-- Alat Hukum Dropdown - Hidden for now -->
+          <div class="nav-dropdown" style="display: none;">
             <a href="#" class="nav-link nav-link--dropdown">
               Alat Hukum
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
@@ -211,10 +224,65 @@
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </a>
+              <div class="dropdown-divider"></div>
+              <a href="index.html" class="dropdown-item dropdown-item--all">
+                <span>Lihat Semua Bantuan Hukum</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
             </div>
           </div>
 
-          <a href="../index.html#how-it-works" class="nav-link">Cara Kerja</a>
+          <!-- Search Icon -->
+          <a href="../tools/templates/index.html" class="nav-link" style="display: flex; align-items: center; padding: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </a>
+
+          <!-- Support Dropdown -->
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link nav-link--dropdown">
+              Support
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <div class="dropdown-menu">
+              <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Hubungi Kami</div>
+                  <div class="dropdown-item-desc">Chat dengan tim support kami via WhatsApp</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+              <a href="konsultasi-dokumen.html" class="dropdown-item">
+                <div class="dropdown-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">FAQ</div>
+                  <div class="dropdown-item-desc">Pertanyaan yang sering diajukan</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
         </nav>
       </div>
     </header>
@@ -223,31 +291,73 @@
       <section style="padding: 80px 0 100px; background: #fff; width: 100%;">
         <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
           <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-            <!-- Banner -->
-            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--bg-light); border-radius: 50px; margin-bottom: 32px; border: 1px solid rgba(17, 17, 19, 0.08);">
-              <span style="font-size: 0.75rem; font-weight: 600; color: var(--primary);">Layanan Profesional</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">Bekerja sama dengan lawyer berpengalaman</span>
+            <!-- Trust Badges -->
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
+              <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(15, 15, 16, 0.05); border-radius: 50px; border: 1px solid rgba(15, 15, 16, 0.1);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
+                  <path d="M9 11l3 3L22 4"/>
+                  <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                </svg>
+                <span style="font-size: 0.6875rem; font-weight: 400; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">500+ Perusahaan Didirikan</span>
+              </div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(15, 15, 16, 0.05); border-radius: 50px; border: 1px solid rgba(15, 15, 16, 0.1);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span style="font-size: 0.6875rem; font-weight: 400; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">98% Success Rate</span>
+              </div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(15, 15, 16, 0.05); border-radius: 50px; border: 1px solid rgba(15, 15, 16, 0.1);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span style="font-size: 0.6875rem; font-weight: 400; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Rata-rata 14 Hari Selesai</span>
+              </div>
             </div>
 
             <!-- Headline -->
-            <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 24px; color: var(--primary); letter-spacing: -0.02em;">
-              Kontraktify <span style="display: inline-block; padding: 4px 16px; background: var(--bg-light); border-radius: 50px; border: 1px solid rgba(17, 17, 19, 0.08);">Legal Aid</span>
+            <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; line-height: 1.2; margin-bottom: 20px; color: var(--primary); letter-spacing: -0.01em; font-family: 'Poppins', system-ui, sans-serif;">
+              Dari Ide ke Perusahaan Legal dalam <span style="color: var(--primary); font-weight: 600;">2 Minggu</span>
             </h1>
             
             <!-- Description -->
-            <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto;">
-              Dapatkan bantuan hukum profesional dari lawyer berpengalaman untuk kebutuhan bisnis Anda. Dari pembentukan perusahaan hingga pendaftaran merek, kami siap membantu.
+            <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; max-width: 700px; margin-left: auto; margin-right: auto; font-family: 'Poppins', system-ui, sans-serif;">
+              Dapatkan pendampingan lawyer berpengalaman untuk mendirikan perusahaan, mendaftarkan merek, atau mengurus dokumen hukum bisnis Anda. Hemat waktu dan biaya, hindari kesalahan mahal.
             </p>
 
+            <!-- Value Props -->
+            <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span style="font-size: 0.875rem; color: var(--text-muted); font-family: 'Poppins', system-ui, sans-serif;">Pendampingan Full Service</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span style="font-size: 0.875rem; color: var(--text-muted); font-family: 'Poppins', system-ui, sans-serif;">Proses Cepat & Terjamin</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span style="font-size: 0.875rem; color: var(--text-muted); font-family: 'Poppins', system-ui, sans-serif;">Transparan & Terjangkau</span>
+              </div>
+            </div>
+
             <!-- CTAs -->
-            <div style="display: flex; gap: 16px; margin-bottom: 48px; justify-content: center; flex-wrap: wrap;">
-              <a class="btn btn--primary" href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" style="font-size: 16px; padding: 16px 32px; display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: #fff; border: none;">
+            <div style="display: flex; gap: 16px; margin-bottom: 64px; justify-content: center; flex-wrap: wrap;">
+              <a class="btn btn--primary" href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" style="font-size: 16px; padding: 18px 40px; display: inline-flex; align-items: center; gap: 12px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(15, 15, 16, 0.1); font-family: 'Poppins', system-ui, sans-serif;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                 </svg>
-                Konsultasi Sekarang
+                <span>Konsultasi Gratis 30 Menit</span>
               </a>
-              <a class="btn btn--ghost" href="../tools/templates/index.html" style="font-size: 16px; padding: 16px 32px; display: inline-flex; align-items: center; gap: 8px;">
+              <a class="btn btn--ghost" href="../tools/templates/index.html" style="font-size: 16px; padding: 18px 32px; display: inline-flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
@@ -259,23 +369,78 @@
         </div>
       </section>
 
-      <!-- Services Section -->
+      <!-- How It Works Section -->
       <section style="padding: 80px 0; background: var(--bg-light); width: 100%;">
         <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
           <div style="max-width: 1200px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 64px;">
-              <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Layanan Kami</div>
-              <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; color: var(--primary); line-height: 1.2;">
+              <div style="font-size: 0.75rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Cara Kerja</div>
+              <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
+                Proses Sederhana, Hasil Terjamin
+              </h2>
+              <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
+                Dari konsultasi hingga dokumen siap, semua dilakukan dengan pendampingan lawyer profesional
+              </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto;">
+              <!-- Step 1 -->
+              <div style="text-align: center;">
+                <div style="width: 72px; height: 72px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #fff; font-size: 1.5rem; font-weight: 600; font-family: 'Poppins', system-ui, sans-serif;">1</div>
+                <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Konsultasi Gratis</h3>
+                <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
+                  Diskusikan kebutuhan Anda dengan lawyer melalui WhatsApp. Dapatkan rekomendasi solusi terbaik.
+                </p>
+              </div>
+
+              <!-- Step 2 -->
+              <div style="text-align: center;">
+                <div style="width: 72px; height: 72px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #fff; font-size: 1.5rem; font-weight: 600; font-family: 'Poppins', system-ui, sans-serif;">2</div>
+                <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Persiapan Dokumen</h3>
+                <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
+                  Lawyer kami menyiapkan semua dokumen yang diperlukan sesuai kebutuhan spesifik bisnis Anda.
+                </p>
+              </div>
+
+              <!-- Step 3 -->
+              <div style="text-align: center;">
+                <div style="width: 72px; height: 72px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #fff; font-size: 1.5rem; font-weight: 600; font-family: 'Poppins', system-ui, sans-serif;">3</div>
+                <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Pengurusan & Follow-up</h3>
+                <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
+                  Kami mengurus semua proses perizinan dan memberikan update progress secara berkala.
+                </p>
+              </div>
+
+              <!-- Step 4 -->
+              <div style="text-align: center;">
+                <div style="width: 72px; height: 72px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #fff; font-size: 1.5rem; font-weight: 600; font-family: 'Poppins', system-ui, sans-serif;">4</div>
+                <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Selesai & Siap Pakai</h3>
+                <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
+                  Dokumen legalitas Anda siap! Dapatkan semua dokumen resmi dan panduan penggunaan.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section style="padding: 80px 0; background: #fff; width: 100%;">
+        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 64px;">
+              <div style="font-size: 0.75rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Layanan Kami</div>
+              <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
                 Layanan Hukum Profesional
               </h2>
-              <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.6;">
-                Tim lawyer berpengalaman siap membantu kebutuhan hukum bisnis Anda
+              <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
+                Tim lawyer berpengalaman siap membantu kebutuhan hukum bisnis Anda dengan proses yang cepat dan terjamin
               </p>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
               <!-- Service 1: Pembentukan Perusahaan -->
-              <a href="pembentukan-perusahaan.html" class="service-card" style="text-decoration: none; color: inherit;">
+              <a href="pembentukan-perusahaan.html" class="service-card" style="text-decoration: none; color: inherit; background: #fff; border-radius: 16px; padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; display: block; height: 100%;">
                 <div style="width: 64px; height: 64px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -283,31 +448,34 @@
                     <line x1="9" y1="21" x2="9" y2="9"></line>
                   </svg>
                 </div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Pembentukan Perusahaan</h3>
-                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                  Pendampingan lengkap untuk pendirian PT, CV, atau bentuk badan usaha lainnya. Dari persiapan dokumen hingga pengurusan perizinan.
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                  <h3 style="font-size: 1.5rem; font-weight: 600; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Pembentukan Perusahaan</h3>
+                  <span style="font-size: 0.75rem; font-weight: 500; color: var(--primary); background: rgba(15, 15, 16, 0.05); padding: 4px 10px; border-radius: 20px; font-family: 'Poppins', system-ui, sans-serif;">Mulai dari Rp 15jt</span>
+                </div>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Poppins', system-ui, sans-serif;">
+                  Pendampingan lengkap dengan konsultasi hukum dan partner notaris untuk pendirian PT, PT PMA, CV, Firma, Koperasi. Semua proses ditangani profesional dari awal hingga selesai.
                 </p>
                 <ul style="list-style: none; padding: 0; margin-bottom: 24px;">
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
-                    Pendirian PT (Perseroan Terbatas)
+                    PT, PT PMA, CV, Firma, Koperasi
                   </li>
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
-                    Pendirian CV (Commanditaire Vennootschap)
+                    Konsultasi hukum dengan lawyer
                   </li>
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
-                    Pengurusan perizinan dan legalitas
+                    Via partner notaris terpercaya
                   </li>
                 </ul>
-                <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.875rem;">
+                <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.875rem; font-family: 'Poppins', system-ui, sans-serif;">
                   <span>Pelajari lebih lanjut</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -316,39 +484,41 @@
               </a>
 
               <!-- Service 2: Pendaftaran Merek -->
-              <a href="pendaftaran-merek.html" class="service-card" style="text-decoration: none; color: inherit;">
+              <a href="pendaftaran-merek.html" class="service-card" style="text-decoration: none; color: inherit; background: #fff; border-radius: 16px; padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; display: block; height: 100%;">
                 <div style="width: 64px; height: 64px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                    <path d="M2 17l10 5 10-5"></path>
-                    <path d="M2 12l10 5 10-5"></path>
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
                   </svg>
                 </div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Pendaftaran Merek</h3>
-                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                  Layanan pendaftaran merek dagang dengan pendampingan lawyer untuk memastikan proses berjalan lancar dan terhindar dari penolakan.
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                  <h3 style="font-size: 1.5rem; font-weight: 600; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Pendaftaran Merek</h3>
+                  <span style="font-size: 0.75rem; font-weight: 500; color: var(--primary); background: rgba(15, 15, 16, 0.05); padding: 4px 10px; border-radius: 20px; font-family: 'Poppins', system-ui, sans-serif;">Mulai dari Rp 3jt</span>
+                </div>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Poppins', system-ui, sans-serif;">
+                  Layanan pendaftaran merek dagang dengan pendampingan lawyer untuk memastikan proses berjalan lancar dan terhindar dari penolakan yang bisa merugikan.
                 </p>
                 <ul style="list-style: none; padding: 0; margin-bottom: 24px;">
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     Konsultasi kelayakan merek
                   </li>
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     Pengurusan dokumen pendaftaran
                   </li>
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     Pendampingan hingga sertifikat diterbitkan
                   </li>
                 </ul>
-                <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.875rem;">
+                <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.875rem; font-family: 'Poppins', system-ui, sans-serif;">
                   <span>Pelajari lebih lanjut</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -357,41 +527,43 @@
               </a>
 
               <!-- Service 3: Konsultasi Dokumen -->
-              <a href="konsultasi-dokumen.html" class="service-card" style="text-decoration: none; color: inherit;">
+              <a href="konsultasi-dokumen.html" class="service-card" style="text-decoration: none; color: inherit; background: #fff; border-radius: 16px; padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; display: block; height: 100%;">
                 <div style="width: 64px; height: 64px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
                     <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
                   </svg>
                 </div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--primary);">Konsultasi Dokumen</h3>
-                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                  Review dan konsultasi dokumen hukum dengan lawyer untuk memastikan dokumen Anda sesuai dengan peraturan yang berlaku.
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                  <h3 style="font-size: 1.5rem; font-weight: 600; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Konsultasi Dokumen</h3>
+                  <span style="font-size: 0.75rem; font-weight: 500; color: var(--primary); background: rgba(15, 15, 16, 0.05); padding: 4px 10px; border-radius: 20px; font-family: 'Poppins', system-ui, sans-serif;">Mulai dari Rp 1jt</span>
+                </div>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Poppins', system-ui, sans-serif;">
+                  Review dan konsultasi dokumen hukum dengan lawyer untuk memastikan dokumen Anda sesuai dengan peraturan yang berlaku dan bebas dari risiko hukum.
                 </p>
                 <ul style="list-style: none; padding: 0; margin-bottom: 24px;">
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     Review kontrak dan perjanjian
                   </li>
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     Analisis risiko hukum
                   </li>
-                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                  <li style="padding: 8px 0; color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', system-ui, sans-serif;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); flex-shrink: 0;">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                     Revisi dan perbaikan dokumen
                   </li>
                 </ul>
-                <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.875rem;">
+                <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 600; font-size: 0.875rem; font-family: 'Poppins', system-ui, sans-serif;">
                   <span>Pelajari lebih lanjut</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -403,22 +575,142 @@
         </div>
       </section>
 
+      <!-- FAQ Section -->
+      <section style="padding: 80px 0; background: var(--bg-light); width: 100%;">
+        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+          <div style="max-width: 800px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 64px;">
+              <div style="font-size: 0.75rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Pertanyaan Umum</div>
+              <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
+                Masih Ada Pertanyaan?
+              </h2>
+              <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
+                Temukan jawaban untuk pertanyaan yang paling sering diajukan
+              </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="background: #fff; border-radius: 12px; padding: 24px; border: 1px solid rgba(15, 15, 16, 0.08);">
+                <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Berapa lama proses pendirian perusahaan?</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin: 0; font-family: 'Poppins', system-ui, sans-serif;">
+                  Rata-rata proses pendirian PT memakan waktu 10-14 hari kerja. CV biasanya lebih cepat, sekitar 7-10 hari kerja. Proses bisa lebih cepat jika semua dokumen lengkap dari awal.
+                </p>
+              </div>
+
+              <div style="background: #fff; border-radius: 12px; padding: 24px; border: 1px solid rgba(15, 15, 16, 0.08);">
+                <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Apakah ada jaminan jika pendaftaran merek ditolak?</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin: 0; font-family: 'Poppins', system-ui, sans-serif;">
+                  Kami melakukan konsultasi kelayakan merek sebelum mendaftarkan untuk meminimalkan risiko penolakan. Jika terjadi penolakan yang bukan karena kesalahan client, kami akan membantu proses banding atau mengusulkan alternatif nama merek.
+                </p>
+              </div>
+
+              <div style="background: #fff; border-radius: 12px; padding: 24px; border: 1px solid rgba(15, 15, 16, 0.08);">
+                <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Apakah bisa konsultasi sebelum memutuskan paket?</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin: 0; font-family: 'Poppins', system-ui, sans-serif;">
+                  Tentu! Kami menyediakan konsultasi gratis 30 menit via WhatsApp untuk membahas kebutuhan Anda dan memberikan rekomendasi solusi terbaik tanpa kewajiban apapun.
+                </p>
+              </div>
+
+              <div style="background: #fff; border-radius: 12px; padding: 24px; border: 1px solid rgba(15, 15, 16, 0.08);">
+                <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Bagaimana metode pembayaran?</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin: 0; font-family: 'Poppins', system-ui, sans-serif;">
+                  Pembayaran dapat dilakukan melalui transfer bank atau QRIS. Kami juga menyediakan opsi pembayaran bertahap untuk paket tertentu. Detail pembayaran akan dijelaskan saat konsultasi.
+                </p>
+              </div>
+
+              <div style="background: #fff; border-radius: 12px; padding: 24px; border: 1px solid rgba(15, 15, 16, 0.08);">
+                <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Apakah harga sudah termasuk semua biaya?</h3>
+                <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; margin: 0; font-family: 'Poppins', system-ui, sans-serif;">
+                  Harga yang tercantum adalah untuk jasa pendampingan dan pengurusan. Biaya resmi dari instansi (seperti biaya pendaftaran ke Kemenkumham) belum termasuk dan akan diinformasikan terlebih dahulu sebelum proses dimulai.
+                </p>
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 48px;">
+              <p style="font-size: 0.9375rem; color: var(--text-muted); margin-bottom: 20px; font-family: 'Poppins', system-ui, sans-serif;">
+                Masih punya pertanyaan? Hubungi kami langsung!
+              </p>
+              <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="font-size: 16px; padding: 16px 32px; display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 600; text-decoration: none; font-family: 'Poppins', system-ui, sans-serif;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                Chat WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Custom Services Section -->
+      <section style="padding: 80px 0; background: #fff; width: 100%;">
+        <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
+          <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <div style="background: var(--bg-light); border-radius: 24px; padding: 64px 48px; border: 2px dashed rgba(15, 15, 16, 0.1);">
+              <div style="width: 80px; height: 80px; background: var(--primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #fff;">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+              </div>
+              <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
+                Tidak Menemukan yang Anda Cari?
+              </h2>
+              <p style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; font-family: 'Poppins', system-ui, sans-serif;">
+                Kontraktify memiliki jaringan luas dengan lawyer dan notaris berpengalaman di berbagai bidang hukum. Jika kebutuhan hukum Anda belum tercakup dalam layanan di atas, kami dapat membantu menghubungkan Anda dengan profesional yang tepat.
+              </p>
+              <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;">
+                <div style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #fff; border-radius: 12px; border: 1px solid rgba(15, 15, 16, 0.1);">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span style="font-size: 0.875rem; font-weight: 500; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Jaringan Lawyer & Notaris</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #fff; border-radius: 12px; border: 1px solid rgba(15, 15, 16, 0.1);">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  <span style="font-size: 0.875rem; font-weight: 500; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Konsultasi Gratis 30 Menit</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #fff; border-radius: 12px; border: 1px solid rgba(15, 15, 16, 0.1);">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  <span style="font-size: 0.875rem; font-weight: 500; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Tanpa Kewajiban</span>
+                </div>
+              </div>
+              <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="font-size: 16px; padding: 18px 40px; display: inline-flex; align-items: center; gap: 12px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(15, 15, 16, 0.1); font-family: 'Poppins', system-ui, sans-serif;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                Konsultasi Gratis Sekarang
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- CTA Section -->
       <section style="padding: 100px 0; background: var(--primary); width: 100%;">
         <div class="container" style="max-width: var(--max-width); margin: 0 auto; padding: 0 24px;">
           <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 24px; color: #fff; line-height: 1.2;">
-              Butuh Bantuan Hukum?
+            <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; margin-bottom: 24px; color: #fff; line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
+              Siap Memulai Perjalanan Legal Bisnis Anda?
             </h2>
-            <p style="font-size: 1.125rem; color: rgba(255, 255, 255, 0.9); line-height: 1.7; margin-bottom: 40px;">
-              Hubungi kami untuk konsultasi gratis dan dapatkan solusi terbaik untuk kebutuhan hukum bisnis Anda.
+            <p style="font-size: 1.125rem; color: rgba(255, 255, 255, 0.9); line-height: 1.7; margin-bottom: 40px; font-family: 'Poppins', system-ui, sans-serif;">
+              Konsultasi gratis 30 menit dengan lawyer kami. Dapatkan rekomendasi solusi terbaik untuk kebutuhan hukum bisnis Anda tanpa kewajiban apapun.
             </p>
-            <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="btn" style="font-size: 16px; padding: 16px 32px; display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--primary); border: none; font-weight: 600;">
+            <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="btn" style="font-size: 16px; padding: 18px 40px; display: inline-flex; align-items: center; gap: 12px; background: #fff; color: var(--primary); border: none; border-radius: 12px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); font-family: 'Poppins', system-ui, sans-serif;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
               </svg>
-              Hubungi via WhatsApp
+              Konsultasi Gratis Sekarang
             </a>
+            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-top: 16px; font-family: 'Poppins', system-ui, sans-serif;">
+              📱 Chat langsung via WhatsApp • ⚡ Respon dalam 1 jam • 💬 Tanpa kewajiban
+            </p>
           </div>
         </div>
       </section>

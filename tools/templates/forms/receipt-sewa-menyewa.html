@@ -262,7 +262,15 @@
     
     <script src="payment.js"></script>
     <script src="formsewamenyewa.js"></script>
+    <script src="../../shared/utils/email.js"></script>
     <script>
+      // Generate secure download token
+      function generateDownloadToken(referenceId) {
+        const timestamp = Date.now();
+        const randomStr = Math.random().toString(36).substr(2, 9).toUpperCase();
+        return `${referenceId}-${timestamp}-${randomStr}`;
+      }
+      
       // Load payment info from URL params or sessionStorage
       document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -322,6 +330,46 @@
         });
         document.getElementById('paymentDate').textContent = paymentDate;
         
+        // Send receipt email after payment success
+        if (status === 'success' && receiptData.referenceId) {
+          // Get user email from form data
+          const previewData = sessionStorage.getItem('previewDocumentData');
+          let userEmail = null;
+          let userName = 'Customer';
+          
+          if (previewData) {
+            try {
+              const formData = JSON.parse(previewData);
+              userEmail = formData.email || formData.email_penyewa || null;
+              userName = formData.nama_penyewa || formData.nama || userName;
+            } catch (error) {
+              console.error('Error parsing form data for email:', error);
+            }
+          }
+          
+          // Send receipt email (async, don't block UI)
+          if (typeof sendReceiptEmail === 'function' && userEmail && userEmail !== 'customer@example.com') {
+            sendReceiptEmail({
+              to: userEmail,
+              name: userName,
+              referenceId: receiptData.referenceId,
+              amount: receiptData.amount || 10000,
+              paymentMethod: receiptData.method || 'QRIS',
+              paymentDate: paymentDate
+            }).then(result => {
+              if (result.success) {
+                console.log('✅ Receipt email sent successfully to', userEmail);
+              } else {
+                console.warn('⚠️ Failed to send receipt email:', result.error);
+              }
+            }).catch(error => {
+              console.error('Error sending receipt email:', error);
+            });
+          } else {
+            console.log('Email not sent - user email not available or invalid');
+          }
+        }
+        
         // Handle download button
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
@@ -366,9 +414,40 @@
                 }
               }
               
+              // Generate download link
+              const downloadToken = generateDownloadToken(receiptData.referenceId);
+              const downloadLink = `${window.location.origin}/tools/templates/forms/download-sewa-menyewa.html?token=${downloadToken}&ref=${receiptData.referenceId}`;
+              
+              // Store download link in sessionStorage
+              sessionStorage.setItem('downloadLink', downloadLink);
+              sessionStorage.setItem('downloadToken', downloadToken);
+              
+              // Get user email for sending download link
+              const userEmail = formData.email || formData.email_penyewa || null;
+              const userName = formData.nama_penyewa || formData.nama || 'Customer';
+              
               // Generate and download document
               if (typeof downloadDocument === 'function') {
                 downloadDocument(formData);
+                
+                // Send download link email (async, don't block download)
+                if (typeof sendDownloadLinkEmail === 'function' && userEmail && userEmail !== 'customer@example.com') {
+                  sendDownloadLinkEmail({
+                    to: userEmail,
+                    name: userName,
+                    downloadLink: downloadLink,
+                    documentName: 'Perjanjian Sewa Menyewa Tempat',
+                    referenceId: receiptData.referenceId
+                  }).then(result => {
+                    if (result.success) {
+                      console.log('✅ Download link email sent successfully');
+                    } else {
+                      console.warn('⚠️ Failed to send download link email:', result.error);
+                    }
+                  }).catch(error => {
+                    console.error('Error sending download link email:', error);
+                  });
+                }
               } else {
                 alert('Fungsi download tidak tersedia. Silakan hubungi support.');
               }

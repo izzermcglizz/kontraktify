@@ -306,7 +306,7 @@
                   </svg>
                   <span>Template Standar</span>
                 </div>
-                <div class="package-price">Rp 350.000</div>
+                <div class="package-price">Rp 10.000</div>
               </div>
             </div>
             
@@ -314,9 +314,9 @@
               <a href="formsewamenyewa.html" class="btn btn--ghost btn--full">
                 Kembali ke Form
               </a>
-              <a href="payment-sewa-menyewa.html" class="btn btn--primary btn--full" id="payAndDownloadBtn">
+              <button type="button" class="btn btn--primary btn--full" id="payAndDownloadBtn">
                 Lanjut ke Pembayaran
-              </a>
+              </button>
             </div>
             
             <p class="preview-privacy">
@@ -362,12 +362,37 @@
           // Handle payment button
           const payBtn = document.getElementById('payAndDownloadBtn');
           if (payBtn) {
-            payBtn.addEventListener('click', async () => {
-              if (typeof initiatePayment === 'function') {
-                await initiatePayment(formData);
-              } else {
-                console.error('initiatePayment function not found');
-                alert('Fungsi pembayaran tidak tersedia. Silakan refresh halaman.');
+            payBtn.addEventListener('click', async (e) => {
+              e.preventDefault();
+              
+              // Disable button and show loading state
+              payBtn.disabled = true;
+              const originalText = payBtn.textContent;
+              payBtn.textContent = 'Memproses...';
+              payBtn.style.opacity = '0.7';
+              payBtn.style.cursor = 'not-allowed';
+              
+              try {
+                if (typeof initiatePayment === 'function') {
+                  await initiatePayment(formData);
+                  // initiatePayment will handle redirect to iPaymu
+                } else {
+                  console.error('initiatePayment function not found');
+                  alert('Fungsi pembayaran tidak tersedia. Silakan refresh halaman.');
+                  // Re-enable button on error
+                  payBtn.disabled = false;
+                  payBtn.textContent = originalText;
+                  payBtn.style.opacity = '1';
+                  payBtn.style.cursor = 'pointer';
+                }
+              } catch (error) {
+                console.error('Payment error:', error);
+                alert('Terjadi kesalahan saat memproses pembayaran. Silakan coba lagi.');
+                // Re-enable button on error
+                payBtn.disabled = false;
+                payBtn.textContent = originalText;
+                payBtn.style.opacity = '1';
+                payBtn.style.cursor = 'pointer';
               }
             });
           }

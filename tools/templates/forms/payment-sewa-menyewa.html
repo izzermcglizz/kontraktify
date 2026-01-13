@@ -346,31 +346,27 @@
             </div>
             <div class="summary-item">
               <span class="summary-label">Harga</span>
-              <span class="summary-value">Rp 350.000</span>
+              <span class="summary-value">Rp 10.000</span>
             </div>
             <div class="summary-item">
               <span class="summary-label">Total Pembayaran</span>
-              <span class="summary-value">Rp 350.000</span>
+              <span class="summary-value">Rp 10.000</span>
             </div>
           </div>
           
-          <div class="payment-methods">
-            <h2>Pembayaran QRIS</h2>
-            <p style="text-align: center; color: rgba(15, 15, 16, 0.7); margin-bottom: 24px; font-size: 0.875rem;">
-              Scan QR Code dengan aplikasi pembayaran Anda (GoPay, OVO, DANA, LinkAja, dll)
-            </p>
-            
-            <div class="method-group">
-              <div class="method-options" id="qrisMethods" style="justify-content: center;">
-                <label class="method-option selected" data-method="qris" data-channel="qris" style="max-width: 200px;">
-                  <input type="radio" name="paymentMethod" value="qris" checked />
-                  <div class="method-option-content">
-                    <div class="method-icon">📱</div>
-                    <div class="method-name">QRIS</div>
-                    <div class="method-description">Scan QR Code</div>
-                  </div>
-                </label>
-              </div>
+          <div class="payment-info" style="margin-top: 32px;">
+            <div class="payment-info-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              Informasi
+            </div>
+            <div class="payment-info-content">
+              <p style="margin: 0; line-height: 1.6;">
+                Anda akan diarahkan ke halaman pembayaran iPaymu di mana Anda dapat memilih metode pembayaran yang diinginkan (VA, QRIS, E-Wallet).
+              </p>
             </div>
           </div>
           
@@ -378,8 +374,8 @@
             <a href="preview-sewa-menyewa.html" class="btn btn--ghost btn--full">
               Kembali
             </a>
-            <button type="button" class="btn btn--primary btn--full" id="proceedPaymentBtn" disabled>
-              Lanjutkan Pembayaran
+            <button type="button" class="btn btn--primary btn--full" id="proceedPaymentBtn">
+              Lanjutkan ke Pembayaran
             </button>
           </div>
         </div>
@@ -450,54 +446,20 @@
           window.location.href = 'formsewamenyewa.html';
         }
         
-        // Handle payment method selection
-        const methodOptions = document.querySelectorAll('.method-option');
-        methodOptions.forEach(option => {
-          option.addEventListener('click', () => {
-            // Remove selected class from all options
-            methodOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // Add selected class to clicked option
-            option.classList.add('selected');
-            
-            // Get selected method and channel
-            selectedMethod = option.getAttribute('data-method');
-            selectedChannel = option.getAttribute('data-channel');
-            
-            // Enable proceed button
-            const proceedBtn = document.getElementById('proceedPaymentBtn');
-            if (proceedBtn) {
-              proceedBtn.disabled = false;
-            }
-          });
-        });
-        
-        // Handle proceed payment button
+      // Handle proceed payment button (no need to select payment method)
         const proceedBtn = document.getElementById('proceedPaymentBtn');
         if (proceedBtn) {
           proceedBtn.addEventListener('click', async () => {
-            if (!selectedMethod || !selectedChannel) {
-              alert('Silakan pilih metode pembayaran terlebih dahulu.');
-              return;
-            }
-            
             // Show loading
             const loadingOverlay = document.getElementById('loadingOverlay');
             if (loadingOverlay) {
               loadingOverlay.classList.add('active');
             }
             
-            // Update formData with selected payment method
-            const paymentFormData = {
-              ...formData,
-              paymentMethod: selectedMethod,
-              paymentChannel: selectedChannel
-            };
-            
             try {
-              // Call initiatePayment with selected method
+              // Call initiatePayment - user will choose payment method on iPaymu page
               if (typeof initiatePayment === 'function') {
-                await initiatePayment(paymentFormData, selectedMethod, selectedChannel);
+                await initiatePayment(formData);
               } else {
                 throw new Error('initiatePayment function not found');
               }

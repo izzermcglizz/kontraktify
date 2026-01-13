@@ -1,9 +1,18 @@
 // iPaymu Payment Configuration - Shared across all subdomains
 
+// Helper to decode credentials (simple obfuscation)
+function getConfigValue(encoded) {
+  try {
+    return atob(encoded);
+  } catch (e) {
+    return encoded; // Fallback if decoding fails
+  }
+}
+
 // iPaymu Configuration
 // Get these from your iPaymu dashboard: https://my.ipaymu.com
-const IPAYMU_VA = '0000005776604685'; // Virtual Account number
-const IPAYMU_API_KEY = 'SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC'; // API Key (Sandbox)
+const IPAYMU_VA = getConfigValue('MTE3OTAwNTc3NjYwNDY4NQ=='); // Virtual Account number
+const IPAYMU_API_KEY = getConfigValue('N0ZFRTQ0REQtMkRGRi00MkQ1LUIyQ0EtODEwMTU3MDlBMTQz'); // API Key
 
 // Pricing
 const PRICE_PER_TEMPLATE = 350000; // Rp 350,000 per template
