@@ -342,6 +342,12 @@ function collectFormData() {
   // Handle checkbox
   data.pembayaran_bertahap = document.getElementById('pembayaran_bertahap')?.checked || false;
   
+  // Collect email (not in variableMapping but needed for payment)
+  const emailElement = form.elements['email'];
+  if (emailElement) {
+    data.email = emailElement.value || '';
+  }
+  
   return data;
 }
 
@@ -737,8 +743,13 @@ async function generateIpaymuSignature(va, apiKey, bodyString, timestamp) {
   }
 }
 
+// NOTE: initiatePayment function has been moved to payment.js
+// This function is now handled by Supabase Edge Function
+// Keeping this comment for reference - do not use this old implementation
+/*
+// OLD IMPLEMENTATION - REMOVED
 // Initiate payment with iPaymu
-async function initiatePayment(formData, paymentMethod = null, paymentChannel = null) {
+async function initiatePayment_OLD(formData, paymentMethod = null, paymentChannel = null) {
   try {
     // Use direct values to avoid conflict with payment.js
     // These match the credentials from iPaymu dashboard
@@ -917,6 +928,7 @@ async function initiatePayment(formData, paymentMethod = null, paymentChannel = 
     alert(`Terjadi kesalahan saat memproses pembayaran: ${error.message}\n\nSilakan coba lagi atau hubungi support jika masalah berlanjut.`);
   }
 }
+*/
 
 // Download document after payment confirmation
 function downloadDocument(formData) {

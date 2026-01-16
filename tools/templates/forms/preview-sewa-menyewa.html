@@ -310,6 +310,25 @@
               </div>
             </div>
             
+            <div class="preview-email-section" style="margin-bottom: 24px;">
+              <label for="previewEmail" style="display: block; font-size: 0.875rem; font-weight: 500; color: rgba(15, 15, 16, 0.8); margin-bottom: 8px;">
+                Email <span style="color: #ef4444;">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="previewEmail" 
+                name="previewEmail" 
+                placeholder="email@example.com" 
+                required
+                style="width: 100%; padding: 12px 16px; border: 1px solid rgba(15, 15, 16, 0.15); border-radius: 8px; font-size: 0.9375rem; font-family: 'Manrope', sans-serif; transition: border-color 0.2s;"
+                onfocus="this.style.borderColor='var(--primary)'"
+                onblur="this.style.borderColor='rgba(15, 15, 16, 0.15)'"
+              />
+              <small style="display: block; color: rgba(15, 15, 16, 0.6); font-size: 0.75rem; margin-top: 6px;">
+                Diperlukan untuk pembayaran dan pengiriman dokumen
+              </small>
+            </div>
+            
             <div class="preview-sidebar-actions">
               <a href="formsewamenyewa.html" class="btn btn--ghost btn--full">
                 Kembali ke Form
@@ -336,6 +355,7 @@
       </div>
     </div>
 
+    <script src="payment.js"></script>
     <script src="formsewamenyewa.js"></script>
     <script>
       // Load form data from sessionStorage and generate preview
@@ -352,6 +372,12 @@
         try {
           const formData = JSON.parse(previewData);
           
+          // Load email if it exists in formData
+          const emailInput = document.getElementById('previewEmail');
+          if (emailInput && formData.email) {
+            emailInput.value = formData.email;
+          }
+          
           // Generate full document preview
           if (typeof generateFullDocumentPreview === 'function') {
             generateFullDocumentPreview(formData);
@@ -365,6 +391,25 @@
             payBtn.addEventListener('click', async (e) => {
               e.preventDefault();
               
+              // Get email from input field
+              const emailInput = document.getElementById('previewEmail');
+              if (!emailInput || !emailInput.value || !emailInput.value.trim()) {
+                alert('Email harus diisi untuk melanjutkan pembayaran.');
+                emailInput?.focus();
+                return;
+              }
+              
+              // Validate email format
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailRegex.test(emailInput.value.trim())) {
+                alert('Format email tidak valid. Silakan masukkan email yang benar.');
+                emailInput.focus();
+                return;
+              }
+              
+              // Add email to formData
+              const formDataWithEmail = { ...formData, email: emailInput.value.trim() };
+              
               // Disable button and show loading state
               payBtn.disabled = true;
               const originalText = payBtn.textContent;
@@ -374,8 +419,14 @@
               
               try {
                 if (typeof initiatePayment === 'function') {
-                  await initiatePayment(formData);
+                  await initiatePayment(formDataWithEmail);
                   // initiatePayment will handle redirect to iPaymu
+                  // If we reach here without redirect, something went wrong
+                  // Re-enable button just in case
+                  payBtn.disabled = false;
+                  payBtn.textContent = originalText;
+                  payBtn.style.opacity = '1';
+                  payBtn.style.cursor = 'pointer';
                 } else {
                   console.error('initiatePayment function not found');
                   alert('Fungsi pembayaran tidak tersedia. Silakan refresh halaman.');
@@ -387,8 +438,8 @@
                 }
               } catch (error) {
                 console.error('Payment error:', error);
-                alert('Terjadi kesalahan saat memproses pembayaran. Silakan coba lagi.');
-                // Re-enable button on error
+                // Error message already shown by initiatePayment
+                // Just re-enable button
                 payBtn.disabled = false;
                 payBtn.textContent = originalText;
                 payBtn.style.opacity = '1';
