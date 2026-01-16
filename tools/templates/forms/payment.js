@@ -17,10 +17,18 @@ async function initiatePayment(formData) {
     }
     
 
-    const payload = {
-      product: "Template Perjanjian Sewa Menyewa",
-      price: 10000,
-      buyer: {
+    // Use buyer object if provided, otherwise construct from formData fields
+    let buyerData;
+    if (formData.buyer && formData.buyer.name && formData.buyer.email && formData.buyer.phone) {
+      // Use buyer object from preview page
+      buyerData = {
+        name: formData.buyer.name.trim(),
+        email: formData.buyer.email.trim(),
+        phone: normalisePhone(formData.buyer.phone)
+      };
+    } else {
+      // Fallback to formData fields
+      buyerData = {
         name:
           formData.nama_penyewa ||
           formData.nama ||
@@ -29,7 +37,13 @@ async function initiatePayment(formData) {
         phone: normalisePhone(
           formData.phone || formData.no_hp
         ),
-      },
+      };
+    }
+
+    const payload = {
+      product: "Template Perjanjian Sewa Menyewa",
+      price: 10000,
+      buyer: buyerData,
     };
 
     console.log("🚀 Initiating payment...", {
