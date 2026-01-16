@@ -276,6 +276,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const referenceId = urlParams.get('referenceId') || urlParams.get('ref');
         const status = urlParams.get('status');
+        const trxId = urlParams.get('trx_id'); // iPaymu transaction ID
+        
+        console.log('Receipt page loaded with params:', {
+          referenceId,
+          status,
+          trxId
+        });
         
         // Get payment info from sessionStorage
         const paymentInfo = sessionStorage.getItem('paymentInfo');
@@ -286,6 +293,7 @@
         if (paymentInfo) {
           try {
             receiptData = JSON.parse(paymentInfo);
+            console.log('Payment info from sessionStorage:', receiptData);
           } catch (error) {
             console.error('Error parsing payment info:', error);
           }
@@ -302,22 +310,17 @@
           }
         }
         
-        // Update receipt display
-        if (receiptData.referenceId) {
-          document.getElementById('referenceId').textContent = receiptData.referenceId;
-        } else if (referenceId) {
-          document.getElementById('referenceId').textContent = referenceId;
-        }
+        // Priority: URL param > sessionStorage > default
+        const finalReferenceId = referenceId || receiptData.referenceId || trxId || 'N/A';
+        document.getElementById('referenceId').textContent = finalReferenceId;
         
-        if (receiptData.method) {
-          document.getElementById('paymentMethod').textContent = receiptData.method;
-        }
+        // Update payment method (iPaymu doesn't send this in returnUrl, so we use default)
+        const paymentMethod = receiptData.method || 'iPaymu';
+        document.getElementById('paymentMethod').textContent = paymentMethod;
         
-        if (receiptData.amount) {
-          document.getElementById('totalAmount').textContent = `Rp ${receiptData.amount.toLocaleString('id-ID')}`;
-        } else {
-          document.getElementById('totalAmount').textContent = 'Rp 1';
-        }
+        // Update amount
+        const amount = receiptData.amount || 10000; // Default to test price
+        document.getElementById('totalAmount').textContent = `Rp ${amount.toLocaleString('id-ID')}`;
         
         // Set payment date
         const now = new Date();
@@ -330,8 +333,28 @@
         });
         document.getElementById('paymentDate').textContent = paymentDate;
         
+        // If status is provided, update receipt header accordingly
+        if (status === 'pending' || status === 'waiting') {
+          const header = document.querySelector('.receipt-header');
+          if (header) {
+            header.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+            header.querySelector('h1').textContent = 'Menunggu Pembayaran';
+            header.querySelector('p').textContent = 'Silakan selesaikan pembayaran Anda';
+          }
+        } else if (status === 'failed' || status === 'cancel') {
+          const header = document.querySelector('.receipt-header');
+          if (header) {
+            header.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+            header.querySelector('h1').textContent = 'Pembayaran Gagal';
+            header.querySelector('p').textContent = 'Silakan coba lagi atau hubungi support';
+          }
+        }
+        
         // Send receipt email after payment success
-        if (status === 'success' && receiptData.referenceId) {
+        // Check if payment is successful (status success or no status means success from iPaymu)
+        const isPaymentSuccess = !status || status === 'success' || status === 'paid';
+        
+        if (isPaymentSuccess && finalReferenceId && finalReferenceId !== 'N/A') {
           // Get user email from form data
           const previewData = sessionStorage.getItem('previewDocumentData');
           let userEmail = null;
@@ -340,8 +363,9 @@
           if (previewData) {
             try {
               const formData = JSON.parse(previewData);
-              userEmail = formData.email || formData.email_penyewa || null;
-              userName = formData.nama_penyewa || formData.nama || userName;
+              // Try to get email from buyer object or form data
+              userEmail = formData.buyer?.email || formData.email || formData.email_penyewa || null;
+              userName = formData.buyer?.name || formData.nama_penyewa || formData.nama || userName;
             } catch (error) {
               console.error('Error parsing form data for email:', error);
             }
@@ -352,9 +376,9 @@
             sendReceiptEmail({
               to: userEmail,
               name: userName,
-              referenceId: receiptData.referenceId,
-              amount: receiptData.amount || 10000,
-              paymentMethod: receiptData.method || 'QRIS',
+              referenceId: finalReferenceId,
+              amount: amount,
+              paymentMethod: paymentMethod,
               paymentDate: paymentDate
             }).then(result => {
               if (result.success) {

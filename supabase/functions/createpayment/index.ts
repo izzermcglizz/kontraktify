@@ -15,12 +15,10 @@ function timestamp() {
 }
 
 // Generate MD5 hash untuk signature iPaymu v2
+// Menggunakan library MD5 dari deno.land/x
 async function md5(text: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest("MD5", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  const md5Module = await import("https://deno.land/x/md5@v1.0.1/mod.ts");
+  return md5Module.md5(text);
 }
 
 // Generate signature untuk iPaymu v2 (MD5 dengan sorted keys)
@@ -58,14 +56,112 @@ serve(async (req) => {
     );
   }
 
+  // Baca body sebagai text dulu untuk debugging
+  let rawBody: string;
   try {
-    const payload = await req.json();
+    rawBody = await req.text();
+    console.log("📥 Raw body length:", rawBody.length);
+    console.log("📥 Raw body (first 200 chars):", rawBody.substring(0, 200));
+  } catch (error: any) {
+    console.error("❌ Could not read request body:", error);
+    return new Response(
+      JSON.stringify({ 
+        error: "Could not read request body",
+        message: error?.message
+      }),
+      { 
+        status: 400,
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      }
+    );
+  }
+
+  // Extract JSON dari raw body (handle trailing characters)
+  function extractFirstJSON(text: string): string {
+    const trimmed = text.trim();
+    const firstBrace = trimmed.indexOf('{');
+    if (firstBrace === -1) return trimmed;
+    
+    let braceCount = 0;
+    let lastBrace = -1;
+    for (let i = firstBrace; i < trimmed.length; i++) {
+      if (trimmed[i] === '{') braceCount++;
+      else if (trimmed[i] === '}') {
+        braceCount--;
+        if (braceCount === 0) {
+          lastBrace = i;
+          break;
+        }
+      }
+    }
+    return lastBrace === -1 ? trimmed : trimmed.substring(firstBrace, lastBrace + 1);
+  }
+
+  let payload: any;
+  try {
+    const jsonString = extractFirstJSON(rawBody);
+    console.log("📥 Extracted JSON length:", jsonString.length);
+    payload = JSON.parse(jsonString);
+    console.log("✅ Parsed payload:", payload);
+  } catch (parseError: any) {
+    console.error("❌ JSON parse error:", parseError);
+    console.error("❌ Raw body around error:", rawBody.substring(160, 180));
+    return new Response(
+      JSON.stringify({ 
+        error: "Invalid JSON in request body",
+        message: parseError?.message,
+        position: parseError?.message?.match(/position (\d+)/)?.[1]
+      }),
+      { 
+        status: 400,
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      }
+    );
+  }
+
+  try {
+    // Validate payload
+    if (!payload || typeof payload !== "object") {
+      return new Response(
+        JSON.stringify({ error: "Invalid payload format" }),
+        { 
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      );
+    }
+
+    if (!payload.product || !payload.price || !payload.buyer || !payload.buyer.email) {
+      return new Response(
+        JSON.stringify({ 
+          error: "Missing required fields",
+          required: ["product", "price", "buyer.email"]
+        }),
+        { 
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      );
+    }
 
     const VA = Deno.env.get("IPAYMU_VA");
     const API_KEY = Deno.env.get("IPAYMU_API_KEY");
     const BASE_URL = Deno.env.get("BASE_URL") || "https://www.kontraktify.com";
 
     if (!VA || !API_KEY) {
+      console.error("❌ Environment variables not set");
       return new Response(
         JSON.stringify({ error: "Environment variables not set" }),
         { 
@@ -86,7 +182,10 @@ serve(async (req) => {
     formData.append("product[]", payload.product || "Template Perjanjian Sewa Menyewa");
     formData.append("qty[]", "1");
     formData.append("price[]", payload.price.toString());
-    formData.append("notifyUrl", `${BASE_URL}/tools/templates/forms/notify`);
+    // Webhook URL harus bisa diakses public (Supabase Edge Function)
+    // Format: https://[project-ref].supabase.co/functions/v1/[function-name]
+    const WEBHOOK_URL = "https://rcjwcgztmlygmmftklge.supabase.co/functions/v1/ipaymu-webhook";
+    formData.append("notifyUrl", WEBHOOK_URL);
     formData.append("returnUrl", `${BASE_URL}/tools/templates/forms/receipt-sewa-menyewa.html?ref=${referenceId}`);
     formData.append("cancelUrl", `${BASE_URL}/tools/templates/forms/payment-sewa-menyewa.html?cancel=true`);
     formData.append("referenceId", referenceId);
@@ -108,26 +207,76 @@ serve(async (req) => {
 
     // Generate signature
     const signature = await generateSignature(signatureParams, API_KEY);
-
-    // Call iPaymu API dengan FormData body
-    const ipaymuRes = await fetch(IPAYMU_URL, {
-      method: "POST",
-      headers: {
-        va: VA,
-        signature: signature,
-        timestamp: ts,
-      },
-      body: formData, // Body sebagai FormData, bukan JSON!
+    
+    console.log("📤 Request to iPaymu:", {
+      url: IPAYMU_URL,
+      va: VA,
+      timestamp: ts,
+      referenceId,
+      hasBuyer: !!payload.buyer
     });
 
-    const result = await ipaymuRes.json();
+    // Call iPaymu API dengan FormData body
+    let ipaymuRes: Response;
+    try {
+      ipaymuRes = await fetch(IPAYMU_URL, {
+        method: "POST",
+        headers: {
+          va: VA,
+          signature: signature,
+          timestamp: ts,
+        },
+        body: formData, // Body sebagai FormData, bukan JSON!
+      });
+    } catch (fetchError: any) {
+      console.error("❌ iPaymu fetch error:", fetchError);
+      return new Response(
+        JSON.stringify({ 
+          error: "Failed to connect to iPaymu",
+          message: fetchError?.message
+        }),
+        { 
+          status: 500,
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      );
+    }
+
+    let result: any;
+    try {
+      const responseText = await ipaymuRes.text();
+      console.log("📥 iPaymu raw response:", responseText);
+      result = JSON.parse(responseText);
+      console.log("📥 iPaymu parsed response:", result);
+    } catch (parseError: any) {
+      console.error("❌ iPaymu response parse error:", parseError);
+      return new Response(
+        JSON.stringify({ 
+          error: "Invalid response from iPaymu",
+          message: parseError?.message,
+          status: ipaymuRes.status
+        }),
+        { 
+          status: 500,
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      );
+    }
 
     // Check response sesuai format iPaymu: Status: 200
     if (!ipaymuRes.ok || result.Status !== 200) {
+      console.error("❌ iPaymu error response:", result);
       return new Response(
         JSON.stringify({ 
           error: result.Message || "Payment initiation failed",
-          details: result
+          details: result,
+          status: result.Status
         }),
         { 
           status: ipaymuRes.status || 400,
@@ -153,12 +302,13 @@ serve(async (req) => {
       }
     );
 
-  } catch (error) {
-    console.error("Error:", error);
+  } catch (error: any) {
+    console.error("❌ Error:", error);
+    console.error("❌ Error stack:", error?.stack);
     return new Response(
       JSON.stringify({ 
         error: "Internal server error",
-        message: error.message 
+        message: error?.message || "Unknown error"
       }),
       { 
         status: 500,

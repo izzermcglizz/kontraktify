@@ -411,22 +411,35 @@
       
       // Load form data from sessionStorage
       document.addEventListener('DOMContentLoaded', () => {
-        // Check if payment was successful (from URL param)
+        // Check if user cancelled payment (from URL param)
         const urlParams = new URLSearchParams(window.location.search);
-        const paymentStatus = urlParams.get('payment');
+        const cancelled = urlParams.get('cancel');
         
-        if (paymentStatus === 'success') {
-          // Load payment info from sessionStorage
-          const paymentInfo = sessionStorage.getItem('paymentInfo');
-          if (paymentInfo) {
-            try {
-              const info = JSON.parse(paymentInfo);
-              if (typeof showPaymentInfo === 'function') {
-                showPaymentInfo(info);
-              }
-            } catch (error) {
-              console.error('Error loading payment info:', error);
-            }
+        if (cancelled === 'true') {
+          // Show message that payment was cancelled
+          const paymentCard = document.querySelector('.payment-card');
+          if (paymentCard) {
+            const cancelMessage = document.createElement('div');
+            cancelMessage.className = 'payment-info';
+            cancelMessage.style.marginTop = '24px';
+            cancelMessage.style.background = 'rgba(239, 68, 68, 0.08)';
+            cancelMessage.style.borderColor = 'rgba(239, 68, 68, 0.15)';
+            cancelMessage.innerHTML = `
+              <div class="payment-info-title" style="color: #ef4444;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="15" y1="9" x2="9" y2="15"/>
+                  <line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+                Pembayaran Dibatalkan
+              </div>
+              <div class="payment-info-content">
+                <p style="margin: 0; color: rgba(15, 15, 16, 0.7);">
+                  Anda telah membatalkan pembayaran. Silakan klik tombol di bawah untuk mencoba lagi.
+                </p>
+              </div>
+            `;
+            paymentCard.appendChild(cancelMessage);
           }
         }
         
@@ -440,6 +453,7 @@
         
         try {
           formData = JSON.parse(previewData);
+          console.log('Form data loaded:', formData);
         } catch (error) {
           console.error('Error loading form data:', error);
           alert('Terjadi kesalahan saat memuat data. Silakan coba lagi.');
