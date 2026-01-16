@@ -32,12 +32,24 @@ async function initiatePayment(formData) {
       },
     };
 
+    console.log("🚀 Initiating payment...", {
+      url: SUPABASE_FUNCTION_URL,
+      payload: payload
+    });
+
     const res = await fetch(SUPABASE_FUNCTION_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
+    }).catch((fetchError) => {
+      console.error("❌ Fetch error details:", {
+        name: fetchError.name,
+        message: fetchError.message,
+        stack: fetchError.stack
+      });
+      throw fetchError;
     });
 
     let data;
@@ -88,7 +100,12 @@ async function initiatePayment(formData) {
     // Redirect user ke halaman pembayaran iPaymu
     window.location.href = data.paymentUrl;
   } catch (err) {
-    console.error("Payment fatal error:", err);
+    console.error("❌ Payment fatal error:", {
+      name: err.name,
+      message: err.message,
+      stack: err.stack,
+      cause: err.cause
+    });
     
     // More detailed error message
     let errorMessage = "Terjadi kesalahan saat memproses pembayaran.";
@@ -98,7 +115,11 @@ async function initiatePayment(formData) {
     }
     
     if (err.name === "TypeError" && err.message.includes("fetch")) {
-      errorMessage += "\n\nKemungkinan masalah koneksi internet. Silakan periksa koneksi Anda.";
+      errorMessage += "\n\nKemungkinan penyebab:";
+      errorMessage += "\n• Masalah koneksi internet";
+      errorMessage += "\n• Supabase Edge Function belum di-deploy";
+      errorMessage += "\n• Masalah CORS (hubungi developer)";
+      errorMessage += "\n\nSilakan cek console browser untuk detail lebih lanjut.";
     }
     
     errorMessage += "\n\nSilakan coba lagi atau hubungi support jika masalah berlanjut.";
