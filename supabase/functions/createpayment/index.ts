@@ -184,7 +184,7 @@ serve(async (req) => {
     formData.append("price[]", payload.price.toString());
     // Webhook URL harus bisa diakses public (Supabase Edge Function)
     // Format: https://[project-ref].supabase.co/functions/v1/[function-name]
-    const WEBHOOK_URL = "https://rcjwcgztmlygmmftklge.supabase.co/functions/v1/ipaymu-webhook";
+    const WEBHOOK_URL = "https://rcjwcgztmlygmnftklge.supabase.co/functions/v1/ipaymu-webhook";
     formData.append("notifyUrl", WEBHOOK_URL);
     formData.append("returnUrl", `${BASE_URL}/tools/templates/forms/receipt-sewa-menyewa.html?ref=${referenceId}`);
     formData.append("cancelUrl", `${BASE_URL}/tools/templates/forms/payment-sewa-menyewa.html?cancel=true`);
@@ -246,18 +246,26 @@ serve(async (req) => {
     }
 
     let result: any;
+    let responseText: string = "";
     try {
-      const responseText = await ipaymuRes.text();
+      responseText = await ipaymuRes.text();
       console.log("📥 iPaymu raw response:", responseText);
+      
+      if (!responseText || responseText.trim() === '') {
+        throw new Error("Empty response from iPaymu");
+      }
+      
       result = JSON.parse(responseText);
       console.log("📥 iPaymu parsed response:", result);
     } catch (parseError: any) {
       console.error("❌ iPaymu response parse error:", parseError);
+      const errorDetails = responseText ? responseText.substring(0, 500) : "Could not read response";
       return new Response(
         JSON.stringify({ 
           error: "Invalid response from iPaymu",
-          message: parseError?.message,
-          status: ipaymuRes.status
+          message: parseError?.message || "Failed to parse response",
+          status: ipaymuRes.status,
+          responsePreview: errorDetails
         }),
         { 
           status: 500,
