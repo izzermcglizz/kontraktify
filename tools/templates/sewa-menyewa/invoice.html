@@ -4,90 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice - {{ref}}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #fff;
-      color: #0f0f10;
-      padding: 48px;
-      max-width: 600px;
+      color: #111;
+      padding: 56px 48px;
+      max-width: 640px;
       margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.5;
     }
     .invoice-header {
-      margin-bottom: 40px;
-      padding-bottom: 24px;
-      border-bottom: 2px solid #10b981;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #000;
     }
-    .invoice-logo {
-      font-size: 1.5rem;
+    .invoice-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .invoice-brand img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+    .invoice-brand-text {
+      font-size: 1.25rem;
       font-weight: 700;
-      color: #10b981;
-      margin-bottom: 4px;
+      color: #000;
+      letter-spacing: -0.02em;
     }
-    .invoice-title {
-      font-size: 0.875rem;
-      color: #6b7280;
-      font-weight: 500;
+    .invoice-doc-type {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: #000;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
     }
     .invoice-meta {
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
     .invoice-meta-row {
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #f3f4f6;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e5e5;
     }
-    .invoice-meta-label { color: #6b7280; font-size: 0.875rem; }
-    .invoice-meta-value { font-weight: 600; }
+    .invoice-meta-row:last-child { border-bottom: none; }
+    .invoice-meta-label {
+      color: #666;
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+    .invoice-meta-value {
+      font-weight: 600;
+      color: #111;
+    }
     .invoice-table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 24px;
     }
     .invoice-table th {
-      background: #f9fafb;
-      padding: 14px 16px;
+      background: #111;
+      color: #fff;
+      padding: 14px 20px;
       text-align: left;
-      font-size: 0.8125rem;
+      font-size: 0.6875rem;
       font-weight: 600;
-      color: #6b7280;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
     .invoice-table th:last-child { text-align: right; }
     .invoice-table td {
-      padding: 16px;
-      border-bottom: 1px solid #f3f4f6;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e5e5e5;
     }
-    .invoice-table td:last-child { text-align: right; font-weight: 500; }
-    .invoice-total {
-      background: rgba(16, 185, 129, 0.08);
-      padding: 16px 20px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .invoice-table td:last-child {
+      text-align: right;
+      font-weight: 500;
+    }
+    .invoice-total-row {
+      background: #f5f5f5;
       font-weight: 700;
-      font-size: 1.125rem;
-      color: #10b981;
+    }
+    .invoice-total-row td {
+      padding: 20px;
+      border-bottom: none;
+      font-size: 1rem;
     }
     .invoice-footer {
-      margin-top: 40px;
+      margin-top: 48px;
       padding-top: 24px;
-      border-top: 1px solid #f3f4f6;
-      font-size: 0.8125rem;
-      color: #9ca3af;
+      border-top: 1px solid #e5e5e5;
+      font-size: 0.75rem;
+      color: #666;
     }
+    .invoice-footer p { margin-bottom: 4px; }
   </style>
 </head>
 <body>
   <div id="invoice-content">
     <div class="invoice-header">
-      <div class="invoice-logo">Kontraktify</div>
-      <div class="invoice-title">INVOICE</div>
+      <div class="invoice-brand">
+        <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify">
+        <span class="invoice-brand-text">Kontraktify</span>
+      </div>
+      <div class="invoice-doc-type">Invoice</div>
     </div>
 
     <div class="invoice-meta">
@@ -112,7 +142,7 @@
     <table class="invoice-table">
       <thead>
         <tr>
-          <th>Item</th>
+          <th>Deskripsi</th>
           <th>Jumlah</th>
         </tr>
       </thead>
@@ -121,17 +151,16 @@
           <td>Perjanjian Sewa Menyewa Tempat</td>
           <td>Rp 350.000</td>
         </tr>
+        <tr class="invoice-total-row">
+          <td>Total</td>
+          <td>Rp 350.000</td>
+        </tr>
       </tbody>
     </table>
 
-    <div class="invoice-total">
-      <span>Total</span>
-      <span>Rp 350.000</span>
-    </div>
-
     <div class="invoice-footer">
       <p>Metode pembayaran: iPaymu</p>
-      <p style="margin-top: 8px;">Terima kasih atas pembelian Anda.</p>
+      <p>Terima kasih atas pembelian Anda.</p>
     </div>
   </div>
   <script>
