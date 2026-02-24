@@ -820,7 +820,7 @@ async function initiatePayment_OLD(formData, paymentMethod = null, paymentChanne
     // These match the credentials from iPaymu dashboard
     const IPAYMU_VA = '0000005776604685';
     const IPAYMU_API_KEY = 'SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC';
-    const PRICE = 10000;
+    const PRICE = 350000;
     
     // Get proper base URL (handle file:// protocol for local testing)
     let baseUrl = window.location.origin;
