@@ -125,6 +125,17 @@ function nameToSlug(name) {
     .trim();
 }
 
+// Template URL mapping (for new folder structure)
+const templateUrlMap = {
+  'perjanjian-sewa-menyewa-tempat': 'sewa-menyewa/landing.html',
+  'perjanjian-kerja-sama-usaha-joint-venture': 'kerja-sama/landing.html',
+};
+
+// Get template URL with new folder structure
+function getTemplateUrl(slug) {
+  return templateUrlMap[slug] || `${slug}.html`;
+}
+
 // Generate template card HTML
 function createTemplateCard(template) {
   const svgIcon = svgIcons[template.icon] || svgIcons.lease;
@@ -132,7 +143,7 @@ function createTemplateCard(template) {
   const isAvailable = template.available !== false;
   const comingSoonClass = isAvailable ? '' : 'template-card--coming-soon';
   const slug = nameToSlug(template.name);
-  const productUrl = isAvailable ? `${slug}.html` : '#';
+  const productUrl = isAvailable ? getTemplateUrl(slug) : '#';
   
   // If available, make the entire card a clickable link
   if (isAvailable) {

@@ -12,6 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../style.css?v=14" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <meta
       name="description"
       content="Preview dokumen Perjanjian Sewa Menyewa Tempat sebelum pembayaran."
@@ -251,7 +252,7 @@
         font-style: italic;
       }
       
-      /* Blurred section */
+      /* Blurred section - blur everything */
       .preview-document-full .blurred-section {
         filter: blur(4px);
         user-select: none;
@@ -265,6 +266,26 @@
         position: absolute;
         inset: 0;
         background: rgba(255, 255, 255, 0.3);
+      }
+      
+      /* Keep user-filled fields clear and visible - override blur */
+      .preview-document-full .blurred-section .filled-field,
+      .preview-document-full .blurred-section .placeholder-field {
+        filter: none !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 10;
+        background: #dbeafe;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        display: inline-block;
+      }
+      
+      .preview-document-full .blurred-section .placeholder-field {
+        background: #f5f5f5;
+        color: #666;
+        font-weight: 400;
       }
       
       @media (max-width: 1024px) {
@@ -368,7 +389,7 @@
             </div>
             
             <div class="preview-sidebar-actions">
-              <a href="formsewamenyewa.html" class="btn btn--ghost btn--full">
+              <a href="form.html" class="btn btn--ghost btn--full">
                 Kembali ke Form
               </a>
               <button type="button" class="btn btn--primary btn--full" id="payAndDownloadBtn">
@@ -393,43 +414,135 @@
       </div>
     </div>
 
-    <script src="payment.js"></script>
-    <script src="formsewamenyewa.js"></script>
+    <script src="form.js"></script>
     <script>
+      // iPaymu credentials
+      var IPAYMU_VA     = "1179005776604685";
+      var IPAYMU_APIKEY = "7FEE44DD-2DFF-42D5-B2CA-81015709A143";
+      var IPAYMU_URL    = "https://my.ipaymu.com/api/v2/payment";
+
+      // Generate reference ID
+      function generateReferenceId() {
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = String(now.getMonth() + 1).padStart(2, '0');
+        var d = String(now.getDate()).padStart(2, '0');
+        var rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+        return 'KNTF-' + y + m + d + '-' + rand;
+      }
+
+      // Call iPaymu redirect payment — directly from browser (no server needed)
+      async function initiateIpaymuPayment(buyerName, buyerEmail, buyerPhone) {
+        // iPaymu requires https:// URLs — file:// is rejected
+        var baseUrl = (window.location.origin && window.location.origin.startsWith('http'))
+          ? window.location.origin
+          : 'https://kontraktify.com';
+
+        var referenceId = generateReferenceId();
+
+        // Save referenceId to sessionStorage so receipt.html can read it
+        sessionStorage.setItem('paymentReferenceId', referenceId);
+        sessionStorage.setItem('paymentBuyerName', buyerName);
+        sessionStorage.setItem('paymentBuyerEmail', buyerEmail);
+
+        var body = {
+          "product":    ["Perjanjian Sewa Menyewa Tempat"],
+          "qty":        ["1"],
+          "price":      ["10000"],
+          "amount":     "10000",
+          "returnUrl":  baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId + "&status=berhasil",
+          "cancelUrl":  baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId + "&status=batal",
+          "notifyUrl":  "https://jblbjdvipspzrcjeipei.supabase.co/functions/v1/ipaymu-webhook",
+          "referenceId": referenceId,
+          "buyerName":  buyerName,
+          "buyerPhone": buyerPhone,
+          "buyerEmail": buyerEmail,
+        };
+
+        // Generate signature — exactly like official iPaymu sample
+        var bodyEncrypt  = CryptoJS.SHA256(JSON.stringify(body));
+        var stringtosign = "POST:" + IPAYMU_VA + ":" + bodyEncrypt + ":" + IPAYMU_APIKEY;
+        var signature    = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, IPAYMU_APIKEY));
+
+        console.log('iPaymu body:', JSON.stringify(body));
+        console.log('iPaymu signature:', signature);
+
+        var response = await fetch(IPAYMU_URL, {
+          method: "POST",
+          headers: {
+            "Accept":       "application/json",
+            "Content-Type": "application/json",
+            "va":           IPAYMU_VA,
+            "signature":    signature,
+            "timestamp":    "20150201121045"
+          },
+          body: JSON.stringify(body)
+        });
+
+        var result = await response.json();
+        console.log('iPaymu response:', result);
+
+        var paymentUrl = result?.Data?.Url || result?.Data?.PaymentUrl || null;
+        if (!paymentUrl) {
+          throw new Error(result?.Message || 'Gagal mendapatkan URL pembayaran dari iPaymu');
+        }
+
+        // Redirect customer to iPaymu payment page
+        window.location.href = paymentUrl;
+      }
+
       // Load form data from sessionStorage and generate preview
       document.addEventListener('DOMContentLoaded', () => {
         const previewData = sessionStorage.getItem('previewDocumentData');
         
         if (!previewData) {
-          // If no data, redirect back to form
           alert('Tidak ada data dokumen. Silakan isi form terlebih dahulu.');
-          window.location.href = 'formsewamenyewa.html';
+          window.location.href = 'form.html';
           return;
         }
         
         try {
           const formData = JSON.parse(previewData);
           
-          // Load buyer info if it exists in formData
-          const nameInput = document.getElementById('previewBuyerName');
+          // Pre-fill buyer info from formData if available
+          const nameInput  = document.getElementById('previewBuyerName');
           const emailInput = document.getElementById('previewEmail');
           const phoneInput = document.getElementById('previewBuyerPhone');
           
-          if (nameInput && formData.nama_penyewa) {
-            nameInput.value = formData.nama_penyewa;
-          }
-          if (emailInput && formData.email) {
-            emailInput.value = formData.email;
-          }
-          if (phoneInput && formData.phone) {
-            phoneInput.value = formData.phone;
-          }
+          if (nameInput  && formData.nama_penyewa) nameInput.value  = formData.nama_penyewa;
+          if (emailInput && formData.email)         emailInput.value = formData.email;
+          if (phoneInput && formData.phone)         phoneInput.value = formData.phone;
           
           // Generate full document preview
           if (typeof generateFullDocumentPreview === 'function') {
             generateFullDocumentPreview(formData);
+            applyBlurToPreview();
           } else {
             console.error('generateFullDocumentPreview function not found');
+          }
+          
+          // Blur paragraphs that have no user placeholders (paywall effect)
+          function applyBlurToPreview() {
+            const fullPreview = document.getElementById('fullDocumentPreview');
+            if (!fullPreview) return;
+            
+            const blockElements = fullPreview.querySelectorAll('p, li, ol > li, h3, .section-title');
+            blockElements.forEach(element => {
+              const hasUserFields = element.querySelector('.filled-field, .placeholder-field');
+              const isTitle = element.classList.contains('section-title') || element.tagName === 'H3' || element.tagName === 'H1';
+              if (!hasUserFields && !isTitle && element.textContent.trim().length > 0) {
+                if (!element.closest('.blurred-section')) {
+                  element.classList.add('blurred-section');
+                }
+              }
+            });
+            
+            const signatureTable = fullPreview.querySelector('.signature-table');
+            if (signatureTable && !signatureTable.querySelector('.filled-field, .placeholder-field')) {
+              signatureTable.classList.add('blurred-section');
+            }
+            
+            console.log('✅ Blur applied per paragraph based on placeholder presence');
           }
           
           // Handle payment button
@@ -438,92 +551,55 @@
             payBtn.addEventListener('click', async (e) => {
               e.preventDefault();
               
-              // Get buyer info from input fields
-              const nameInput = document.getElementById('previewBuyerName');
+              const nameInput  = document.getElementById('previewBuyerName');
               const emailInput = document.getElementById('previewEmail');
               const phoneInput = document.getElementById('previewBuyerPhone');
               
-              // Validate name
-              if (!nameInput || !nameInput.value || !nameInput.value.trim()) {
+              if (!nameInput?.value?.trim()) {
                 alert('Nama lengkap harus diisi untuk melanjutkan pembayaran.');
                 nameInput?.focus();
                 return;
               }
-              
-              // Validate email
-              if (!emailInput || !emailInput.value || !emailInput.value.trim()) {
+              if (!emailInput?.value?.trim()) {
                 alert('Email harus diisi untuk melanjutkan pembayaran.');
                 emailInput?.focus();
                 return;
               }
-              
-              // Validate email format
               const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
               if (!emailRegex.test(emailInput.value.trim())) {
-                alert('Format email tidak valid. Silakan masukkan email yang benar.');
+                alert('Format email tidak valid.');
                 emailInput.focus();
                 return;
               }
-              
-              // Validate phone
-              if (!phoneInput || !phoneInput.value || !phoneInput.value.trim()) {
+              if (!phoneInput?.value?.trim()) {
                 alert('Nomor telepon harus diisi untuk melanjutkan pembayaran.');
                 phoneInput?.focus();
                 return;
               }
               
-              // Add buyer info to formData
-              const formDataWithBuyer = { 
-                ...formData, 
-                email: emailInput.value.trim(),
-                buyer: {
-                  name: nameInput.value.trim(),
-                  email: emailInput.value.trim(),
-                  phone: phoneInput.value.trim()
-                }
-              };
-              
-              // Disable button and show loading state
               payBtn.disabled = true;
-              const originalText = payBtn.textContent;
               payBtn.textContent = 'Memproses...';
               payBtn.style.opacity = '0.7';
-              payBtn.style.cursor = 'not-allowed';
               
               try {
-                if (typeof initiatePayment === 'function') {
-                  await initiatePayment(formDataWithBuyer);
-                  // initiatePayment will handle redirect to iPaymu
-                  // If we reach here without redirect, something went wrong
-                  // Re-enable button just in case
-                  payBtn.disabled = false;
-                  payBtn.textContent = originalText;
-                  payBtn.style.opacity = '1';
-                  payBtn.style.cursor = 'pointer';
-                } else {
-                  console.error('initiatePayment function not found');
-                  alert('Fungsi pembayaran tidak tersedia. Silakan refresh halaman.');
-                  // Re-enable button on error
-                  payBtn.disabled = false;
-                  payBtn.textContent = originalText;
-                  payBtn.style.opacity = '1';
-                  payBtn.style.cursor = 'pointer';
-                }
+                await initiateIpaymuPayment(
+                  nameInput.value.trim(),
+                  emailInput.value.trim(),
+                  phoneInput.value.trim()
+                );
               } catch (error) {
                 console.error('Payment error:', error);
-                // Error message already shown by initiatePayment
-                // Just re-enable button
+                alert('Terjadi kesalahan: ' + error.message);
                 payBtn.disabled = false;
-                payBtn.textContent = originalText;
+                payBtn.textContent = 'Lanjut ke Pembayaran';
                 payBtn.style.opacity = '1';
-                payBtn.style.cursor = 'pointer';
               }
             });
           }
         } catch (error) {
           console.error('Error loading preview data:', error);
           alert('Terjadi kesalahan saat memuat preview. Silakan coba lagi.');
-          window.location.href = 'formsewamenyewa.html';
+          window.location.href = 'form.html';
         }
       });
     </script>

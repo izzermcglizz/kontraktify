@@ -451,6 +451,7 @@ const autoSave = debounce(() => {
 // Update progress bar
 function updateProgress() {
   const form = document.getElementById('documentForm');
+  if (!form) return;
   const allFields = form.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea');
   
   let filledCount = 0;
@@ -537,26 +538,8 @@ function generateFullDocumentPreview(formData) {
     }
   });
   
-  // Add blur to sections that don't require user input (Pasal 3-12 are standard legal clauses)
-  // Only Pasal 1 and 2 need user input, so we blur everything from Pasal 3 onwards
-  // Wrap each pasal section (3-12) with blurred div
-  for (let pasalNum = 3; pasalNum <= 12; pasalNum++) {
-    // Match from section title to next section title or signature table
-    const regex = new RegExp(
-      `(<div class="section-title">PASAL ${pasalNum}<br>[^<]*</div>)([\\s\\S]*?)(?=<div class="section-title">PASAL ${pasalNum + 1}|<table class="signature-table"|$)`,
-      'g'
-    );
-    
-    htmlContent = htmlContent.replace(regex, (match, title, content) => {
-      return `<div class="blurred-section">${title}${content}</div>`;
-    });
-  }
-  
-  // Also blur signature table
-  htmlContent = htmlContent.replace(
-    /(<table class="signature-table"[\s\S]*?<\/table>)/g,
-    '<div class="blurred-section">$1</div>'
-  );
+  // No blur on form page - users should see full preview while editing
+  // Blur will be applied on the preview.html page before payment
   
   fullPreview.innerHTML = htmlContent;
 }
@@ -648,10 +631,10 @@ function cleanPaymentData(data) {
 // Show payment information on payment page
 function showPaymentInfo(paymentInfo) {
   // Check if we're on payment page
-  if (!window.location.pathname.includes('payment-sewa-menyewa.html')) {
+  if (!window.location.pathname.includes('payment.html')) {
     // If not on payment page, redirect to payment page with info
     sessionStorage.setItem('paymentInfo', JSON.stringify(paymentInfo));
-    window.location.href = 'payment-sewa-menyewa.html?payment=success';
+    window.location.href = 'payment.html?payment=success';
     return;
   }
   
@@ -961,7 +944,7 @@ function checkPaymentStatus() {
       const formData = parsed.formData;
       
       // Generate preview if on preview page
-      if (window.location.pathname.includes('preview-sewa-menyewa.html')) {
+      if (window.location.pathname.includes('preview.html')) {
         generateFullDocumentPreview(formData);
         
         // Enable download button
@@ -1108,7 +1091,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (loaderText) loaderText.textContent = 'Memproses dokumen Anda...';
           
           // Redirect to preview page
-          window.location.href = 'preview-sewa-menyewa.html';
+          window.location.href = 'preview.html';
         }, 1000);
       }, 1500);
       
@@ -1120,10 +1103,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Preview view buttons removed - now handled in preview-sewa-menyewa.html
+  // Preview view buttons removed - now handled in preview.html
   
   // Check payment status on page load (only for preview page)
-  if (window.location.pathname.includes('preview-sewa-menyewa.html')) {
+  if (window.location.pathname.includes('preview.html')) {
     checkPaymentStatus();
   }
   

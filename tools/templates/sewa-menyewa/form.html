@@ -27,7 +27,7 @@
     <header class="new-header">
       <div class="new-header__container">
         <div class="new-header__left">
-          <a href="../perjanjian-sewa-menyewa-tempat.html" class="back-button">
+          <a href="landing.html" class="back-button">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
@@ -494,8 +494,7 @@
     </div>
 
     <script src="../../../script.js" defer></script>
-    <script src="formsewamenyewa.js"></script>
-    <script src="formsewamenyewa_clean.js"></script>
+    <script src="form.js"></script>
     <style>
       /* ===== NEW WIZARD DESIGN ===== */
       .new-header {
@@ -1142,21 +1141,7 @@
         font-style: italic;
       }
       
-      /* Blurred section */
-      .preview-document-full .blurred-section {
-        filter: blur(4px);
-        user-select: none;
-        pointer-events: none;
-        opacity: 0.4;
-        position: relative;
-      }
-      
-      .preview-document-full .blurred-section::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.3);
-      }
+      /* No blur on form page - full preview visible during editing */
       
       .btn--primary {
         background: var(--primary);
