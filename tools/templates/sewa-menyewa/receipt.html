@@ -224,6 +224,24 @@
         const referenceId = urlParams.get('ref') || sessionStorage.getItem('paymentReferenceId') || 'N/A';
         const status = urlParams.get('status') || 'berhasil';
 
+        // Restore formData from URL (?d= or #d=) — survives cross-origin redirect from iPaymu
+        function restoreFromUrl() {
+          const fromQuery = urlParams.get('d');
+          const fromHash = window.location.hash && window.location.hash.match(/#d=([^&]+)/);
+          const encoded = fromQuery || (fromHash && fromHash[1]);
+          if (encoded) {
+            try {
+              const decoded = decodeURIComponent(atob(decodeURIComponent(encoded)));
+              sessionStorage.setItem('previewDocumentData', decoded);
+              const cleanUrl = window.location.pathname + '?' + new URLSearchParams({ ref: referenceId, status }).toString();
+              history.replaceState(null, '', cleanUrl);
+              return true;
+            } catch (e) {}
+          }
+          return false;
+        }
+        if (!sessionStorage.getItem('previewDocumentData')) restoreFromUrl();
+
         document.getElementById('referenceId').textContent = referenceId;
 
         if (status === 'batal' || status === 'cancel' || status === 'failed') {
@@ -243,6 +261,8 @@
               previewData = localStorage.getItem('previewDocumentData_backup');
             }
           }
+          if (!previewData) restoreFromUrl();
+          if (!previewData) previewData = sessionStorage.getItem('previewDocumentData');
           if (!previewData) {
             alert('Data dokumen tidak ditemukan. Silakan hubungi kami via WhatsApp dengan ID pesanan Anda untuk meminta dokumen.');
             return;

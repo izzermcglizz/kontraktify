@@ -384,7 +384,7 @@
 
         var referenceId = generateReferenceId();
 
-        // Save referenceId and formData for receipt page (localStorage survives redirect from iPaymu)
+        // Save referenceId and formData for receipt page
         sessionStorage.setItem('paymentReferenceId', referenceId);
         sessionStorage.setItem('paymentBuyerName', buyerName);
         sessionStorage.setItem('paymentBuyerEmail', buyerEmail);
@@ -394,13 +394,25 @@
           localStorage.setItem('previewDocumentData_ref', referenceId);
         }
 
+        // Encode formData in URL so it survives cross-origin redirect (file:// -> https)
+        // Query param (not hash) — payment gateways often strip hash on redirect
+        var receiptBase = baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId;
+        var returnUrl = receiptBase + "&status=berhasil";
+        var cancelUrl = receiptBase + "&status=batal";
+        if (previewData && previewData.length < 8000) {
+          try {
+            var encoded = btoa(encodeURIComponent(previewData));
+            if (encoded.length < 6000) returnUrl += "&d=" + encodeURIComponent(encoded);
+          } catch (e) {}
+        }
+
         var body = {
           "product":    ["Perjanjian Sewa Menyewa Tempat"],
           "qty":        ["1"],
           "price":      ["10000"],
           "amount":     "10000",
-          "returnUrl":  baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId + "&status=berhasil",
-          "cancelUrl":  baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId + "&status=batal",
+          "returnUrl":  returnUrl,
+          "cancelUrl":  cancelUrl,
           "notifyUrl":  "https://jblbjdvipspzrcjeipei.supabase.co/functions/v1/ipaymu-webhook",
           "referenceId": referenceId,
           "buyerName":  buyerName,

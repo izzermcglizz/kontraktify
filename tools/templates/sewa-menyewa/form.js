@@ -546,19 +546,93 @@ function generateFullDocumentPreview(formData) {
 
 // Preview view functions removed - now using separate page
 
-// Generate and download Word document (HTML format compatible with Microsoft Word)
-function generateWordDocument(formData) {
-  const fullHtml = replaceVariables(documentTemplate, formData);
-  // Add Word XML namespace so .doc opens correctly in Microsoft Word
-  const wordHtml = fullHtml.replace(
-    '<html lang="id">',
-    '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" lang="id">'
-  );
-  
-  const blob = new Blob(['\ufeff', wordHtml], {
-    type: 'application/msword'
+// Replace variables in TXT template (perjanjian_sewa_menyewa_template_variables.txt)
+function replaceTxtTemplateVariables(txt, data) {
+  let result = txt;
+  const d = Object.assign({}, data || {});
+
+  // Format dates for display in document
+  if (d.tanggal_mulai) d.tanggal_mulai = formatDate(d.tanggal_mulai);
+  if (d.tanggal_akhir) d.tanggal_akhir = formatDate(d.tanggal_akhir);
+  if (d.batas_akhir_pelunasan) d.batas_akhir_pelunasan = formatDate(d.batas_akhir_pelunasan);
+
+  // First line: tempat, hari, tanggal, bulan, tahun (replace blanks)
+  result = result.replace(/ditandatangani dan dilangsungkan di\s+, pada hari\s+, tanggal\s+bulan\s+tahun\s+,/,
+    `ditandatangani dan dilangsungkan di ${d.tempat_penandatanganan || ''}, pada hari ${d.hari || ''}, tanggal ${d.tanggal || ''} bulan ${d.bulan || ''} tahun ${d.tahun || ''},`);
+
+  // Duplicate vars: {{nama}}, {{nomor_ktp}}, {{alamat_tinggal}} — first=pemberi, second=penyewa
+  let n = 0;
+  result = result.replace(/\{\{nama\}\}/g, () => (++n === 1 ? (d.nama_pemberi_sewa || '') : (d.nama_penyewa || '')));
+  n = 0;
+  result = result.replace(/\{\{nomor_ktp\}\}/g, () => (++n === 1 ? (d.ktp_pemberi_sewa || '') : (d.ktp_penyewa || '')));
+  n = 0;
+  result = result.replace(/\{\{alamat_tinggal\}\}/g, () => (++n === 1 ? (d.alamat_pemberi_sewa || '') : (d.alamat_penyewa || '')));
+
+  // TXT-specific var names -> form data
+  const txtMapping = {
+    masukan_nomor_shm: 'nomor_shm',
+    masukan_nama_pemilik: 'nama_pemilik_shm',
+    masukan_alamat_lengkap_jalan_no_rt_rw_kelurahan_kecamatan_kabupaten_kota_provinsi_kode_pos: 'alamat_lengkap_tempat',
+    angka_nominal: 'harga_sewa_angka',
+    huruf_rupiah: 'harga_sewa_huruf',
+    durasi: 'durasi_sewa',
+    jumlah_hari_bulan: 'jumlah_hari_pemberitahuan',
+    huruf: 'huruf_hari_pemberitahuan',
+    jumlah_hari: 'jumlah_hari_pelanggaran',
+    batas_waktu: 'batas_waktu_penyelesaian'
+  };
+
+  Object.keys(variableMapping).forEach(key => {
+    const val = d[key];
+    result = result.replace(new RegExp(`\\{\\{${key}\\}\\}`, 'g'), val !== undefined && val !== '' ? val : '');
   });
-  
+  Object.entries(txtMapping).forEach(([txtKey, formKey]) => {
+    const val = d[formKey];
+    result = result.replace(new RegExp(`\\{\\{${txtKey}\\}\\}`, 'g'), val !== undefined && val !== '' ? val : '');
+  });
+
+  // Conditional: remove pembayaran bertahap block if not applicable
+  if (!d.pembayaran_bertahap) {
+    result = result.replace(/Apabila disepakati pembayaran secara bertahap, maka:[\s\S]*?(?=Apabila terjadi keterlambatan)/m,
+      '');
+  }
+
+  return result;
+}
+
+// Generate Word from TXT template (tools/templates/documents/perjanjian_sewa_menyewa_template_variables.txt)
+async function generateWordFromTxtTemplate(formData) {
+  const url = '../documents/perjanjian_sewa_menyewa_template_variables.txt';
+
+  let txtContent;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Template tidak ditemukan');
+    txtContent = await res.text();
+  } catch (e) {
+    console.warn('TXT template fetch failed, using embedded HTML:', e);
+    const fullHtml = replaceVariables(documentTemplate, formData);
+    const wordHtml = fullHtml.replace('<html lang="id">',
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" lang="id">');
+    return downloadWordBlob(wordHtml);
+  }
+
+  const bodyText = replaceTxtTemplateVariables(txtContent, formData);
+  const escaped = bodyText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const paragraphs = escaped.split(/\n\n+/).filter(p => p.trim()).map(p => `<p style="margin: 0 0 1em 0; text-align: justify;">${p.replace(/\n/g, '<br>')}</p>`).join('');
+  const wordHtml = `<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" lang="id">
+<head><meta charset="UTF-8"><title>Perjanjian Sewa Menyewa Tempat</title></head>
+<body style="font-family: 'Times New Roman', serif; max-width: 800px; margin: 0 auto; padding: 40px; line-height: 1.6;">
+${paragraphs}
+</body>
+</html>`;
+
+  downloadWordBlob(wordHtml);
+}
+
+function downloadWordBlob(html) {
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -567,6 +641,11 @@ function generateWordDocument(formData) {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+}
+
+// Generate and download Word document (uses TXT template, fallback to HTML)
+function generateWordDocument(formData) {
+  generateWordFromTxtTemplate(formData);
 }
 
 // SHA256 and HMAC-SHA256 using Web Crypto API (native browser, no CSP issues)
