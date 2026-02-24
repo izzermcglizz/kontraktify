@@ -1068,61 +1068,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load progress on page load
   loadProgressFromLocalStorage();
   
-  // Auto-scroll preview to corresponding section when field is focused
-  const formFields = form.querySelectorAll('input, textarea, select');
-  formFields.forEach(field => {
-    field.addEventListener('focus', () => {
-      const fieldName = field.getAttribute('name') || field.getAttribute('id');
-      if (!fieldName || !preview) return;
-      
-      // Convert field name to search term (e.g., "nama_pemberi_sewa" -> "nama pemberi sewa")
-      const searchTerm = fieldName.replace(/_/g, ' ').toLowerCase();
-      
-      // Get all text content and find matches
-      const previewHTML = preview.innerHTML.toLowerCase();
-      const searchPattern = `[${searchTerm}]`;
-      
-      if (previewHTML.includes(searchPattern)) {
-        // Find the placeholder element
-        const placeholders = preview.querySelectorAll('.placeholder-field');
-        
-        for (const placeholder of placeholders) {
-          const placeholderText = placeholder.textContent.toLowerCase();
-          
-          if (placeholderText.includes(searchTerm)) {
-            // Get the scrollable container (preview-content parent)
-            const scrollContainer = preview.closest('.preview-content');
-            
-            if (scrollContainer) {
-              // Calculate position
-              const placeholderRect = placeholder.getBoundingClientRect();
-              const containerRect = scrollContainer.getBoundingClientRect();
-              const relativeTop = placeholderRect.top - containerRect.top + scrollContainer.scrollTop;
-              
-              // Scroll to center the placeholder in view
-              const scrollTo = relativeTop - (scrollContainer.clientHeight / 2) + (placeholderRect.height / 2);
-              
-              scrollContainer.scrollTo({
-                top: Math.max(0, scrollTo),
-                behavior: 'smooth'
-              });
-              
-              // Add temporary highlight
-              placeholder.style.transition = 'all 0.3s ease';
-              placeholder.style.transform = 'scale(1.05)';
-              placeholder.style.boxShadow = '0 0 0 3px rgba(245, 198, 68, 0.3)';
-              
-              setTimeout(() => {
-                placeholder.style.transform = 'scale(1)';
-                placeholder.style.boxShadow = '';
-              }, 1500);
-            }
-            break;
-          }
-        }
-      }
-    });
-  });
   
   // Handle form submission - show preview instead of download
   form.addEventListener('submit', async (e) => {
@@ -1181,4 +1126,275 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.location.pathname.includes('preview-sewa-menyewa.html')) {
     checkPaymentStatus();
   }
+  
+  // ===== REAL-TIME LIVE PREVIEW =====
+  // Track currently active field
+  let currentActiveField = null;
+  
+  // Scroll preview to show the relevant field and highlight it
+  function scrollToPreview(fieldName) {
+    if (!fieldName) {
+      console.log('⚠️ No fieldName provided to scrollToPreview');
+      return;
+    }
+    
+    console.log('🔍 Scrolling to field:', fieldName);
+    
+    // Remove highlight from previously active field
+    if (currentActiveField) {
+      currentActiveField.classList.remove('active-editing');
+      console.log('✅ Removed active-editing from previous field');
+    }
+    
+    // Find the corresponding placeholder in preview using data-field attribute
+    const placeholders = document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`);
+    console.log(`📍 Found ${placeholders.length} placeholder(s) for "${fieldName}"`);
+    
+    if (placeholders.length > 0) {
+      const placeholder = placeholders[0]; // Get first match
+      
+      // Add active editing class to highlight
+      placeholder.classList.add('active-editing');
+      currentActiveField = placeholder;
+      console.log('✨ Added active-editing class to placeholder');
+      
+      // Get the scrollable container (preview-panel-new)
+      const scrollContainer = document.querySelector('.preview-panel-new');
+      console.log('📦 Scroll container found:', !!scrollContainer);
+      
+      if (scrollContainer) {
+        // Small delay to ensure DOM is ready
+        requestAnimationFrame(() => {
+          // Calculate position
+          const placeholderRect = placeholder.getBoundingClientRect();
+          const containerRect = scrollContainer.getBoundingClientRect();
+          const relativeTop = placeholderRect.top - containerRect.top + scrollContainer.scrollTop;
+          
+          // Scroll to position the placeholder in upper third of view
+          const scrollTo = relativeTop - (scrollContainer.clientHeight / 3);
+          
+          console.log('📜 Scrolling to position:', scrollTo);
+          scrollContainer.scrollTo({
+            top: Math.max(0, scrollTo),
+            behavior: 'smooth'
+          });
+        });
+      }
+    } else {
+      console.warn('❌ No preview field found for:', fieldName);
+    }
+  }
+  
+  // Remove active highlight when user clicks outside form fields
+  document.addEventListener('click', (e) => {
+    const isFormField = e.target.closest('#documentForm input, #documentForm textarea, #documentForm select');
+    if (!isFormField && currentActiveField) {
+      currentActiveField.classList.remove('active-editing');
+      currentActiveField = null;
+      console.log('👋 Removed highlight (clicked outside)');
+    }
+  });
+  
+  function updateLivePreview() {
+    console.log('🚀 Initializing live preview...');
+    
+    // Get all form inputs
+    const formInputs = document.querySelectorAll('#documentForm input, #documentForm textarea, #documentForm select');
+    console.log(`📝 Found ${formInputs.length} form inputs`);
+    
+    formInputs.forEach((input, index) => {
+      // Focus event - scroll and highlight
+      input.addEventListener('focus', function() {
+        const fieldName = this.id || this.name;
+        console.log(`👆 Focus on field #${index + 1}:`, fieldName);
+        scrollToPreview(fieldName);
+      });
+      
+      // Input event - update text and maintain highlight
+      input.addEventListener('input', function() {
+        const fieldName = this.id || this.name;
+        const fieldValue = this.value.trim();
+        console.log(`⌨️ Input on field "${fieldName}":`, fieldValue);
+        
+        // Find all preview fields with matching data-field attribute
+        const previewFields = document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`);
+        
+        previewFields.forEach(previewField => {
+          if (fieldValue) {
+            previewField.textContent = fieldValue;
+            previewField.classList.add('filled');
+            previewField.classList.remove('active-editing');
+            previewField.classList.add('active-editing'); // Re-add to maintain highlight
+          } else {
+            // Reset to placeholder
+            const placeholder = previewField.getAttribute('data-field')
+              .replace(/_/g, ' ')
+              .replace(/\b\w/g, l => l.toUpperCase());
+            previewField.textContent = `[${placeholder}]`;
+            previewField.classList.remove('filled');
+          }
+        });
+        
+        // Special handling for harga_sewa - auto convert to terbilang
+        if (fieldName === 'harga_sewa_angka') {
+          const terbilangField = document.querySelector('.preview-field[data-field="harga_sewa_huruf"]');
+          if (terbilangField && fieldValue) {
+            const angka = parseInt(fieldValue.replace(/\D/g, ''));
+            if (!isNaN(angka)) {
+              terbilangField.textContent = numberToWords(angka) + ' Rupiah';
+              terbilangField.classList.add('filled');
+            }
+          }
+        }
+        
+        // Auto-scroll preview to show this field
+        scrollToPreview(fieldName);
+      });
+    });
+    
+    console.log('✅ Live preview initialized!');
+  }
+  
+  // Convert number to Indonesian words
+  function numberToWords(num) {
+    if (num === 0) return 'Nol';
+    
+    const ones = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
+    const tens = ['', '', 'Dua Puluh', 'Tiga Puluh', 'Empat Puluh', 'Lima Puluh', 'Enam Puluh', 'Tujuh Puluh', 'Delapan Puluh', 'Sembilan Puluh'];
+    const teens = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
+    
+    if (num < 10) return ones[num];
+    if (num >= 10 && num < 20) return teens[num - 10];
+    if (num >= 20 && num < 100) {
+      return tens[Math.floor(num / 10)] + (num % 10 ? ' ' + ones[num % 10] : '');
+    }
+    if (num >= 100 && num < 1000) {
+      const hundred = Math.floor(num / 100);
+      const rest = num % 100;
+      return (hundred === 1 ? 'Seratus' : ones[hundred] + ' Ratus') + (rest ? ' ' + numberToWords(rest) : '');
+    }
+    if (num >= 1000 && num < 1000000) {
+      const thousand = Math.floor(num / 1000);
+      const rest = num % 1000;
+      return (thousand === 1 ? 'Seribu' : numberToWords(thousand) + ' Ribu') + (rest ? ' ' + numberToWords(rest) : '');
+    }
+    if (num >= 1000000) {
+      const million = Math.floor(num / 1000000);
+      const rest = num % 1000000;
+      return numberToWords(million) + ' Juta' + (rest ? ' ' + numberToWords(rest) : '');
+    }
+    
+    return num.toString();
+  }
+  
+  // Initialize live preview
+  console.log('🔄 About to initialize live preview...');
+  updateLivePreview();
+  console.log('✅ Live preview initialization complete!');
+  
+  // ===== WIZARD NAVIGATION LOGIC =====
+  let currentWizardStep = 1;
+  const totalSteps = 4;
+  
+  // Map steps to form groups
+  const stepGroups = {
+    1: ['informasi-umum'],
+    2: ['pemberi-sewa', 'penyewa'],
+    3: ['informasi-tempat'],
+    4: ['ketentuan-sewa', 'informasi-pembayaran', 'ketentuan-lainnya']
+  };
+  
+  function updateWizardStep() {
+    // Update progress circles
+    document.querySelectorAll('.step-new').forEach((step, index) => {
+      const stepNum = index + 1;
+      const circle = step.querySelector('.step-circle-new');
+      
+      if (stepNum < currentWizardStep) {
+        step.classList.add('completed');
+        step.classList.remove('active');
+        circle.textContent = '✓';
+      } else if (stepNum === currentWizardStep) {
+        step.classList.add('active');
+        step.classList.remove('completed');
+        circle.textContent = stepNum;
+      } else {
+        step.classList.remove('active', 'completed');
+        circle.textContent = stepNum;
+      }
+    });
+    
+    // Show/hide form groups based on current step
+    const currentGroups = stepGroups[currentWizardStep] || [];
+    document.querySelectorAll('.form-group[data-group]').forEach(group => {
+      const groupName = group.getAttribute('data-group');
+      if (currentGroups.includes(groupName)) {
+        group.style.display = 'block';
+        group.classList.add('is-expanded');
+      } else {
+        group.style.display = 'none';
+      }
+    });
+    
+    // Update buttons
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    
+    // Show/hide prev button
+    if (currentWizardStep === 1) {
+      prevBtn.style.display = 'none';
+    } else {
+      prevBtn.style.display = 'flex';
+    }
+    
+    // Show/hide next vs generate button
+    if (currentWizardStep === totalSteps) {
+      nextBtn.style.display = 'none';
+      generateBtn.style.display = 'flex';
+    } else {
+      nextBtn.style.display = 'flex';
+      generateBtn.style.display = 'none';
+    }
+    
+    // Scroll to top of form
+    document.querySelector('.wizard-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  
+  // Next button handler
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentWizardStep < totalSteps) {
+        currentWizardStep++;
+        updateWizardStep();
+      }
+    });
+  }
+  
+  // Previous button handler
+  const prevBtn = document.getElementById('prevBtn');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentWizardStep > 1) {
+        currentWizardStep--;
+        updateWizardStep();
+      }
+    });
+  }
+  
+  // Generate button handler
+  const generateBtnWizard = document.getElementById('generateBtn');
+  if (generateBtnWizard) {
+    generateBtnWizard.addEventListener('click', () => {
+      // Trigger form submission
+      const form = document.getElementById('documentForm');
+      if (form) {
+        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+      }
+    });
+  }
+  
+  // Initialize wizard on page load
+  updateWizardStep();
 });

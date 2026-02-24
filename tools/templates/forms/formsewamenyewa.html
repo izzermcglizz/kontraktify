@@ -24,124 +24,68 @@
     />
   </head>
   <body>
-    <header class="form-header-bar">
-      <div class="form-header-bar__container">
-        <div class="form-header-bar__left">
-          <a href="../index.html" class="form-header-bar__back">
+    <header class="new-header">
+      <div class="new-header__container">
+        <div class="new-header__left">
+          <a href="../perjanjian-sewa-menyewa-tempat.html" class="back-button">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
-            <span>Kembali</span>
           </a>
-          <a href="../index.html" class="form-header-bar__logo">
-            <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
-            <span>Kontraktify</span>
+          <a href="/" class="logo">
+            <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__icon" />
+            <span class="logo__text">Kontraktify</span>
           </a>
         </div>
-        <div class="form-header-bar__right">
-          <div class="save-progress-indicator" id="saveProgressIndicator" style="display: none;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-              <polyline points="17 21 17 13 7 13 7 21"></polyline>
-              <polyline points="7 3 7 8 15 8"></polyline>
+        <div class="new-header__right">
+          <div class="autosave-badge" id="autosaveBadge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
-            <span>Progress Tersimpan</span>
+            <span>Tersimpan otomatis</span>
           </div>
-          <button type="button" class="btn btn--ghost btn--small" id="saveProgressBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-              <polyline points="17 21 17 13 7 13 7 21"></polyline>
-              <polyline points="7 3 7 8 15 8"></polyline>
-            </svg>
-            Simpan Progress
-          </button>
+          <a href="#" class="bantuan-link">Bantuan</a>
         </div>
       </div>
     </header>
 
     <main>
-      <section class="form-hero">
-        <div class="container">
-          <div class="form-header">
-            <h1>Buat Perjanjian Sewa Menyewa Tempat</h1>
-            <div class="form-info-note">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="16" x2="12" y2="12"/>
-                <line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-              <span>Field yang belum diisi akan muncul sebagai placeholder di dokumen Word yang bisa Anda lengkapi sendiri nanti.</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- Form View -->
-      <section class="form-section form-view" id="formView">
-        <div class="container">
-          <!-- Progress Bar -->
-          <div class="form-progress-top">
-            <div class="progress-container">
-              <div class="progress-info">
-                <span class="progress-label">Progress Pengisian</span>
-                <span class="progress-percentage" id="progressPercentage">0%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-bar__fill" id="progressBarFill" style="width: 0%"></div>
+      <section class="form-section-new">
+        <div class="wizard-layout">
+          <!-- Left Panel: Form -->
+          <div class="form-panel-new">
+            <div class="wizard-header">
+              <h1 class="wizard-title">Buat Perjanjian Sewa Menyewa</h1>
+              <p class="wizard-subtitle">Lengkapi formulir untuk membuat dokumen profesional</p>
+              
+              <!-- Progress Steps -->
+              <div class="progress-steps-new">
+                <div class="step-new active" data-step="1">
+                  <div class="step-circle-new">✓</div>
+                  <div class="step-label-new">Jenis</div>
+                </div>
+                <div class="step-connector-new"></div>
+                <div class="step-new active" data-step="2">
+                  <div class="step-circle-new">2</div>
+                  <div class="step-label-new">Penyewa</div>
+                </div>
+                <div class="step-connector-new"></div>
+                <div class="step-new" data-step="3">
+                  <div class="step-circle-new">3</div>
+                  <div class="step-label-new">Properti</div>
+                </div>
+                <div class="step-connector-new"></div>
+                <div class="step-new" data-step="4">
+                  <div class="step-circle-new">4</div>
+                  <div class="step-label-new">Review</div>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div class="form-layout">
-            <!-- Navigation Sidebar -->
-            <aside class="form-nav-sidebar">
-              <nav class="form-nav">
-                <div class="form-nav-section">
-                  <button class="form-nav-item form-nav-item--parent" data-section="identitas">
-                    <span>Identitas</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                  </button>
-                  <div class="form-nav-submenu">
-                    <button class="form-nav-item is-active" data-group="informasi-umum">Informasi Umum</button>
-                    <button class="form-nav-item" data-group="pemberi-sewa">Pemberi Sewa</button>
-                    <button class="form-nav-item" data-group="penyewa">Penyewa</button>
-                    <button class="form-nav-item" data-group="informasi-tempat">Informasi Tempat</button>
-                  </div>
-                </div>
-                
-                <div class="form-nav-section">
-                  <button class="form-nav-item form-nav-item--parent" data-section="ketentuan">
-                    <span>Ketentuan</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                  </button>
-                  <div class="form-nav-submenu">
-                    <button class="form-nav-item" data-group="ketentuan-sewa">Ketentuan Sewa</button>
-                    <button class="form-nav-item" data-group="informasi-pembayaran">Pembayaran</button>
-                  </div>
-                </div>
-                
-                <div class="form-nav-section">
-                  <button class="form-nav-item form-nav-item--parent" data-section="penutup">
-                    <span>Penutup</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                  </button>
-                  <div class="form-nav-submenu">
-                    <button class="form-nav-item" data-group="ketentuan-lainnya">Ketentuan Lainnya</button>
-                  </div>
-                </div>
-              </nav>
-            </aside>
             
-            <!-- Form Sidebar -->
-            <div class="form-sidebar">
-              <div class="form-card">
-                <form id="documentForm" class="document-form">
+            <div class="wizard-form">
+              <form id="documentForm" class="document-form">
                   <!-- Informasi Umum -->
                   <div class="form-group form-group--collapsible is-expanded" data-group="informasi-umum">
                     <div class="form-group__header">
@@ -458,21 +402,75 @@
                     </div>
                     </div>
                   </div>
-
-                  <button type="submit" class="btn btn--primary btn--full" id="generateBtn">
-                    Generate Dokumen
-                  </button>
                 </form>
-              </div>
             </div>
+            
+            <!-- Wizard Navigation Buttons (Fixed at bottom) -->
+            <div class="wizard-actions">
+              <button type="button" class="btn-wizard btn-back" id="prevBtn" style="display: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Kembali
+              </button>
+              <button type="button" class="btn-wizard btn-next" id="nextBtn">
+                Lanjut
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="btn-wizard btn-generate" id="generateBtn" style="display: none;">
+                Generate Dokumen
+              </button>
+            </div>
+          </div>
 
-            <!-- Preview Sidebar -->
-            <div class="preview-sidebar-form">
-              <div class="preview-card">
-                <h2>Preview Dokumen</h2>
-                <div class="preview-content" id="documentPreview">
-                  <!-- Preview akan di-generate oleh JavaScript -->
-                </div>
+          <!-- Right Panel: Preview -->
+          <div class="preview-panel-new">
+            <div class="preview-header-new">
+              <h2>Preview Dokumen</h2>
+              <span class="live-badge">🔴 Live</span>
+            </div>
+            <div class="preview-content" id="documentPreview">
+              <div class="preview-document" id="previewDocument">
+                    <h1 style="text-align: center; font-weight: 700; margin-bottom: 1.5rem;">PERJANJIAN SEWA MENYEWA TEMPAT</h1>
+                    
+                    <p>Perjanjian sewa menyewa tempat ini (untuk selanjutnya disebut "<strong>Perjanjian Sewa</strong>") ditandatangani dan dilangsungkan di <span class="preview-field" data-field="tempat_penandatanganan">[Tempat]</span>, pada hari <span class="preview-field" data-field="hari">[Hari]</span>, tanggal <span class="preview-field" data-field="tanggal">[Tanggal]</span> bulan <span class="preview-field" data-field="bulan">[Bulan]</span> tahun <span class="preview-field" data-field="tahun">[Tahun]</span>, oleh dan antara:</p>
+
+                    <ol style="margin-left: 20px;">
+                        <li><strong><span class="preview-field" data-field="nama_pemberi_sewa">[Nama Pemberi Sewa]</span></strong>, pemilik KTP dengan nomor <strong><span class="preview-field" data-field="ktp_pemberi_sewa">[KTP]</span></strong> bertempat tinggal permanen di <strong><span class="preview-field" data-field="alamat_pemberi_sewa">[Alamat]</span></strong>, untuk selanjutnya disebut "<strong>Pemberi Sewa</strong>"; dan</li>
+                        <li><strong><span class="preview-field" data-field="nama_penyewa">[Nama Penyewa]</span></strong>, pemilik KTP dengan nomor <strong><span class="preview-field" data-field="ktp_penyewa">[KTP]</span></strong> bertempat tinggal permanen di <strong><span class="preview-field" data-field="alamat_penyewa">[Alamat]</span></strong>, untuk selanjutnya disebut "<strong>Penyewa</strong>",</li>
+                    </ol>
+
+                    <p>secara bersama-sama disebut sebagai <strong>PARA PIHAK</strong>.</p>
+
+                    <p><strong>Pemberi Sewa</strong> dan <strong>Penyewa</strong> dengan ini terlebih dahulu menerangkan hal-hal sebagai berikut:</p>
+
+                    <ol style="margin-left: 20px;">
+                        <li><strong>Bahwa,</strong> Pemberi Sewa adalah pemilik yang sah atas suatu tempat yang berdiri di atas tanah hak atas tanah milik dengan Sertifikat Hak Milik (SHM) Nomor: <strong><span class="preview-field" data-field="nomor_shm">[Nomor SHM]</span></strong> atas nama <strong><span class="preview-field" data-field="nama_pemilik_shm">[Nama Pemilik]</span></strong> yang setempat dikenal sebagai <strong><span class="preview-field" data-field="alamat_lengkap_tempat">[Alamat Properti]</span></strong> (selanjutnya disebut "<strong>Tempat</strong>").</li>
+                        <li><strong>Bahwa,</strong> Pemberi Sewa bermaksud untuk menyewakan Tempat tersebut kepada Penyewa sebagaimana Penyewa bermaksud untuk menyewa Tempat tersebut dari Pemberi Sewa.</li>
+                        <li><strong>Bahwa</strong> berdasarkan hal-hal tersebut di atas, Para Pihak menyatakan sepakat dan setuju untuk mengadakan dan menandatangani Perjanjian Sewa yang dilaksanakan dengan ketentuan dan syarat-syarat sebagai berikut:</li>
+                    </ol>
+
+                    <h3 style="text-align: center; font-weight: 700; margin: 1.5rem 0 1rem;">PASAL 1<br/>KESEPAKATAN SEWA-MENYEWA</h3>
+
+                    <ol style="margin-left: 20px;">
+                        <li>Pemberi Sewa dengan ini sepakat untuk menyewakan Tempat kepada Penyewa sebagaimana Penyewa dengan ini sepakat untuk menyewa Tempat tersebut dari Pemberi Sewa.</li>
+                        <li>Sewa menyewa Tempat sebagaimana dimaksud ayat (1) dilaksanakan dengan ketentuan sebagai berikut:
+                            <ol style="list-style-type: lower-alpha; margin-left: 20px;">
+                                <li>Harga Sewa sebesar Rp <strong><span class="preview-field" data-field="harga_sewa_angka">[Harga]</span></strong> (<strong><span class="preview-field" data-field="harga_sewa_huruf">[Terbilang]</span></strong>) ("<strong>Harga Sewa</strong>").</li>
+                                <li>Jangka Waktu Sewa adalah untuk selama <strong><span class="preview-field" data-field="durasi_sewa">[Durasi]</span></strong> bulan/tahun*, yang dimulai pada tanggal <strong><span class="preview-field" data-field="tanggal_mulai">[Tanggal Mulai]</span></strong> dan berakhir pada tanggal <strong><span class="preview-field" data-field="tanggal_akhir">[Tanggal Selesai]</span></strong> ("<strong>Masa Sewa</strong>").</li>
+                            </ol>
+                        </li>
+                    </ol>
+
+                    <h3 style="text-align: center; font-weight: 700; margin: 1.5rem 0 1rem;">PASAL 2<br/>PEMBAYARAN</h3>
+
+                    <p style="margin-bottom: 1rem;">Pembayaran atas Harga Sewa dilakukan oleh Penyewa kepada Pemberi Sewa melalui transfer ke rekening bank atas nama <strong><span class="preview-field" data-field="nama_pemilik_rekening">[Nama]</span></strong> pada <strong><span class="preview-field" data-field="nama_bank">[Bank]</span></strong>, nomor rekening <strong><span class="preview-field" data-field="nomor_rekening">[No. Rekening]</span></strong>, selambat-lambatnya pada saat penandatanganan Perjanjian ini...</p>
+
+                    <p style="text-align: center; color: #6b7280; font-size: 0.75rem; margin-top: 2rem;">
+                      ... pasal-pasal selanjutnya akan muncul di dokumen final ...
+                    </p>
               </div>
             </div>
           </div>
@@ -497,7 +495,347 @@
 
     <script src="../../../script.js" defer></script>
     <script src="formsewamenyewa.js"></script>
+    <script src="formsewamenyewa_clean.js"></script>
     <style>
+      /* ===== NEW WIZARD DESIGN ===== */
+      .new-header {
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 0;
+      }
+      
+      .new-header__container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .new-header__left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      .back-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid #e5e7eb;
+        color: var(--primary);
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      
+      .back-button:hover {
+        background: #f3f4f6;
+        border-color: var(--primary);
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        text-decoration: none;
+        color: var(--primary);
+      }
+      
+      .logo__icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+      }
+      
+      .logo__text {
+        font-size: 1.125rem;
+        font-weight: 700;
+      }
+      
+      .new-header__right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      .autosave-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.875rem;
+        background: rgba(16, 185, 129, 0.08);
+        border-radius: 8px;
+        color: #10b981;
+        font-size: 0.8125rem;
+        font-weight: 500;
+      }
+      
+      .autosave-badge svg {
+        width: 14px;
+        height: 14px;
+      }
+      
+      .bantuan-link {
+        padding: 0.5rem 0.875rem;
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      
+      .bantuan-link:hover {
+        color: #6b7280;
+      }
+      
+      /* Wizard Layout */
+      .form-section-new {
+        background: #f9fafb;
+        min-height: calc(100vh - 80px);
+        padding: 2rem 0;
+        height: calc(100vh - 80px);
+        overflow: hidden;
+      }
+      
+      .wizard-layout {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+        height: 100%;
+      }
+      
+      .form-panel-new {
+        background: #fff;
+        border-radius: 16px;
+        padding: 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        height: calc(100vh - 120px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      
+      .wizard-header {
+        padding: 1rem 1.5rem 0.875rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        flex-shrink: 0;
+      }
+      
+      .wizard-form {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1.5rem;
+      }
+      
+      .wizard-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.25rem;
+      }
+      
+      .wizard-subtitle {
+        color: #6b7280;
+        font-size: 0.875rem;
+        margin-bottom: 1.25rem;
+      }
+      
+      /* Progress Steps */
+      .progress-steps-new {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+      
+      .step-new {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        flex: 1;
+      }
+      
+      .step-connector-new {
+        flex: 1;
+        height: 2px;
+        background: #e5e7eb;
+        margin: 0 0.5rem;
+        position: relative;
+        top: -16px;
+      }
+      
+      .step-new.active .step-connector-new {
+        background: #0f0f10;
+      }
+      
+      .step-circle-new {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        border: 2px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.8125rem;
+        color: #9ca3af;
+        transition: all 0.3s;
+      }
+      
+      .step-new.active .step-circle-new {
+        background: #0f0f10;
+        border-color: #0f0f10;
+        color: #fff;
+      }
+      
+      .step-new.completed .step-circle-new {
+        background: #10b981;
+        border-color: #10b981;
+        color: #fff;
+      }
+      
+      .step-label-new {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        color: #9ca3af;
+      }
+      
+      .step-new.active .step-label-new {
+        color: #0f0f10;
+        font-weight: 600;
+      }
+      
+      /* Wizard Action Buttons */
+      .wizard-actions {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #e5e7eb;
+        background: #fff;
+        flex-shrink: 0;
+        margin: 0;
+      }
+      
+      .btn-wizard {
+        padding: 0.875rem 1.75rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .btn-back {
+        background: #f3f4f6;
+        color: var(--primary);
+        flex: 0;
+      }
+      
+      .btn-back:hover {
+        background: #e5e7eb;
+      }
+      
+      .btn-next,
+      .btn-generate {
+        background: #0f0f10;
+        color: #fff;
+        flex: 1;
+      }
+      
+      .btn-next:hover,
+      .btn-generate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      
+      .btn-generate {
+        background: #10b981;
+      }
+      
+      .btn-generate:hover {
+        background: #059669;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+      
+      /* Preview Panel */
+      .preview-panel-new {
+        background: #fff;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        height: calc(100vh - 120px);
+        overflow-y: auto;
+      }
+      
+      .preview-header-new {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      
+      .preview-header-new h2 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0;
+      }
+      
+      .preview-header-new .live-badge {
+        padding: 6px 14px;
+        background: #ffe4e6;
+        color: #e11d48;
+        border-radius: 8px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      
+      /* Mobile Responsive */
+      @media (max-width: 1024px) {
+        .wizard-layout {
+          grid-template-columns: 1fr;
+        }
+        
+        .preview-panel-new {
+          position: static;
+          max-height: 500px;
+        }
+      }
+      
+      /* ===== END NEW WIZARD DESIGN ===== */
+      
       /* Form Header Bar Styling */
       .form-header-bar {
         background: #fff;
@@ -924,6 +1262,64 @@
           flex-direction: row;
           text-align: left;
           align-items: flex-start;
+        }
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+      
+      .preview-document {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 0.8125rem;
+        line-height: 1.8;
+        color: var(--primary);
+      }
+      
+      .preview-document h1 {
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .preview-document h3 {
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .preview-document p {
+        text-align: justify;
+        margin-bottom: 0.875rem;
+      }
+      
+      .preview-field {
+        display: inline-block;
+        background: rgba(15, 15, 16, 0.08);
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: var(--primary);
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.75rem;
+        transition: all 0.3s ease;
+      }
+      
+      .preview-field.filled {
+        background: rgba(16, 185, 129, 0.15);
+        color: #059669;
+      }
+      
+      .preview-field.active-editing {
+        background: #fef3c7;
+        color: #92400e;
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+        animation: pulse-highlight 1.5s ease-in-out infinite;
+      }
+      
+      @keyframes pulse-highlight {
+        0%, 100% {
+          box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.2);
         }
       }
     </style>
