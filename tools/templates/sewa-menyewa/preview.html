@@ -331,63 +331,6 @@
               </div>
             </div>
             
-            <div class="preview-buyer-section" style="margin-bottom: 24px;">
-              <h4 style="font-size: 0.875rem; font-weight: 600; color: rgba(15, 15, 16, 0.8); margin: 0 0 16px 0;">
-                Informasi Pembeli
-              </h4>
-              
-              <div style="margin-bottom: 16px;">
-                <label for="previewBuyerName" style="display: block; font-size: 0.875rem; font-weight: 500; color: rgba(15, 15, 16, 0.8); margin-bottom: 8px;">
-                  Nama Lengkap <span style="color: #ef4444;">*</span>
-                </label>
-                <input 
-                  type="text" 
-                  id="previewBuyerName" 
-                  name="previewBuyerName" 
-                  placeholder="Nama lengkap pembeli" 
-                  required
-                  style="width: 100%; padding: 12px 16px; border: 1px solid rgba(15, 15, 16, 0.15); border-radius: 8px; font-size: 0.9375rem; font-family: 'Manrope', sans-serif; transition: border-color 0.2s;"
-                  onfocus="this.style.borderColor='var(--primary)'"
-                  onblur="this.style.borderColor='rgba(15, 15, 16, 0.15)'"
-                />
-              </div>
-              
-              <div style="margin-bottom: 16px;">
-                <label for="previewEmail" style="display: block; font-size: 0.875rem; font-weight: 500; color: rgba(15, 15, 16, 0.8); margin-bottom: 8px;">
-                  Email <span style="color: #ef4444;">*</span>
-                </label>
-                <input 
-                  type="email" 
-                  id="previewEmail" 
-                  name="previewEmail" 
-                  placeholder="email@example.com" 
-                  required
-                  style="width: 100%; padding: 12px 16px; border: 1px solid rgba(15, 15, 16, 0.15); border-radius: 8px; font-size: 0.9375rem; font-family: 'Manrope', sans-serif; transition: border-color 0.2s;"
-                  onfocus="this.style.borderColor='var(--primary)'"
-                  onblur="this.style.borderColor='rgba(15, 15, 16, 0.15)'"
-                />
-              </div>
-              
-              <div style="margin-bottom: 0;">
-                <label for="previewBuyerPhone" style="display: block; font-size: 0.875rem; font-weight: 500; color: rgba(15, 15, 16, 0.8); margin-bottom: 8px;">
-                  Nomor Telepon <span style="color: #ef4444;">*</span>
-                </label>
-                <input 
-                  type="tel" 
-                  id="previewBuyerPhone" 
-                  name="previewBuyerPhone" 
-                  placeholder="081234567890" 
-                  required
-                  style="width: 100%; padding: 12px 16px; border: 1px solid rgba(15, 15, 16, 0.15); border-radius: 8px; font-size: 0.9375rem; font-family: 'Manrope', sans-serif; transition: border-color 0.2s;"
-                  onfocus="this.style.borderColor='var(--primary)'"
-                  onblur="this.style.borderColor='rgba(15, 15, 16, 0.15)'"
-                />
-                <small style="display: block; color: rgba(15, 15, 16, 0.6); font-size: 0.75rem; margin-top: 6px;">
-                  Diperlukan untuk pembayaran dan pengiriman dokumen
-                </small>
-              </div>
-            </div>
-            
             <div class="preview-sidebar-actions">
               <a href="form.html" class="btn btn--ghost btn--full">
                 Kembali ke Form
@@ -416,10 +359,11 @@
 
     <script src="form.js"></script>
     <script>
-      // iPaymu credentials
-      var IPAYMU_VA     = "1179005776604685";
-      var IPAYMU_APIKEY = "7FEE44DD-2DFF-42D5-B2CA-81015709A143";
-      var IPAYMU_URL    = "https://my.ipaymu.com/api/v2/payment";
+      // iPaymu — sandbox untuk testing, production untuk live
+      var IPAYMU_VA     = "0000005776604685";   // sandbox
+      var IPAYMU_APIKEY = "SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC";  // sandbox
+      var IPAYMU_URL    = "https://sandbox.ipaymu.com/api/v2/payment";     // sandbox
+      // Production: VA 1179005776604685, API 7FEE44DD-..., URL https://my.ipaymu.com/api/v2/payment
 
       // Generate reference ID
       function generateReferenceId() {
@@ -440,10 +384,15 @@
 
         var referenceId = generateReferenceId();
 
-        // Save referenceId to sessionStorage so receipt.html can read it
+        // Save referenceId and formData for receipt page (localStorage survives redirect from iPaymu)
         sessionStorage.setItem('paymentReferenceId', referenceId);
         sessionStorage.setItem('paymentBuyerName', buyerName);
         sessionStorage.setItem('paymentBuyerEmail', buyerEmail);
+        var previewData = sessionStorage.getItem('previewDocumentData');
+        if (previewData) {
+          localStorage.setItem('previewDocumentData_backup', previewData);
+          localStorage.setItem('previewDocumentData_ref', referenceId);
+        }
 
         var body = {
           "product":    ["Perjanjian Sewa Menyewa Tempat"],
@@ -504,15 +453,6 @@
         try {
           const formData = JSON.parse(previewData);
           
-          // Pre-fill buyer info from formData if available
-          const nameInput  = document.getElementById('previewBuyerName');
-          const emailInput = document.getElementById('previewEmail');
-          const phoneInput = document.getElementById('previewBuyerPhone');
-          
-          if (nameInput  && formData.nama_penyewa) nameInput.value  = formData.nama_penyewa;
-          if (emailInput && formData.email)         emailInput.value = formData.email;
-          if (phoneInput && formData.phone)         phoneInput.value = formData.phone;
-          
           // Generate full document preview
           if (typeof generateFullDocumentPreview === 'function') {
             generateFullDocumentPreview(formData);
@@ -545,48 +485,22 @@
             console.log('✅ Blur applied per paragraph based on placeholder presence');
           }
           
-          // Handle payment button
+          // Handle payment button — buyer info from formData (iPaymu collects name/email on their page)
           const payBtn = document.getElementById('payAndDownloadBtn');
           if (payBtn) {
             payBtn.addEventListener('click', async (e) => {
               e.preventDefault();
               
-              const nameInput  = document.getElementById('previewBuyerName');
-              const emailInput = document.getElementById('previewEmail');
-              const phoneInput = document.getElementById('previewBuyerPhone');
-              
-              if (!nameInput?.value?.trim()) {
-                alert('Nama lengkap harus diisi untuk melanjutkan pembayaran.');
-                nameInput?.focus();
-                return;
-              }
-              if (!emailInput?.value?.trim()) {
-                alert('Email harus diisi untuk melanjutkan pembayaran.');
-                emailInput?.focus();
-                return;
-              }
-              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-              if (!emailRegex.test(emailInput.value.trim())) {
-                alert('Format email tidak valid.');
-                emailInput.focus();
-                return;
-              }
-              if (!phoneInput?.value?.trim()) {
-                alert('Nomor telepon harus diisi untuk melanjutkan pembayaran.');
-                phoneInput?.focus();
-                return;
-              }
+              const buyerName  = formData.buyer?.name || formData.nama_penyewa || formData.nama_pemberi_sewa || 'Customer';
+              const buyerEmail = formData.buyer?.email || formData.email || 'customer@example.com';
+              const buyerPhone = formData.buyer?.phone || formData.phone || '08123456789';
               
               payBtn.disabled = true;
               payBtn.textContent = 'Memproses...';
               payBtn.style.opacity = '0.7';
               
               try {
-                await initiateIpaymuPayment(
-                  nameInput.value.trim(),
-                  emailInput.value.trim(),
-                  phoneInput.value.trim()
-                );
+                await initiateIpaymuPayment(buyerName, buyerEmail, buyerPhone);
               } catch (error) {
                 console.error('Payment error:', error);
                 alert('Terjadi kesalahan: ' + error.message);

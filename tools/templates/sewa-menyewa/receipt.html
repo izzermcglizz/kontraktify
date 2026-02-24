@@ -3,323 +3,263 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Receipt Pembayaran - Kontraktify</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <title>Terima Kasih | Kontraktify</title>
+    <link rel="icon" type="image/png" href="../../../asset/favicon-removebg-preview.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../style.css?v=14" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
-      body {
-        font-family: 'Poppins', system-ui, sans-serif;
-        background: #f5f5f5;
-        color: #0f0f10;
-        line-height: 1.6;
-        padding: 40px 20px;
-        min-height: 100vh;
-      }
-      
-      .receipt-container {
-        max-width: 600px;
-        margin: 0 auto;
+      .new-header {
         background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-        overflow: hidden;
+        border-bottom: 1px solid #e5e7eb;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 0;
       }
-      
-      .receipt-header {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: #fff;
-        padding: 40px 32px;
+      .new-header__container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .new-header__left { display: flex; align-items: center; gap: 1rem; }
+      .back-button {
+        display: flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; border-radius: 8px;
+        background: transparent; border: 1px solid #e5e7eb;
+        color: var(--primary); text-decoration: none; transition: all 0.2s;
+      }
+      .back-button:hover { background: #f3f4f6; border-color: var(--primary); }
+      .logo { display: flex; align-items: center; gap: 0.625rem; text-decoration: none; color: var(--primary); }
+      .logo__icon { width: 32px; height: 32px; border-radius: 6px; }
+      .logo__text { font-size: 1.125rem; font-weight: 700; }
+      .new-header__right { display: flex; align-items: center; gap: 1rem; }
+      .bantuan-link { padding: 0.5rem 0.875rem; color: var(--primary); text-decoration: none; font-size: 0.875rem; font-weight: 500; }
+      .bantuan-link:hover { color: #10b981; }
+
+      .thankyou-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .thankyou-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 24px;
+      }
+      .thankyou-card {
+        max-width: 520px;
+        width: 100%;
         text-align: center;
       }
-      
-      .receipt-header .success-icon {
-        width: 64px;
-        height: 64px;
-        margin: 0 auto 16px;
-        background: rgba(255, 255, 255, 0.2);
+      .thankyou-icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 24px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        font-size: 36px;
+        color: #fff;
       }
-      
-      .receipt-header h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
+      .thankyou-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary);
         margin-bottom: 8px;
       }
-      
-      .receipt-header p {
-        font-size: 0.875rem;
-        opacity: 0.9;
+      .thankyou-subtitle {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-bottom: 32px;
       }
-      
-      .receipt-content {
-        padding: 32px;
-      }
-      
-      .receipt-section {
-        margin-bottom: 24px;
-        padding-bottom: 24px;
-        border-bottom: 1px solid rgba(15, 15, 16, 0.08);
-      }
-      
-      .receipt-section:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-      
-      .receipt-section-title {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: rgba(15, 15, 16, 0.6);
-        margin-bottom: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      
-      .receipt-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 12px;
-      }
-      
-      .receipt-item:last-child {
-        margin-bottom: 0;
-      }
-      
-      .receipt-item-label {
-        font-size: 0.875rem;
-        color: rgba(15, 15, 16, 0.7);
-        flex: 1;
-      }
-      
-      .receipt-item-value {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #0f0f10;
-        text-align: right;
-        flex: 1;
-      }
-      
-      .receipt-total {
-        background: rgba(16, 185, 129, 0.05);
-        padding: 20px;
-        border-radius: 12px;
-        margin-top: 24px;
-      }
-      
-      .receipt-total .receipt-item {
-        margin-bottom: 8px;
-      }
-      
-      .receipt-total .receipt-item-value {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #10b981;
-      }
-      
-      .receipt-actions {
-        padding: 32px;
-        background: #f9fafb;
-        display: flex;
-        gap: 12px;
-      }
-      
-      .btn {
-        flex: 1;
-        padding: 14px 24px;
-        border: none;
+      .thankyou-ref {
+        display: inline-block;
+        padding: 12px 20px;
+        background: rgba(15, 15, 16, 0.04);
         border-radius: 10px;
         font-size: 0.875rem;
         font-weight: 500;
-        font-family: 'Poppins', system-ui, sans-serif;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
+        color: var(--primary);
+        margin-bottom: 32px;
+      }
+      .thankyou-ref span {
+        color: var(--text-muted);
+        font-weight: 400;
+      }
+      .thankyou-download {
+        margin-bottom: 32px;
+      }
+      .btn-download {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-      }
-      
-      .btn--primary {
+        gap: 10px;
+        padding: 16px 32px;
         background: #10b981;
         color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Manrope', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }
-      
-      .btn--primary:hover {
+      .btn-download:hover {
         background: #059669;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
       }
-      
-      .btn--ghost {
-        background: #fff;
-        color: #0f0f10;
-        border: 1px solid rgba(15, 15, 16, 0.1);
+      .btn-download:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
       }
-      
-      .btn--ghost:hover {
+      .thankyou-disclaimer {
+        text-align: left;
+        padding: 20px;
         background: rgba(15, 15, 16, 0.03);
-        border-color: rgba(15, 15, 16, 0.2);
-      }
-      
-      .receipt-note {
-        padding: 16px;
-        background: rgba(16, 185, 129, 0.05);
-        border-left: 3px solid #10b981;
-        border-radius: 8px;
-        margin-top: 24px;
+        border-radius: 12px;
         font-size: 0.8125rem;
-        color: rgba(15, 15, 16, 0.7);
-        line-height: 1.6;
+        color: var(--text-muted);
+        line-height: 1.7;
       }
-      
-      .receipt-note strong {
-        color: #10b981;
+      .thankyou-disclaimer strong {
+        color: var(--primary);
         font-weight: 600;
       }
-      
-      @media (max-width: 640px) {
-        .receipt-container {
-          border-radius: 0;
-        }
-        
-        .receipt-header {
-          padding: 32px 24px;
-        }
-        
-        .receipt-content {
-          padding: 24px;
-        }
-        
-        .receipt-actions {
-          flex-direction: column;
-          padding: 24px;
-        }
+      .thankyou-disclaimer a {
+        color: #10b981;
+        text-decoration: none;
+      }
+      .thankyou-disclaimer a:hover {
+        text-decoration: underline;
+      }
+      .thankyou-back {
+        margin-top: 24px;
+      }
+      .thankyou-back a {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        text-decoration: none;
+      }
+      .thankyou-back a:hover {
+        color: var(--primary);
+      }
+      /* Cancelled state */
+      .thankyou-page.is-cancelled .thankyou-icon {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      }
+      .thankyou-page.is-cancelled .thankyou-title {
+        color: #dc2626;
       }
     </style>
   </head>
   <body>
-    <div class="receipt-container">
-      <div class="receipt-header">
-        <div class="success-icon">✓</div>
-        <h1>Pembayaran Berhasil!</h1>
-        <p>Terima kasih atas pembayaran Anda</p>
-      </div>
-      
-      <div class="receipt-content">
-        <div class="receipt-section">
-          <div class="receipt-section-title">Detail Pembayaran</div>
-          <div class="receipt-item">
-            <span class="receipt-item-label">Reference ID</span>
-            <span class="receipt-item-value" id="referenceId">-</span>
+    <div class="thankyou-page" id="thankyouPage">
+      <header class="new-header">
+        <div class="new-header__container">
+          <div class="new-header__left">
+            <a href="landing.html" class="back-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </a>
+            <a href="/" class="logo">
+              <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__icon" />
+              <span class="logo__text">Kontraktify</span>
+            </a>
           </div>
-          <div class="receipt-item">
-            <span class="receipt-item-label">Metode Pembayaran</span>
-            <span class="receipt-item-value" id="paymentMethod">QRIS</span>
-          </div>
-          <div class="receipt-item">
-            <span class="receipt-item-label">Tanggal Pembayaran</span>
-            <span class="receipt-item-value" id="paymentDate">-</span>
+          <div class="new-header__right">
+            <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="bantuan-link">Hubungi Kami</a>
           </div>
         </div>
-        
-        <div class="receipt-section">
-          <div class="receipt-section-title">Detail Pesanan</div>
-          <div class="receipt-item">
-            <span class="receipt-item-label">Dokumen</span>
-            <span class="receipt-item-value">Perjanjian Sewa Menyewa Tempat</span>
+      </header>
+
+      <main class="thankyou-main">
+        <div class="thankyou-card">
+          <div class="thankyou-icon" id="thankyouIcon">✓</div>
+          <h1 class="thankyou-title" id="thankyouTitle">Terima Kasih atas Pembelian Anda!</h1>
+          <p class="thankyou-subtitle" id="thankyouSubtitle">Dokumen Perjanjian Sewa Menyewa Tempat siap diunduh.</p>
+
+          <div class="thankyou-ref">
+            <span>ID Pesanan:</span> <strong id="referenceId">-</strong>
+          </div>
+
+          <div class="thankyou-download">
+            <button class="btn-download" id="downloadBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download Dokumen
+            </button>
+          </div>
+
+          <div class="thankyou-disclaimer">
+            <strong>Perhatian:</strong> Untuk keamanan dan privasi, halaman ini hanya dapat diakses sekali. Simpan ID pesanan Anda. Invoice akan dikirim ke email Anda. Jika Anda membutuhkan dokumen lagi dalam 2×24 jam, silakan hubungi kami via <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">WhatsApp</a> dengan menyertakan ID pesanan.
+          </div>
+
+          <div class="thankyou-back">
+            <a href="form.html">Buat dokumen baru</a>
           </div>
         </div>
-        
-        <div class="receipt-total">
-          <div class="receipt-item">
-            <span class="receipt-item-label">Total Pembayaran</span>
-            <span class="receipt-item-value" id="totalAmount">Rp 0</span>
-          </div>
-        </div>
-        
-        <div class="receipt-note">
-          <strong>Catatan:</strong> Dokumen Anda akan tersedia untuk diunduh setelah pembayaran dikonfirmasi. Silakan klik tombol "Download Dokumen" di bawah untuk mengunduh dokumen Anda.
-        </div>
-      </div>
-      
-      <div class="receipt-actions">
-        <a href="preview.html" class="btn btn--ghost">Kembali</a>
-        <button class="btn btn--primary" id="downloadBtn">Download Dokumen</button>
-      </div>
+      </main>
     </div>
-    
+
     <script src="form.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const urlParams    = new URLSearchParams(window.location.search);
-        const referenceId  = urlParams.get('ref') || sessionStorage.getItem('paymentReferenceId') || 'N/A';
-        const status       = urlParams.get('status') || 'berhasil';
-        const buyerName    = sessionStorage.getItem('paymentBuyerName') || '-';
-        const buyerEmail   = sessionStorage.getItem('paymentBuyerEmail') || '-';
+        const urlParams = new URLSearchParams(window.location.search);
+        const referenceId = urlParams.get('ref') || sessionStorage.getItem('paymentReferenceId') || 'N/A';
+        const status = urlParams.get('status') || 'berhasil';
 
-        // Populate receipt fields
         document.getElementById('referenceId').textContent = referenceId;
-        document.getElementById('paymentMethod').textContent = 'iPaymu';
-        document.getElementById('totalAmount').textContent = 'Rp 10.000';
 
-        const now = new Date();
-        document.getElementById('paymentDate').textContent = now.toLocaleDateString('id-ID', {
-          year: 'numeric', month: 'long', day: 'numeric',
-          hour: '2-digit', minute: '2-digit'
-        });
-
-        // Update header based on status
-        const header = document.querySelector('.receipt-header');
         if (status === 'batal' || status === 'cancel' || status === 'failed') {
-          header.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
-          header.querySelector('.success-icon').textContent = '✕';
-          header.querySelector('h1').textContent = 'Pembayaran Dibatalkan';
-          header.querySelector('p').textContent = 'Silakan coba lagi atau hubungi support';
+          document.getElementById('thankyouPage').classList.add('is-cancelled');
+          document.getElementById('thankyouIcon').textContent = '✕';
+          document.getElementById('thankyouTitle').textContent = 'Pembayaran Dibatalkan';
+          document.getElementById('thankyouSubtitle').textContent = 'Silakan coba lagi atau hubungi kami jika ada kendala.';
           document.getElementById('downloadBtn').disabled = true;
-          document.getElementById('downloadBtn').style.opacity = '0.5';
-          document.getElementById('downloadBtn').style.cursor = 'not-allowed';
+          document.querySelector('.thankyou-disclaimer').style.display = 'none';
         }
 
-        // Download button — generate document from sessionStorage
-        const downloadBtn = document.getElementById('downloadBtn');
-        if (downloadBtn) {
-          downloadBtn.addEventListener('click', () => {
-            const previewData = sessionStorage.getItem('previewDocumentData');
-            if (!previewData) {
-              alert('Data dokumen tidak ditemukan. Silakan isi form kembali.');
-              window.location.href = 'form.html';
-              return;
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+          let previewData = sessionStorage.getItem('previewDocumentData');
+          if (!previewData) {
+            const backupRef = localStorage.getItem('previewDocumentData_ref');
+            if (backupRef && backupRef === referenceId) {
+              previewData = localStorage.getItem('previewDocumentData_backup');
             }
-
-            try {
-              const formData = JSON.parse(previewData);
-
-              if (typeof downloadDocument === 'function') {
-                downloadDocument(formData);
-              } else {
-                alert('Fungsi download tidak tersedia. Silakan refresh halaman.');
-              }
-
-            } catch (err) {
-              console.error('Download error:', err);
-              alert('Terjadi kesalahan saat mengunduh dokumen.');
+          }
+          if (!previewData) {
+            alert('Data dokumen tidak ditemukan. Silakan hubungi kami via WhatsApp dengan ID pesanan Anda untuk meminta dokumen.');
+            return;
+          }
+          try {
+            const formData = JSON.parse(previewData);
+            if (typeof downloadDocument === 'function') {
+              downloadDocument(formData);
+            } else {
+              alert('Fungsi download tidak tersedia. Silakan refresh halaman.');
             }
-          });
-        }
+          } catch (err) {
+            console.error('Download error:', err);
+            alert('Terjadi kesalahan. Silakan hubungi kami via WhatsApp dengan ID pesanan Anda.');
+          }
+        });
       });
     </script>
   </body>
 </html>
-

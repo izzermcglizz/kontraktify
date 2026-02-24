@@ -546,16 +546,19 @@ function generateFullDocumentPreview(formData) {
 
 // Preview view functions removed - now using separate page
 
-// Generate and download Word document
+// Generate and download Word document (HTML format compatible with Microsoft Word)
 function generateWordDocument(formData) {
   const fullHtml = replaceVariables(documentTemplate, formData);
+  // Add Word XML namespace so .doc opens correctly in Microsoft Word
+  const wordHtml = fullHtml.replace(
+    '<html lang="id">',
+    '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" lang="id">'
+  );
   
-  // Create blob
-  const blob = new Blob(['\ufeff', fullHtml], {
+  const blob = new Blob(['\ufeff', wordHtml], {
     type: 'application/msword'
   });
   
-  // Download
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
