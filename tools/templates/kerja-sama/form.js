@@ -547,10 +547,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateWizardStep();
   
-  // Update preview and progress on input
+  // Update progress on input. Don't call generatePreview here - it replaces
+  // entire innerHTML and resets scroll. Per-field handlers update spans.
   form.addEventListener('input', () => {
-    const formData = collectFormData();
-    generatePreview(formData);
     updateProgress();
   });
   

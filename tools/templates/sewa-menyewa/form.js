@@ -267,40 +267,48 @@ function formatDate(dateStr) {
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-// Replace variables in template
-function replaceVariables(template, data) {
+// Replace variables in template (forPreview adds data-field for live preview scroll/highlight)
+function replaceVariables(template, data, forPreview = false) {
   let result = template;
+  const previewData = { ...data };
   
   // Handle conditional pembayaran bertahap
-  const conditionalContent = data.pembayaran_bertahap ? `
+  const conditionalContent = previewData.pembayaran_bertahap ? `
         <li>Apabila disepakati pembayaran secara bertahap, maka:
             <ol>
-                <li>Penyewa wajib membayar deposit awal sebesar Rp <strong>${data.nominal_deposit || '[nominal deposit]'}</strong> (<strong>${data.nominal_deposit_huruf || '[deposit huruf]'}</strong>) pada saat penandatanganan Perjanjian ini; dan</li>
-                <li>Sisa Harga Sewa dibayarkan dalam <strong>${data.jumlah_cicilan || '[jumlah cicilan]'}</strong> kali cicilan, masing-masing sebesar Rp <strong>${data.nominal_cicilan || '[nominal cicilan]'}</strong>, paling lambat setiap tanggal <strong>${data.tanggal_pembayaran || '[tanggal pembayaran]'}</strong>;</li>
-                <li>Seluruh Harga Sewa harus telah dibayar lunas paling lambat pada tanggal <strong>${formatDate(data.batas_akhir_pelunasan) || '[batas akhir pelunasan]'}</strong>.</li>
+                <li>Penyewa wajib membayar deposit awal sebesar Rp <strong>${previewData.nominal_deposit || '[nominal deposit]'}</strong> (<strong>${previewData.nominal_deposit_huruf || '[deposit huruf]'}</strong>) pada saat penandatanganan Perjanjian ini; dan</li>
+                <li>Sisa Harga Sewa dibayarkan dalam <strong>${previewData.jumlah_cicilan || '[jumlah cicilan]'}</strong> kali cicilan, masing-masing sebesar Rp <strong>${previewData.nominal_cicilan || '[nominal cicilan]'}</strong>, paling lambat setiap tanggal <strong>${previewData.tanggal_pembayaran || '[tanggal pembayaran]'}</strong>;</li>
+                <li>Seluruh Harga Sewa harus telah dibayar lunas paling lambat pada tanggal <strong>${formatDate(previewData.batas_akhir_pelunasan) || '[batas akhir pelunasan]'}</strong>.</li>
             </ol>
         </li>` : '';
   
   result = result.replace('{{CONDITIONAL_PEMBAYARAN_BERTAHAP}}', conditionalContent);
   
   // Format dates
-  if (data.tanggal_mulai) {
-    data.tanggal_mulai = formatDate(data.tanggal_mulai);
+  if (previewData.tanggal_mulai) {
+    previewData.tanggal_mulai = formatDate(previewData.tanggal_mulai);
   }
-  if (data.tanggal_akhir) {
-    data.tanggal_akhir = formatDate(data.tanggal_akhir);
+  if (previewData.tanggal_akhir) {
+    previewData.tanggal_akhir = formatDate(previewData.tanggal_akhir);
   }
   
-  // Replace all variables with highlight for empty values
   Object.keys(variableMapping).forEach(key => {
-    const value = data[key];
+    const value = previewData[key];
     const regex = new RegExp(`{{${key}}}`, 'g');
+    const fieldName = key.replace(/_/g, ' ');
     
     if (value && value !== '') {
-      result = result.replace(regex, value);
+      if (forPreview) {
+        result = result.replace(regex, `<span class="filled-field preview-field" data-field="${key}">${value}</span>`);
+      } else {
+        result = result.replace(regex, value);
+      }
     } else {
-      // For Word document, use highlighted placeholder
-      result = result.replace(regex, `<mark style="background-color: #F5F5F5; padding: 2px 4px;">[${key.replace(/_/g, ' ')}]</mark>`);
+      if (forPreview) {
+        result = result.replace(regex, `<span class="placeholder-field preview-field" data-field="${key}">[${fieldName}]</span>`);
+      } else {
+        result = result.replace(regex, `<mark style="background-color: #F5F5F5; padding: 2px 4px;">[${fieldName}]</mark>`);
+      }
     }
   });
   
@@ -312,17 +320,12 @@ function generatePreview(formData) {
   const preview = document.getElementById('documentPreview');
   if (!preview) return;
   
-  let htmlContent = replaceVariables(documentTemplate, formData);
+  let htmlContent = replaceVariables(documentTemplate, formData, true);
   
-  // Extract body content only for preview
   const bodyMatch = htmlContent.match(/<body>([\s\S]*?)<\/body>/);
   if (bodyMatch) {
     htmlContent = bodyMatch[1];
   }
-  
-  // For preview, convert mark tags to placeholder-field spans with better styling
-  htmlContent = htmlContent.replace(/<mark[^>]*>\[([^\]]+)\]<\/mark>/g, 
-    '<span class="placeholder-field">[$1]</span>');
   
   preview.innerHTML = htmlContent;
 }
@@ -1114,10 +1117,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // Update preview and progress on input (with auto-save)
+  // Update progress on input (with auto-save). Don't call generatePreview here -
+  // it replaces entire innerHTML and resets scroll. updateLivePreview handles
+  // per-field span updates and scrollToPreview.
   form.addEventListener('input', () => {
-    const formData = collectFormData();
-    generatePreview(formData);
     updateProgress();
     autoSave(); // Auto-save on input
   });
@@ -1207,55 +1210,25 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Scroll preview to show the relevant field and highlight it
   function scrollToPreview(fieldName) {
-    if (!fieldName) {
-      console.log('⚠️ No fieldName provided to scrollToPreview');
-      return;
-    }
-    
-    console.log('🔍 Scrolling to field:', fieldName);
-    
-    // Remove highlight from previously active field
-    if (currentActiveField) {
-      currentActiveField.classList.remove('active-editing');
-      console.log('✅ Removed active-editing from previous field');
-    }
-    
-    // Find the corresponding placeholder in preview using data-field attribute
+    if (!fieldName) return;
+    if (currentActiveField) currentActiveField.classList.remove('active-editing');
     const placeholders = document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`);
-    console.log(`📍 Found ${placeholders.length} placeholder(s) for "${fieldName}"`);
-    
     if (placeholders.length > 0) {
-      const placeholder = placeholders[0]; // Get first match
-      
-      // Add active editing class to highlight
+      const placeholder = placeholders[0];
       placeholder.classList.add('active-editing');
       currentActiveField = placeholder;
-      console.log('✨ Added active-editing class to placeholder');
-      
-      // Get the scrollable container (preview-panel-new)
       const scrollContainer = document.querySelector('.preview-panel-new');
-      console.log('📦 Scroll container found:', !!scrollContainer);
-      
       if (scrollContainer) {
-        // Small delay to ensure DOM is ready
         requestAnimationFrame(() => {
-          // Calculate position
           const placeholderRect = placeholder.getBoundingClientRect();
           const containerRect = scrollContainer.getBoundingClientRect();
           const relativeTop = placeholderRect.top - containerRect.top + scrollContainer.scrollTop;
-          
-          // Scroll to position the placeholder in upper third of view
-          const scrollTo = relativeTop - (scrollContainer.clientHeight / 3);
-          
-          console.log('📜 Scrolling to position:', scrollTo);
           scrollContainer.scrollTo({
-            top: Math.max(0, scrollTo),
+            top: Math.max(0, relativeTop - scrollContainer.clientHeight / 3),
             behavior: 'smooth'
           });
         });
       }
-    } else {
-      console.warn('❌ No preview field found for:', fieldName);
     }
   }
   
@@ -1265,51 +1238,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isFormField && currentActiveField) {
       currentActiveField.classList.remove('active-editing');
       currentActiveField = null;
-      console.log('👋 Removed highlight (clicked outside)');
     }
   });
   
   function updateLivePreview() {
-    console.log('🚀 Initializing live preview...');
-    
-    // Get all form inputs
     const formInputs = document.querySelectorAll('#documentForm input, #documentForm textarea, #documentForm select');
-    console.log(`📝 Found ${formInputs.length} form inputs`);
-    
-    formInputs.forEach((input, index) => {
-      // Focus event - scroll and highlight
+    formInputs.forEach((input) => {
       input.addEventListener('focus', function() {
-        const fieldName = this.id || this.name;
-        console.log(`👆 Focus on field #${index + 1}:`, fieldName);
-        scrollToPreview(fieldName);
+        scrollToPreview(this.id || this.name);
       });
-      
-      // Input event - update text and maintain highlight
       input.addEventListener('input', function() {
         const fieldName = this.id || this.name;
         const fieldValue = this.value.trim();
-        console.log(`⌨️ Input on field "${fieldName}":`, fieldValue);
-        
-        // Find all preview fields with matching data-field attribute
-        const previewFields = document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`);
-        
-        previewFields.forEach(previewField => {
-          if (fieldValue) {
-            previewField.textContent = fieldValue;
-            previewField.classList.add('filled');
-            previewField.classList.remove('active-editing');
-            previewField.classList.add('active-editing'); // Re-add to maintain highlight
-          } else {
-            // Reset to placeholder
-            const placeholder = previewField.getAttribute('data-field')
-              .replace(/_/g, ' ')
-              .replace(/\b\w/g, l => l.toUpperCase());
-            previewField.textContent = `[${placeholder}]`;
-            previewField.classList.remove('filled');
-          }
+        const placeholderText = fieldName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`).forEach(pf => {
+          pf.textContent = fieldValue || `[${placeholderText}]`;
+          pf.classList.toggle('filled', !!fieldValue);
         });
-        
-        // Special handling for harga_sewa - auto convert to terbilang
         if (fieldName === 'harga_sewa_angka') {
           const terbilangField = document.querySelector('.preview-field[data-field="harga_sewa_huruf"]');
           if (terbilangField && fieldValue) {
@@ -1320,13 +1265,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
         }
-        
-        // Auto-scroll preview to show this field
         scrollToPreview(fieldName);
       });
     });
-    
-    console.log('✅ Live preview initialized!');
   }
   
   // Convert number to Indonesian words

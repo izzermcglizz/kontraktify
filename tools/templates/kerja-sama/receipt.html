@@ -265,7 +265,7 @@
       </main>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="form.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -348,7 +348,7 @@
           const invEmail = document.getElementById('buyerEmail').textContent;
           const invDate = document.getElementById('paymentDate').textContent;
           btn.disabled = true;
-          btn.textContent = 'Membuat gambar...';
+          btn.textContent = 'Membuat PDF...';
           try {
             const res = await fetch('invoice.html');
             if (!res.ok) throw new Error('Template tidak ditemukan');
@@ -368,18 +368,20 @@
             const linkHtml = linkEl ? linkEl.outerHTML : '';
             const styleHtml = styleEl ? styleEl.outerHTML : '';
             const invSource = document.createElement('div');
-            invSource.id = 'invoice-img-source';
+            invSource.id = 'invoice-pdf-source';
             invSource.style.cssText = 'position:absolute;left:-9999px;top:0;width:640px;background:#fff;padding:56px 48px;font-family:Inter,-apple-system,sans-serif;color:#111;';
             invSource.innerHTML = linkHtml + styleHtml + '<div class="invoice-pdf-body">' + bodyContent + '</div>';
             document.body.appendChild(invSource);
-            await new Promise(r => setTimeout(r, 800));
-            if (typeof html2canvas !== 'function') throw new Error('html2canvas tidak tersedia');
+            await new Promise(r => setTimeout(r, 600));
+            if (typeof html2pdf !== 'function') throw new Error('html2pdf tidak tersedia');
             const targetEl = invSource.querySelector('#invoice-content') || invSource;
-            const canvas = await html2canvas(targetEl, { scale: 2, useCORS: true, logging: false });
-            const link = document.createElement('a');
-            link.download = 'Invoice_' + invRef + '.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
+            await html2pdf().set({
+              margin: [10, 10, 10, 10],
+              filename: 'Invoice_' + invRef + '.pdf',
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2, useCORS: true, logging: false },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(targetEl).save();
             document.body.removeChild(invSource);
           } catch (e) {
             console.error('Invoice error:', e);
