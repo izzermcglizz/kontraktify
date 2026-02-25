@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice - {{ref}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #111;
+      padding: 56px 48px;
+      max-width: 640px;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #000;
+    }
+    .invoice-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .invoice-brand img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+    .invoice-brand-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #000;
+      letter-spacing: -0.02em;
+    }
+    .invoice-doc-type {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: #000;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .invoice-meta {
+      margin-bottom: 40px;
+    }
+    .invoice-meta-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .invoice-meta-row:last-child { border-bottom: none; }
+    .invoice-meta-label {
+      color: #666;
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+    .invoice-meta-value {
+      font-weight: 600;
+      color: #111;
+    }
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+    .invoice-table th {
+      background: #111;
+      color: #fff;
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .invoice-table th:last-child { text-align: right; }
+    .invoice-table tbody tr {
+      background: #f5f5f5;
+    }
+    .invoice-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .invoice-table td:last-child {
+      text-align: right;
+      font-weight: 500;
+    }
+    .invoice-total-row {
+      background: #f5f5f5;
+      font-weight: 700;
+    }
+    .invoice-total-row td {
+      padding: 20px;
+      border-bottom: none;
+      font-size: 1rem;
+    }
+    .invoice-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e5e5;
+      font-size: 0.75rem;
+      color: #666;
+    }
+    .invoice-footer p { margin-bottom: 4px; }
+
+    @media (max-width: 640px) {
+      body { padding: 24px 20px; font-size: 13px; }
+      .invoice-header {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+      }
+      .invoice-brand img { width: 40px; height: 40px; }
+      .invoice-brand-text { font-size: 1.125rem; }
+      .invoice-doc-type { align-self: flex-start; }
+      .invoice-meta { margin-bottom: 28px; }
+      .invoice-meta-row {
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 0;
+      }
+      .invoice-meta-value { word-break: break-word; }
+      .invoice-table th, .invoice-table td {
+        padding: 12px 14px;
+        font-size: 0.8125rem;
+      }
+      .invoice-table th { font-size: 0.625rem; letter-spacing: 0.1em; }
+      .invoice-total-row td { padding: 14px; font-size: 0.9375rem; }
+      .invoice-footer { margin-top: 32px; padding-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="invoice-content">
+    <div class="invoice-header">
+      <div class="invoice-brand">
+        <img src="../../../asset/favicon-removebg-preview.png" alt="Kontraktify">
+        <span class="invoice-brand-text">Kontraktify</span>
+      </div>
+      <div class="invoice-doc-type">INVOICE</div>
+    </div>
+
+    <div class="invoice-meta">
+      <div class="invoice-meta-row">
+        <span class="invoice-meta-label">No. Invoice</span>
+        <span class="invoice-meta-value" id="inv-ref">{{ref}}</span>
+      </div>
+      <div class="invoice-meta-row">
+        <span class="invoice-meta-label">Tanggal</span>
+        <span class="invoice-meta-value" id="inv-date">{{date}}</span>
+      </div>
+      <div class="invoice-meta-row">
+        <span class="invoice-meta-label">Nama</span>
+        <span class="invoice-meta-value" id="inv-name">{{name}}</span>
+      </div>
+      <div class="invoice-meta-row">
+        <span class="invoice-meta-label">Email</span>
+        <span class="invoice-meta-value" id="inv-email">{{email}}</span>
+      </div>
+    </div>
+
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>Deskripsi</th>
+          <th>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Perjanjian Kerja Sama Usaha</td>
+          <td>Rp 350.000</td>
+        </tr>
+        <tr class="invoice-total-row">
+          <td>Total</td>
+          <td>Rp 350.000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="invoice-footer">
+      <p>Metode pembayaran: iPaymu</p>
+      <p>Terima kasih atas pembelian Anda.</p>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get('ref')) {
+        document.getElementById('inv-ref').textContent = p.get('ref');
+        document.getElementById('inv-date').textContent = p.get('date') || '-';
+        document.getElementById('inv-name').textContent = p.get('name') || '-';
+        document.getElementById('inv-email').textContent = p.get('email') || '-';
+      }
+    })();
+  </script>
+</body>
+</html>

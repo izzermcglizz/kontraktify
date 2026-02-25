@@ -8,20 +8,498 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../style.css?v=14" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <meta
       name="description"
       content="Preview dokumen Perjanjian Kerja Sama Usaha sebelum pembayaran."
     />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fafafa;
+        font-family: 'Poppins', system-ui, sans-serif;
+      }
+      
+      .preview-page {
+        min-height: 100vh;
+      }
+      
+      .preview-page__layout {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        min-height: 100vh;
+      }
+      
+      .preview-sidebar-left {
+        background: #fff;
+        border-right: 1px solid rgba(15, 15, 16, 0.08);
+        padding: 40px 32px;
+        overflow-y: auto;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
+      
+      .preview-sidebar-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      
+      .preview-sidebar-title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgba(15, 15, 16, 0.6);
+        margin: 0 0 8px 0;
+      }
+      
+      .preview-sidebar-heading {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin: 0 0 16px 0;
+      }
+      
+      .preview-sidebar-description {
+        font-size: 0.9375rem;
+        color: rgba(15, 15, 16, 0.7);
+        line-height: 1.6;
+        margin: 0 0 32px 0;
+      }
+      
+      .preview-package-info {
+        margin-bottom: 32px;
+        padding: 20px;
+        background: rgba(15, 15, 16, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(15, 15, 16, 0.08);
+      }
+      
+      .package-label {
+        font-size: 0.875rem;
+        color: rgba(15, 15, 16, 0.7);
+        margin: 0 0 12px 0;
+      }
+      
+      .package-details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .package-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        color: var(--primary);
+        font-weight: 500;
+      }
+      
+      .package-item svg {
+        color: #2563eb;
+        flex-shrink: 0;
+      }
+      
+      .package-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-top: 8px;
+      }
+      
+      .preview-sidebar-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: auto;
+        margin-bottom: 24px;
+      }
+      
+      .btn {
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+        font-family: 'Poppins', system-ui, sans-serif;
+      }
+      
+      .btn--full { width: 100%; }
+      
+      .btn--ghost {
+        background: transparent;
+        border: 1px solid rgba(15, 15, 16, 0.15);
+        color: var(--primary);
+      }
+      
+      .btn--ghost:hover {
+        background: rgba(15, 15, 16, 0.05);
+        border-color: rgba(15, 15, 16, 0.25);
+      }
+      
+      .btn--primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      
+      .btn--primary:hover {
+        background: rgba(15, 15, 16, 0.9);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(15, 15, 16, 0.15);
+      }
+      
+      .preview-privacy {
+        font-size: 0.75rem;
+        color: rgba(15, 15, 16, 0.5);
+        text-align: center;
+        margin: 0;
+      }
+      
+      .preview-privacy a {
+        color: #2563eb;
+        text-decoration: underline;
+      }
+      
+      .preview-content-right {
+        padding: 40px;
+        overflow-y: auto;
+        height: 100vh;
+      }
+      
+      .preview-document-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 48px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(15, 15, 16, 0.08);
+      }
+      
+      .preview-document-full {
+        line-height: 1.8;
+        color: var(--primary);
+      }
+      
+      .preview-document-full h1 {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 32px;
+        font-size: 1.5rem;
+      }
+      
+      .preview-document-full .section-title {
+        font-weight: 600;
+        text-align: center;
+        margin: 32px 0 16px;
+        font-size: 1.125rem;
+      }
+      
+      .preview-document-full p {
+        text-align: justify;
+        margin: 16px 0;
+        font-size: 0.9375rem;
+      }
+      
+      .preview-document-full ol {
+        margin-left: 24px;
+        margin: 16px 0 16px 24px;
+      }
+      
+      .preview-document-full ol ol {
+        list-style-type: lower-alpha;
+        margin-left: 24px;
+      }
+      
+      .preview-document-full li {
+        margin: 12px 0;
+        font-size: 0.9375rem;
+      }
+      
+      .preview-document-full .filled-field {
+        background: #dbeafe;
+        color: #1e40af;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+        border: 1px solid #93c5fd;
+      }
+      
+      .preview-document-full .placeholder-field {
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: #666;
+        font-style: italic;
+      }
+      
+      .preview-document-full .blurred-section {
+        filter: blur(4px);
+        user-select: none;
+        pointer-events: none;
+        opacity: 0.4;
+        position: relative;
+      }
+      
+      .preview-document-full .blurred-section::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.3);
+      }
+      
+      .preview-document-full .blurred-section .filled-field,
+      .preview-document-full .blurred-section .placeholder-field {
+        filter: none !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 10;
+        background: #dbeafe;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        display: inline-block;
+      }
+      
+      .preview-document-full .blurred-section .placeholder-field {
+        background: #f5f5f5;
+        color: #666;
+        font-weight: 400;
+      }
+      
+      .preview-document-full .signature-table {
+        width: 100%;
+        margin-top: 40px;
+        border-collapse: collapse;
+      }
+      
+      .preview-document-full .signature-table td {
+        width: 50%;
+        padding: 20px;
+        vertical-align: top;
+        text-align: center;
+      }
+      
+      @media (max-width: 1024px) {
+        .preview-page__layout { grid-template-columns: 1fr; }
+        .preview-sidebar-left {
+          position: relative;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid rgba(15, 15, 16, 0.08);
+        }
+        .preview-content-right { height: auto; }
+      }
+    </style>
   </head>
   <body>
     <div class="preview-page">
-      <h1>Preview - Perjanjian Kerja Sama Usaha</h1>
-      <p>Coming soon: Preview functionality for Kerja Sama template</p>
-      <a href="payment.html">Lanjut ke Pembayaran</a>
+      <div class="preview-page__layout">
+        <div class="preview-sidebar-left">
+          <div class="preview-sidebar-content">
+            <h3 class="preview-sidebar-title">Perjanjian Kerja Sama Usaha</h3>
+            <h2 class="preview-sidebar-heading">Preview</h2>
+            <p class="preview-sidebar-description">
+              Ini adalah preview dokumen akhir yang akan Anda terima, periksa kembali data yang Anda masukkan.
+            </p>
+            
+            <div class="preview-package-info">
+              <p class="package-label">Anda memilih paket:</p>
+              <div class="package-details">
+                <div class="package-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Template Standar</span>
+                </div>
+                <div class="package-price">Rp 350.000</div>
+              </div>
+            </div>
+            
+            <div class="preview-sidebar-actions">
+              <a href="form.html" class="btn btn--ghost btn--full">Kembali ke Form</a>
+              <button type="button" class="btn btn--primary btn--full" id="payAndDownloadBtn">
+                Lanjut ke Pembayaran
+              </button>
+            </div>
+            
+            <p class="preview-privacy">
+              Privasi dan data Anda terjaga, <a href="#">pelajari lebih lanjut</a>
+            </p>
+          </div>
+        </div>
+        
+        <div class="preview-content-right">
+          <div class="preview-document-container">
+            <div class="preview-document-full" id="fullDocumentPreview"></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <script src="form.js"></script>
+    <script>
+      var IPAYMU_VA     = "0000005776604685";
+      var IPAYMU_APIKEY = "SANDBOX98A25EA0-9F38-49BC-82C1-9DD6EB48AFBC";
+      var IPAYMU_URL    = "https://sandbox.ipaymu.com/api/v2/payment";
+
+      function generateReferenceId() {
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = String(now.getMonth() + 1).padStart(2, '0');
+        var d = String(now.getDate()).padStart(2, '0');
+        var rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+        return 'KNTF-' + y + m + d + '-' + rand;
+      }
+
+      function cleanForIpaymu(str) {
+        if (!str || typeof str !== 'string') return '';
+        return str.replace(/[`'"\\]/g, '').trim().substring(0, 255);
+      }
+
+      async function initiateIpaymuPayment(buyerName, buyerEmail, buyerPhone) {
+        buyerName = cleanForIpaymu(buyerName) || 'Customer';
+        buyerEmail = cleanForIpaymu(buyerEmail) || 'customer@example.com';
+        buyerPhone = cleanForIpaymu(buyerPhone) || '08123456789';
+
+        var baseUrl = (window.location.origin && window.location.origin.startsWith('http'))
+          ? window.location.origin
+          : 'https://kontraktify.com';
+
+        var referenceId = generateReferenceId();
+
+        sessionStorage.setItem('paymentReferenceId', referenceId);
+        sessionStorage.setItem('paymentBuyerName', buyerName);
+        sessionStorage.setItem('paymentBuyerEmail', buyerEmail);
+        var previewData = sessionStorage.getItem('previewDocumentData');
+        if (previewData) {
+          localStorage.setItem('previewDocumentData_backup', previewData);
+          localStorage.setItem('previewDocumentData_ref', referenceId);
+        }
+
+        var receiptBase = baseUrl + "/tools/templates/kerja-sama/receipt.html?ref=" + encodeURIComponent(referenceId) + "&status=berhasil";
+        var returnUrl = receiptBase + "&name=" + encodeURIComponent(buyerName) + "&email=" + encodeURIComponent(buyerEmail);
+        var cancelUrl = baseUrl + "/tools/templates/kerja-sama/receipt.html?ref=" + encodeURIComponent(referenceId) + "&status=batal";
+
+        var body = {
+          "product":    ["Perjanjian Kerja Sama Usaha"],
+          "qty":        ["1"],
+          "price":      ["350000"],
+          "amount":     "350000",
+          "returnUrl":  returnUrl,
+          "cancelUrl":  cancelUrl,
+          "notifyUrl":  "https://jblbjdvipspzrcjeipei.supabase.co/functions/v1/ipaymu-webhook",
+          "referenceId": referenceId,
+          "buyerName":  buyerName,
+          "buyerPhone": buyerPhone,
+          "buyerEmail": buyerEmail,
+        };
+
+        var bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
+        var stringtosign = "POST:" + IPAYMU_VA + ":" + bodyEncrypt + ":" + IPAYMU_APIKEY;
+        var signature = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, IPAYMU_APIKEY));
+
+        var response = await fetch(IPAYMU_URL, {
+          method: "POST",
+          headers: {
+            "Accept":       "application/json",
+            "Content-Type": "application/json",
+            "va":           IPAYMU_VA,
+            "signature":    signature,
+            "timestamp":    "20150201121045"
+          },
+          body: JSON.stringify(body)
+        });
+
+        var result = await response.json();
+        var paymentUrl = result?.Data?.Url || result?.Data?.PaymentUrl || null;
+        if (!paymentUrl) {
+          var errMsg = result?.Message || result?.message || 'Gagal mendapatkan URL pembayaran dari iPaymu';
+          throw new Error(errMsg);
+        }
+        window.location.href = paymentUrl;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const previewData = sessionStorage.getItem('previewDocumentData');
+        
+        if (!previewData) {
+          alert('Tidak ada data dokumen. Silakan isi form terlebih dahulu.');
+          window.location.href = 'form.html';
+          return;
+        }
+        
+        try {
+          const formData = JSON.parse(previewData);
+          
+          if (typeof generateFullDocumentPreview === 'function') {
+            generateFullDocumentPreview(formData);
+            applyBlurToPreview();
+          }
+          
+          function applyBlurToPreview() {
+            const fullPreview = document.getElementById('fullDocumentPreview');
+            if (!fullPreview) return;
+            
+            const blockElements = fullPreview.querySelectorAll('p, li, ol > li, .section-title');
+            blockElements.forEach(element => {
+              const hasUserFields = element.querySelector('.filled-field, .placeholder-field');
+              const isTitle = element.classList.contains('section-title') || element.tagName === 'H1';
+              if (!hasUserFields && !isTitle && element.textContent.trim().length > 0) {
+                if (!element.closest('.blurred-section')) {
+                  element.classList.add('blurred-section');
+                }
+              }
+            });
+            
+            const signatureTable = fullPreview.querySelector('.signature-table');
+            if (signatureTable && !signatureTable.querySelector('.filled-field, .placeholder-field')) {
+              signatureTable.classList.add('blurred-section');
+            }
+          }
+          
+          const payBtn = document.getElementById('payAndDownloadBtn');
+          if (payBtn) {
+            payBtn.addEventListener('click', async (e) => {
+              e.preventDefault();
+              const buyerName  = formData.nama_pihak_pertama || formData.nama_pihak_kedua || 'Customer';
+              const buyerEmail = formData.email || 'customer@example.com';
+              const buyerPhone = '08123456789';
+              
+              payBtn.disabled = true;
+              payBtn.textContent = 'Memproses...';
+              payBtn.style.opacity = '0.7';
+              
+              try {
+                await initiateIpaymuPayment(buyerName, buyerEmail, buyerPhone);
+              } catch (error) {
+                console.error('Payment error:', error);
+                alert('Terjadi kesalahan: ' + error.message);
+                payBtn.disabled = false;
+                payBtn.textContent = 'Lanjut ke Pembayaran';
+                payBtn.style.opacity = '1';
+              }
+            });
+          }
+        } catch (error) {
+          console.error('Error loading preview data:', error);
+          alert('Terjadi kesalahan saat memuat preview. Silakan coba lagi.');
+          window.location.href = 'form.html';
+        }
+      });
+    </script>
   </body>
 </html>

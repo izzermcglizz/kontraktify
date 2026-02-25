@@ -295,28 +295,36 @@ function formatDate(dateStr) {
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-// Replace variables in template
-function replaceVariables(template, data) {
+// Replace variables in template (forPreview adds data-field for live preview scroll/highlight)
+function replaceVariables(template, data, forPreview = false) {
   let result = template;
+  const previewData = { ...data };
   
-  // Format dates
-  if (data.tanggal_mulai) {
-    data.tanggal_mulai = formatDate(data.tanggal_mulai);
+  // Format dates for preview
+  if (previewData.tanggal_mulai) {
+    previewData.tanggal_mulai = formatDate(previewData.tanggal_mulai);
   }
-  if (data.tanggal_akhir) {
-    data.tanggal_akhir = formatDate(data.tanggal_akhir);
+  if (previewData.tanggal_akhir) {
+    previewData.tanggal_akhir = formatDate(previewData.tanggal_akhir);
   }
   
-  // Replace all variables with highlight for empty values
   Object.keys(variableMapping).forEach(key => {
-    const value = data[key];
+    const value = previewData[key];
     const regex = new RegExp(`{{${key}}}`, 'g');
+    const fieldName = key.replace(/_/g, ' ');
     
     if (value && value !== '') {
-      result = result.replace(regex, value);
+      if (forPreview) {
+        result = result.replace(regex, `<span class="filled-field preview-field" data-field="${key}">${value}</span>`);
+      } else {
+        result = result.replace(regex, value);
+      }
     } else {
-      // For Word document, use highlighted placeholder
-      result = result.replace(regex, `<mark style="background-color: #F5F5F5; padding: 2px 4px;">[${key.replace(/_/g, ' ')}]</mark>`);
+      if (forPreview) {
+        result = result.replace(regex, `<span class="placeholder-field preview-field" data-field="${key}">[${fieldName}]</span>`);
+      } else {
+        result = result.replace(regex, `<mark style="background-color: #F5F5F5; padding: 2px 4px;">[${fieldName}]</mark>`);
+      }
     }
   });
   
@@ -328,17 +336,12 @@ function generatePreview(formData) {
   const preview = document.getElementById('documentPreview');
   if (!preview) return;
   
-  let htmlContent = replaceVariables(documentTemplate, formData);
+  let htmlContent = replaceVariables(documentTemplate, formData, true);
   
-  // Extract body content only for preview
   const bodyMatch = htmlContent.match(/<body>([\s\S]*?)<\/body>/);
   if (bodyMatch) {
     htmlContent = bodyMatch[1];
   }
-  
-  // For preview, convert mark tags to placeholder-field spans with better styling
-  htmlContent = htmlContent.replace(/<mark[^>]*>\[([^\]]+)\]<\/mark>/g, 
-    '<span class="placeholder-field">[$1]</span>');
   
   preview.innerHTML = htmlContent;
 }
@@ -355,7 +358,65 @@ function collectFormData() {
     }
   });
   
+  const emailElement = form.elements['email'];
+  if (emailElement) {
+    data.email = emailElement.value || '';
+  }
+  
   return data;
+}
+
+// Generate full document preview for preview view
+function generateFullDocumentPreview(formData) {
+  const fullPreview = document.getElementById('fullDocumentPreview');
+  if (!fullPreview) return;
+  
+  let htmlContent = documentTemplate;
+  const bodyMatch = htmlContent.match(/<body>([\s\S]*?)<\/body>/);
+  if (bodyMatch) {
+    htmlContent = bodyMatch[1];
+  }
+  
+  const previewData = { ...formData };
+  if (previewData.tanggal_mulai) previewData.tanggal_mulai = formatDate(previewData.tanggal_mulai);
+  if (previewData.tanggal_akhir) previewData.tanggal_akhir = formatDate(previewData.tanggal_akhir);
+  
+  Object.keys(variableMapping).forEach(key => {
+    const value = previewData[key];
+    const regex = new RegExp(`{{${key}}}`, 'g');
+    if (value && value !== '') {
+      htmlContent = htmlContent.replace(regex, `<span class="filled-field">${value}</span>`);
+    } else {
+      const fieldName = key.replace(/_/g, ' ');
+      htmlContent = htmlContent.replace(regex, `<span class="placeholder-field">[${fieldName}]</span>`);
+    }
+  });
+  
+  fullPreview.innerHTML = htmlContent;
+}
+
+// Create minimal formData for fallback download when session/localStorage data is lost
+function createFallbackFormData(buyerName, buyerEmail) {
+  const fallback = {};
+  Object.keys(variableMapping).forEach(key => { fallback[key] = ''; });
+  if (buyerName && buyerName !== '-') fallback.nama_pihak_pertama = buyerName;
+  if (buyerEmail && buyerEmail !== '-') fallback.email = buyerEmail;
+  return fallback;
+}
+
+// Download document after payment confirmation
+function downloadDocument(formData) {
+  if (!formData) {
+    const pendingDoc = sessionStorage.getItem('pendingDocument');
+    if (pendingDoc) {
+      const parsed = JSON.parse(pendingDoc);
+      formData = parsed.formData;
+    }
+  }
+  if (formData) {
+    generateWordDocument(formData);
+    sessionStorage.removeItem('pendingDocument');
+  }
 }
 
 // Update progress bar
@@ -409,53 +470,82 @@ function generateWordDocument(formData) {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('documentForm');
-  const preview = document.getElementById('documentPreview');
   
   // Initialize preview
   generatePreview({});
   updateProgress();
   
-  // Navigation functionality
-  const navSections = document.querySelectorAll('.form-nav-section');
-  const navItems = document.querySelectorAll('.form-nav-item');
-  const formGroups = document.querySelectorAll('.form-group--collapsible');
+  // ===== WIZARD LOGIC =====
+  let currentWizardStep = 1;
+  const totalSteps = 4;
+  const stepGroups = {
+    1: ['informasi-umum'],
+    2: ['pihak-pertama', 'pihak-kedua'],
+    3: ['ruang-lingkup', 'hak-kewajiban', 'jangka-waktu', 'pembagian-hasil', 'kontribusi'],
+    4: ['kerahasiaan', 'pengakhiran', 'penyelesaian']
+  };
   
-  // Handle parent section toggle
-  navSections.forEach(section => {
-    const parentButton = section.querySelector('.form-nav-item--parent');
-    if (parentButton) {
-      parentButton.addEventListener('click', () => {
-        section.classList.toggle('is-expanded');
-      });
+  function updateWizardStep() {
+    document.querySelectorAll('.step-new').forEach((step, index) => {
+      const stepNum = index + 1;
+      const circle = step.querySelector('.step-circle-new');
+      if (stepNum < currentWizardStep) {
+        step.classList.add('completed');
+        step.classList.remove('active');
+        circle.textContent = '✓';
+      } else if (stepNum === currentWizardStep) {
+        step.classList.add('active');
+        step.classList.remove('completed');
+        circle.textContent = stepNum;
+      } else {
+        step.classList.remove('active', 'completed');
+        circle.textContent = stepNum;
+      }
+    });
+    
+    const currentGroups = stepGroups[currentWizardStep] || [];
+    document.querySelectorAll('.form-group[data-group]').forEach(group => {
+      const groupName = group.getAttribute('data-group');
+      if (currentGroups.includes(groupName)) {
+        group.style.display = 'block';
+        group.classList.add('is-expanded');
+      } else {
+        group.style.display = 'none';
+      }
+    });
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    if (currentWizardStep === 1) prevBtn.style.display = 'none';
+    else prevBtn.style.display = 'flex';
+    if (currentWizardStep === totalSteps) {
+      nextBtn.style.display = 'none';
+      generateBtn.style.display = 'flex';
+    } else {
+      nextBtn.style.display = 'flex';
+      generateBtn.style.display = 'none';
+    }
+    document.querySelector('.wizard-header')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  
+  document.getElementById('nextBtn')?.addEventListener('click', () => {
+    if (currentWizardStep < totalSteps) {
+      currentWizardStep++;
+      updateWizardStep();
     }
   });
-  
-  // Handle navigation item clicks
-  navItems.forEach(item => {
-    if (!item.classList.contains('form-nav-item--parent')) {
-      item.addEventListener('click', () => {
-        // Remove active from all items
-        navItems.forEach(i => i.classList.remove('is-active'));
-        // Add active to clicked item
-        item.classList.add('is-active');
-        
-        // Get group name
-        const groupName = item.getAttribute('data-group');
-        if (!groupName) return;
-        
-        // Close all form groups
-        formGroups.forEach(group => {
-          group.classList.remove('is-expanded');
-        });
-        
-        // Open target group
-        const group = document.querySelector(`[data-group="${groupName}"].form-group--collapsible`);
-        if (group) {
-            group.classList.add('is-expanded');
-          }
-      });
+  document.getElementById('prevBtn')?.addEventListener('click', () => {
+    if (currentWizardStep > 1) {
+      currentWizardStep--;
+      updateWizardStep();
     }
   });
+  document.getElementById('generateBtn')?.addEventListener('click', () => {
+    form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  });
+  
+  updateWizardStep();
   
   // Update preview and progress on input
   form.addEventListener('input', () => {
@@ -464,107 +554,89 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProgress();
   });
   
-  // Auto-scroll preview to corresponding section when field is focused
-  const formFields = form.querySelectorAll('input, textarea, select');
-  formFields.forEach(field => {
-    field.addEventListener('focus', () => {
-      const fieldName = field.getAttribute('name') || field.getAttribute('id');
-      if (!fieldName || !preview) return;
-      
-      // Convert field name to search term (e.g., "nama_pihak_pertama" -> "nama pihak pertama")
-      const searchTerm = fieldName.replace(/_/g, ' ').toLowerCase();
-      
-      // Get all text content and find matches
-      const previewHTML = preview.innerHTML.toLowerCase();
-      const searchPattern = `[${searchTerm}]`;
-      
-      if (previewHTML.includes(searchPattern)) {
-        // Find the placeholder element
-        const placeholders = preview.querySelectorAll('.placeholder-field');
-        
-        for (const placeholder of placeholders) {
-          const placeholderText = placeholder.textContent.toLowerCase();
-          
-          if (placeholderText.includes(searchTerm)) {
-            // Get the scrollable container (preview-content parent)
-            const scrollContainer = preview.closest('.preview-content');
-            
-            if (scrollContainer) {
-              // Calculate position
-              const placeholderRect = placeholder.getBoundingClientRect();
-              const containerRect = scrollContainer.getBoundingClientRect();
-              const relativeTop = placeholderRect.top - containerRect.top + scrollContainer.scrollTop;
-              
-              // Scroll to center the placeholder in view
-              const scrollTo = relativeTop - (scrollContainer.clientHeight / 2) + (placeholderRect.height / 2);
-              
-              scrollContainer.scrollTo({
-                top: Math.max(0, scrollTo),
-                behavior: 'smooth'
-              });
-              
-              // Add temporary highlight
-              placeholder.style.transition = 'all 0.3s ease';
-              placeholder.style.transform = 'scale(1.05)';
-              placeholder.style.boxShadow = '0 0 0 3px rgba(245, 198, 68, 0.3)';
-              
-              setTimeout(() => {
-                placeholder.style.transform = 'scale(1)';
-                placeholder.style.boxShadow = '';
-              }, 1500);
-            }
-            break;
-          }
-        }
+  // Live preview: scroll and highlight on focus
+  let currentActiveField = null;
+  function scrollToPreview(fieldName) {
+    if (!fieldName) return;
+    if (currentActiveField) currentActiveField.classList.remove('active-editing');
+    const placeholders = document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`);
+    if (placeholders.length > 0) {
+      const placeholder = placeholders[0];
+      placeholder.classList.add('active-editing');
+      currentActiveField = placeholder;
+      const scrollContainer = document.querySelector('.preview-panel-new');
+      if (scrollContainer) {
+        requestAnimationFrame(() => {
+          const placeholderRect = placeholder.getBoundingClientRect();
+          const containerRect = scrollContainer.getBoundingClientRect();
+          const relativeTop = placeholderRect.top - containerRect.top + scrollContainer.scrollTop;
+          scrollContainer.scrollTo({ top: Math.max(0, relativeTop - scrollContainer.clientHeight / 3), behavior: 'smooth' });
+        });
       }
+    }
+  }
+  
+  document.addEventListener('click', (e) => {
+    const isFormField = e.target.closest('#documentForm input, #documentForm textarea, #documentForm select');
+    if (!isFormField && currentActiveField) {
+      currentActiveField.classList.remove('active-editing');
+      currentActiveField = null;
+    }
+  });
+  
+  form.querySelectorAll('input, textarea, select').forEach(input => {
+    input.addEventListener('focus', function() {
+      scrollToPreview(this.id || this.name);
+    });
+    input.addEventListener('input', function() {
+      const fieldName = this.id || this.name;
+      const fieldValue = this.value.trim();
+      const placeholderText = fieldName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      document.querySelectorAll(`.preview-field[data-field="${fieldName}"]`).forEach(pf => {
+        pf.textContent = fieldValue || `[${placeholderText}]`;
+        pf.classList.toggle('filled', !!fieldValue);
+      });
+      scrollToPreview(fieldName);
     });
   });
   
-  // Handle form submission
+  // Handle form submission — redirect to preview page (payment flow)
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const formData = collectFormData();
     const loader = document.getElementById('downloadLoader');
-    
-    if (loader) {
-      loader.style.display = 'flex';
-    }
-    
     const generateBtn = document.getElementById('generateBtn');
+    
+    if (loader) loader.classList.add('is-visible');
     if (generateBtn) {
-    generateBtn.disabled = true;
+      generateBtn.disabled = true;
+      generateBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;"></span> Memproses...';
     }
     
     try {
-      // Simulate processing with animation
-    setTimeout(() => {
+      sessionStorage.setItem('previewDocumentData', JSON.stringify(formData));
+      
+      setTimeout(() => {
         const spinner = document.getElementById('loaderSpinner');
         const success = document.getElementById('loaderSuccess');
         const loaderText = document.getElementById('loaderText');
-        
         if (spinner) spinner.style.display = 'none';
         if (success) success.style.display = 'block';
         if (loaderText) loaderText.textContent = 'Dokumen berhasil dibuat!';
         
-        // Generate document
-        generateWordDocument(formData);
-        
-        // Hide loader after download
         setTimeout(() => {
-          if (loader) loader.style.display = 'none';
-          if (generateBtn) generateBtn.disabled = false;
-            if (spinner) spinner.style.display = 'block';
-            if (success) success.style.display = 'none';
-            if (loaderText) loaderText.textContent = 'Memproses dokumen Anda...';
-        }, 2000);
-      }, 1500);
-            
-      } catch (error) {
-        console.error('Error generating document:', error);
-      if (loader) loader.style.display = 'none';
-      if (generateBtn) generateBtn.disabled = false;
-        alert('Terjadi kesalahan saat membuat dokumen. Silakan coba lagi.');
+          window.location.href = 'preview.html';
+        }, 800);
+      }, 1200);
+    } catch (error) {
+      console.error('Error:', error);
+      if (loader) loader.classList.remove('is-visible');
+      if (generateBtn) {
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = 'Generate Dokumen';
       }
+      alert('Terjadi kesalahan. Silakan coba lagi.');
+    }
   });
 });
