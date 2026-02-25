@@ -67,13 +67,12 @@
     // Skip loading screen for:
     // - Template link
     // - Anchor links
-    // - External links (mailto, tel, WhatsApp, etc.)
+    // - External links (mailto, tel, etc.)
     if (link.classList.contains('nav-link-template') || 
         href.includes('products.html') ||
         href.startsWith('#') || 
         href.startsWith('mailto:') || 
         href.startsWith('tel:') ||
-        href.includes('wa.me') ||
         href.startsWith('http://') ||
         href.startsWith('https://')) {
       return;

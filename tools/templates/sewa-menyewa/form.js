@@ -995,6 +995,16 @@ async function initiatePayment_OLD(formData, paymentMethod = null, paymentChanne
 }
 */
 
+// Create minimal formData for fallback download when session/localStorage data is lost (e.g. after iPaymu redirect)
+function createFallbackFormData(buyerName, buyerEmail) {
+  const fallback = {};
+  Object.keys(variableMapping).forEach(key => { fallback[key] = ''; });
+  fallback.pembayaran_bertahap = false;
+  if (buyerName && buyerName !== '-') fallback.nama_penyewa = buyerName;
+  if (buyerEmail && buyerEmail !== '-') fallback.email = buyerEmail;
+  return fallback;
+}
+
 // Download document after payment confirmation
 function downloadDocument(formData) {
   if (!formData) {

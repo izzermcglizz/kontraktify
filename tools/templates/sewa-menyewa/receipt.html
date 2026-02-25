@@ -205,7 +205,7 @@
             </a>
           </div>
           <div class="new-header__right">
-            <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer" class="bantuan-link">Hubungi Kami</a>
+            <a href="mailto:kontraktify@outlook.com" class="bantuan-link">Hubungi Kami</a>
           </div>
         </div>
       </header>
@@ -256,7 +256,7 @@
           </div>
 
           <div class="thankyou-disclaimer">
-            <strong>Perhatian:</strong> Untuk keamanan dan privasi, halaman ini hanya dapat diakses sekali. Simpan ID pesanan Anda. Invoice akan dikirim ke email Anda. Jika Anda membutuhkan dokumen lagi dalam 2×24 jam, silakan hubungi kami via <a href="https://wa.me/6285285995169" target="_blank" rel="noopener noreferrer">WhatsApp</a> dengan menyertakan ID pesanan.
+            <strong>Perhatian:</strong> Untuk keamanan dan privasi, halaman ini hanya dapat diakses sekali. Simpan ID pesanan Anda. Invoice akan dikirim ke email Anda. Jika Anda membutuhkan dokumen lagi dalam 2×24 jam, silakan hubungi kami via <a href="mailto:kontraktify@outlook.com">email</a> dengan menyertakan ID pesanan.
           </div>
 
           <div class="thankyou-back">
@@ -266,7 +266,7 @@
       </main>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="form.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -294,7 +294,12 @@
         function restoreFromLocalStorage() {
           const backupRef = localStorage.getItem('previewDocumentData_ref');
           const backup = localStorage.getItem('previewDocumentData_backup');
-          if (backup && backupRef && referenceId !== 'N/A' && backupRef === referenceId) {
+          if (!backup || referenceId === 'N/A') return false;
+          if (backupRef === referenceId) {
+            sessionStorage.setItem('previewDocumentData', backup);
+            return true;
+          }
+          if (backupRef && referenceId.startsWith('KNTF-') && backupRef.startsWith('KNTF-') && backupRef.slice(0, 13) === referenceId.slice(0, 13)) {
             sessionStorage.setItem('previewDocumentData', backup);
             return true;
           }
@@ -304,6 +309,20 @@
         if (!sessionStorage.getItem('previewDocumentData')) restoreFromLocalStorage();
 
         document.getElementById('referenceId').textContent = referenceId;
+
+        // Buyer name/email: URL (from returnUrl) → form data → sessionStorage. URL survives iPaymu redirect.
+        let buyerName = urlParams.get('name') || urlParams.get('buyer_name') || sessionStorage.getItem('paymentBuyerName') || '-';
+        let buyerEmail = urlParams.get('email') || urlParams.get('buyer_email') || sessionStorage.getItem('paymentBuyerEmail') || '-';
+        try {
+          const pd = sessionStorage.getItem('previewDocumentData');
+          if (pd) {
+            const fd = JSON.parse(pd);
+            if ((!buyerName || buyerName === '-') && (fd.nama_penyewa || fd.nama_pemberi_sewa)) buyerName = fd.nama_penyewa || fd.nama_pemberi_sewa;
+            if ((!buyerEmail || buyerEmail === '-') && fd.email) buyerEmail = fd.email;
+          }
+        } catch (e) {}
+        if (!buyerName || buyerName === 'Customer') buyerName = '-';
+        if (!buyerEmail || buyerEmail === 'customer@example.com') buyerEmail = '-';
 
         if (status === 'batal' || status === 'cancel' || status === 'failed') {
           document.getElementById('thankyouPage').classList.add('is-cancelled');
@@ -315,19 +334,12 @@
           document.querySelector('.thankyou-disclaimer').style.display = 'none';
         }
 
-        // Populate buyer info
-        let buyerName = sessionStorage.getItem('paymentBuyerName') || '-';
-        let buyerEmail = sessionStorage.getItem('paymentBuyerEmail') || '-';
-        try {
-          const pd = sessionStorage.getItem('previewDocumentData');
-          if (pd) {
-            const fd = JSON.parse(pd);
-            if (fd.nama_penyewa || fd.nama_pemberi_sewa) buyerName = fd.nama_penyewa || fd.nama_pemberi_sewa;
-            if (fd.email) buyerEmail = fd.email;
-          }
-        } catch (e) {}
         document.getElementById('buyerName').textContent = buyerName;
         document.getElementById('buyerEmail').textContent = buyerEmail;
+        if (urlParams.get('name') || urlParams.get('email')) {
+          const cleanParams = new URLSearchParams({ ref: referenceId, status });
+          history.replaceState(null, '', window.location.pathname + '?' + cleanParams.toString());
+        }
         document.getElementById('paymentDate').textContent = new Date().toLocaleDateString('id-ID', {
           weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
           hour: '2-digit', minute: '2-digit'
@@ -340,7 +352,7 @@
           const invEmail = document.getElementById('buyerEmail').textContent;
           const invDate = document.getElementById('paymentDate').textContent;
           btn.disabled = true;
-          btn.textContent = 'Membuat PDF...';
+          btn.textContent = 'Membuat gambar...';
           try {
             const res = await fetch('invoice.html');
             if (!res.ok) throw new Error('Template tidak ditemukan');
@@ -359,18 +371,22 @@
             const bodyContent = doc.body ? doc.body.innerHTML : '';
             const linkHtml = linkEl ? linkEl.outerHTML : '';
             const styleHtml = styleEl ? styleEl.outerHTML : '';
-            const pdfSource = document.createElement('div');
-            pdfSource.id = 'invoice-pdf-source';
-            pdfSource.style.cssText = 'position:absolute;left:-9999px;top:0;width:640px;background:#fff;padding:56px 48px;font-family:Inter,-apple-system,sans-serif;color:#111;';
-            pdfSource.innerHTML = linkHtml + styleHtml + '<div class="invoice-pdf-body">' + bodyContent + '</div>';
-            document.body.appendChild(pdfSource);
+            const invSource = document.createElement('div');
+            invSource.id = 'invoice-img-source';
+            invSource.style.cssText = 'position:absolute;left:-9999px;top:0;width:640px;background:#fff;padding:56px 48px;font-family:Inter,-apple-system,sans-serif;color:#111;';
+            invSource.innerHTML = linkHtml + styleHtml + '<div class="invoice-pdf-body">' + bodyContent + '</div>';
+            document.body.appendChild(invSource);
             await new Promise(r => setTimeout(r, 800));
-            if (typeof html2pdf !== 'function') throw new Error('PDF library tidak tersedia');
-            const targetEl = pdfSource.querySelector('#invoice-content') || pdfSource;
-            await html2pdf().set({ margin: 16, filename: 'Invoice_' + invRef + '.pdf', image: { type: 'jpeg', quality: 0.98 } }).from(targetEl).save();
-            document.body.removeChild(pdfSource);
+            if (typeof html2canvas !== 'function') throw new Error('html2canvas tidak tersedia');
+            const targetEl = invSource.querySelector('#invoice-content') || invSource;
+            const canvas = await html2canvas(targetEl, { scale: 2, useCORS: true, logging: false });
+            const link = document.createElement('a');
+            link.download = 'Invoice_' + invRef + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.body.removeChild(invSource);
           } catch (e) {
-            console.error('Invoice PDF error:', e);
+            console.error('Invoice error:', e);
             alert('Gagal mengunduh invoice. Pastikan Anda membuka dari server (bukan file://). Silakan coba lagi.');
           }
           btn.disabled = false;
@@ -387,20 +403,19 @@
           }
           if (!previewData) restoreFromUrl();
           if (!previewData) previewData = sessionStorage.getItem('previewDocumentData');
-          if (!previewData) {
-            alert('Data dokumen tidak ditemukan. Silakan hubungi kami via WhatsApp dengan ID pesanan Anda untuk meminta dokumen.');
-            return;
+          let formData = null;
+          if (previewData) {
+            try {
+              formData = JSON.parse(previewData);
+            } catch (e) {}
           }
-          try {
-            const formData = JSON.parse(previewData);
-            if (typeof downloadDocument === 'function') {
-              downloadDocument(formData);
-            } else {
-              alert('Fungsi download tidak tersedia. Silakan refresh halaman.');
-            }
-          } catch (err) {
-            console.error('Download error:', err);
-            alert('Terjadi kesalahan. Silakan hubungi kami via WhatsApp dengan ID pesanan Anda.');
+          if (!formData && typeof createFallbackFormData === 'function') {
+            formData = createFallbackFormData(buyerName, buyerEmail);
+          }
+          if (formData && typeof downloadDocument === 'function') {
+            downloadDocument(formData);
+          } else {
+            alert('Fungsi download tidak tersedia. Silakan refresh halaman.');
           }
         });
       });

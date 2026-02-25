@@ -404,11 +404,10 @@
           localStorage.setItem('previewDocumentData_ref', referenceId);
         }
 
-        // Keep returnUrl short — long URLs can cause iPaymu 500 error
-        var receiptBase = baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId;
-        var returnUrl = receiptBase + "&status=berhasil";
-        var cancelUrl = receiptBase + "&status=batal";
-        // Note: formData in URL (&d=) removed — was causing 500. Use localStorage/sessionStorage (same-origin) instead.
+        // Keep returnUrl short — long URLs can cause iPaymu 500 error. Name/email are short, safe to pass.
+        var receiptBase = baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + encodeURIComponent(referenceId) + "&status=berhasil";
+        var returnUrl = receiptBase + "&name=" + encodeURIComponent(buyerName) + "&email=" + encodeURIComponent(buyerEmail);
+        var cancelUrl = baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + encodeURIComponent(referenceId) + "&status=batal";
 
         var body = {
           "product":    ["Perjanjian Sewa Menyewa Tempat"],
