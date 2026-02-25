@@ -290,7 +290,18 @@
           }
           return false;
         }
+        // Restore from localStorage backup (saved before iPaymu redirect — sessionStorage is cleared on cross-origin return)
+        function restoreFromLocalStorage() {
+          const backupRef = localStorage.getItem('previewDocumentData_ref');
+          const backup = localStorage.getItem('previewDocumentData_backup');
+          if (backup && backupRef && referenceId !== 'N/A' && backupRef === referenceId) {
+            sessionStorage.setItem('previewDocumentData', backup);
+            return true;
+          }
+          return false;
+        }
         if (!sessionStorage.getItem('previewDocumentData')) restoreFromUrl();
+        if (!sessionStorage.getItem('previewDocumentData')) restoreFromLocalStorage();
 
         document.getElementById('referenceId').textContent = referenceId;
 
@@ -338,15 +349,26 @@
               .replace(/\{\{name\}\}/g, invName)
               .replace(/\{\{email\}\}/g, invEmail)
               .replace(/\{\{date\}\}/g, invDate);
-            const iframe = document.createElement('iframe');
-            iframe.style.cssText = 'position:absolute;width:600px;height:800px;left:-9999px;top:0;';
-            document.body.appendChild(iframe);
-            iframe.srcdoc = html;
-            await new Promise(r => { iframe.onload = r; });
-            await new Promise(r => setTimeout(r, 400));
+            const imgAbsUrl = new URL('../../../asset/favicon-removebg-preview.png', window.location.href).href;
+            html = html.replace(/src="[^"]*favicon-removebg-preview\.png"/, `src="${imgAbsUrl}"`);
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            doc.body.querySelectorAll('script').forEach(s => s.remove());
+            const linkEl = doc.querySelector('link[href*="fonts"]');
+            const styleEl = doc.querySelector('style');
+            const bodyContent = doc.body ? doc.body.innerHTML : '';
+            const linkHtml = linkEl ? linkEl.outerHTML : '';
+            const styleHtml = styleEl ? styleEl.outerHTML : '';
+            const pdfSource = document.createElement('div');
+            pdfSource.id = 'invoice-pdf-source';
+            pdfSource.style.cssText = 'position:absolute;left:-9999px;top:0;width:640px;background:#fff;padding:56px 48px;font-family:Inter,-apple-system,sans-serif;color:#111;';
+            pdfSource.innerHTML = linkHtml + styleHtml + '<div class="invoice-pdf-body">' + bodyContent + '</div>';
+            document.body.appendChild(pdfSource);
+            await new Promise(r => setTimeout(r, 800));
             if (typeof html2pdf !== 'function') throw new Error('PDF library tidak tersedia');
-            await html2pdf().set({ margin: 16, filename: 'Invoice_' + invRef + '.pdf' }).from(iframe.contentDocument.body).save();
-            document.body.removeChild(iframe);
+            const targetEl = pdfSource.querySelector('#invoice-content') || pdfSource;
+            await html2pdf().set({ margin: 16, filename: 'Invoice_' + invRef + '.pdf', image: { type: 'jpeg', quality: 0.98 } }).from(targetEl).save();
+            document.body.removeChild(pdfSource);
           } catch (e) {
             console.error('Invoice PDF error:', e);
             alert('Gagal mengunduh invoice. Pastikan Anda membuka dari server (bukan file://). Silakan coba lagi.');

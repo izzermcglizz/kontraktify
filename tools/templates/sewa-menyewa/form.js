@@ -1140,47 +1140,46 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const formData = collectFormData();
     const loader = document.getElementById('downloadLoader');
-    
-    if (loader) {
-      loader.style.display = 'flex';
-    }
-    
+    const spinner = document.getElementById('loaderSpinner');
+    const success = document.getElementById('loaderSuccess');
+    const loaderText = document.getElementById('loaderText');
     const generateBtn = document.getElementById('generateBtn');
+    
+    // Show loader immediately
+    if (loader) {
+      loader.classList.add('is-visible');
+    }
     if (generateBtn) {
       generateBtn.disabled = true;
+      generateBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;"></span> Memproses...';
     }
     
     try {
-      // Simulate processing with animation
+      // Save form data to sessionStorage for preview page
+      sessionStorage.setItem('previewDocumentData', JSON.stringify(formData));
+      
+      // Show success state after brief delay
       setTimeout(() => {
-        const spinner = document.getElementById('loaderSpinner');
-        const success = document.getElementById('loaderSuccess');
-        const loaderText = document.getElementById('loaderText');
-        
         if (spinner) spinner.style.display = 'none';
         if (success) success.style.display = 'block';
         if (loaderText) loaderText.textContent = 'Dokumen berhasil dibuat!';
         
-        // Save form data to sessionStorage for preview page
-        sessionStorage.setItem('previewDocumentData', JSON.stringify(formData));
-        
-        // Redirect to preview page after delay
+        // Redirect to preview page
         setTimeout(() => {
-          if (loader) loader.style.display = 'none';
-          if (generateBtn) generateBtn.disabled = false;
-          if (spinner) spinner.style.display = 'block';
-          if (success) success.style.display = 'none';
-          if (loaderText) loaderText.textContent = 'Memproses dokumen Anda...';
-          
-          // Redirect to preview page
           window.location.href = 'preview.html';
-        }, 1000);
-      }, 1500);
+        }, 800);
+      }, 1200);
       
     } catch (error) {
       console.error('Error generating document:', error);
-      if (loader) loader.style.display = 'none';
-      if (generateBtn) generateBtn.disabled = false;
+      if (loader) loader.classList.remove('is-visible');
+      if (generateBtn) {
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = 'Generate Dokumen';
+      }
+      if (spinner) spinner.style.display = 'block';
+      if (success) success.style.display = 'none';
+      if (loaderText) loaderText.textContent = 'Memproses dokumen Anda...';
       alert('Terjadi kesalahan saat membuat dokumen. Silakan coba lagi.');
     }
   });

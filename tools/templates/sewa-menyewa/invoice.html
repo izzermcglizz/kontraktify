@@ -108,6 +108,33 @@
       color: #666;
     }
     .invoice-footer p { margin-bottom: 4px; }
+
+    @media (max-width: 640px) {
+      body { padding: 24px 20px; font-size: 13px; }
+      .invoice-header {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+      }
+      .invoice-brand img { width: 40px; height: 40px; }
+      .invoice-brand-text { font-size: 1.125rem; }
+      .invoice-doc-type { align-self: flex-start; }
+      .invoice-meta { margin-bottom: 28px; }
+      .invoice-meta-row {
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 0;
+      }
+      .invoice-meta-value { word-break: break-word; }
+      .invoice-table th, .invoice-table td {
+        padding: 12px 14px;
+        font-size: 0.8125rem;
+      }
+      .invoice-table th { font-size: 0.625rem; letter-spacing: 0.1em; }
+      .invoice-total-row td { padding: 14px; font-size: 0.9375rem; }
+      .invoice-footer { margin-top: 32px; padding-top: 20px; }
+    }
   </style>
 </head>
 <body>

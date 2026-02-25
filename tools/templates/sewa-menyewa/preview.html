@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../style.css?v=14" />
@@ -22,7 +22,7 @@
         margin: 0;
         padding: 0;
         background: #fafafa;
-        font-family: 'Manrope', sans-serif;
+        font-family: 'Poppins', system-ui, sans-serif;
       }
       
       .preview-page {
@@ -135,7 +135,7 @@
         justify-content: center;
         gap: 8px;
         text-decoration: none;
-        font-family: 'Manrope', sans-serif;
+        font-family: 'Poppins', system-ui, sans-serif;
       }
       
       .btn--full {
@@ -375,8 +375,18 @@
         return 'KNTF-' + y + m + d + '-' + rand;
       }
 
+      // Clean data for iPaymu — removes chars that cause "Internal error"
+      function cleanForIpaymu(str) {
+        if (!str || typeof str !== 'string') return '';
+        return str.replace(/[`'"\\]/g, '').trim().substring(0, 255);
+      }
+
       // Call iPaymu redirect payment — directly from browser (no server needed)
       async function initiateIpaymuPayment(buyerName, buyerEmail, buyerPhone) {
+        buyerName = cleanForIpaymu(buyerName) || 'Customer';
+        buyerEmail = cleanForIpaymu(buyerEmail) || 'customer@example.com';
+        buyerPhone = cleanForIpaymu(buyerPhone) || '08123456789';
+
         // iPaymu requires https:// URLs — file:// is rejected
         var baseUrl = (window.location.origin && window.location.origin.startsWith('http'))
           ? window.location.origin
@@ -394,17 +404,11 @@
           localStorage.setItem('previewDocumentData_ref', referenceId);
         }
 
-        // Encode formData in URL so it survives cross-origin redirect (file:// -> https)
-        // Query param (not hash) — payment gateways often strip hash on redirect
+        // Keep returnUrl short — long URLs can cause iPaymu 500 error
         var receiptBase = baseUrl + "/tools/templates/sewa-menyewa/receipt.html?ref=" + referenceId;
         var returnUrl = receiptBase + "&status=berhasil";
         var cancelUrl = receiptBase + "&status=batal";
-        if (previewData && previewData.length < 8000) {
-          try {
-            var encoded = btoa(encodeURIComponent(previewData));
-            if (encoded.length < 6000) returnUrl += "&d=" + encodeURIComponent(encoded);
-          } catch (e) {}
-        }
+        // Note: formData in URL (&d=) removed — was causing 500. Use localStorage/sessionStorage (same-origin) instead.
 
         var body = {
           "product":    ["Perjanjian Sewa Menyewa Tempat"],
@@ -421,7 +425,7 @@
         };
 
         // Generate signature — exactly like official iPaymu sample
-        var bodyEncrypt  = CryptoJS.SHA256(JSON.stringify(body));
+        var bodyEncrypt = CryptoJS.SHA256(JSON.stringify(body));
         var stringtosign = "POST:" + IPAYMU_VA + ":" + bodyEncrypt + ":" + IPAYMU_APIKEY;
         var signature    = CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA256(stringtosign, IPAYMU_APIKEY));
 
@@ -445,7 +449,9 @@
 
         var paymentUrl = result?.Data?.Url || result?.Data?.PaymentUrl || null;
         if (!paymentUrl) {
-          throw new Error(result?.Message || 'Gagal mendapatkan URL pembayaran dari iPaymu');
+          var errMsg = result?.Message || result?.message || 'Gagal mendapatkan URL pembayaran dari iPaymu';
+          if (result?.Status !== undefined) errMsg += ' (Status: ' + result.Status + ')';
+          throw new Error(errMsg);
         }
 
         // Redirect customer to iPaymu payment page
