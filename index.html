@@ -1,2597 +1,1020 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kontraktify | Template Kontrak & Dokumen Hukum Profesional</title>
-    <link rel="icon" type="image/png" href="asset/favicon-removebg-preview.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <meta
-      name="description"
-      content="150+ template kontrak dan dokumen hukum siap pakai. Dibuat oleh ahli hukum, download instan, format Word yang bisa diedit. Platform tools hukum modern untuk bisnis."
-    />
-    <style>
-      /* Hero Search Styles - menggunakan CSS variables yang sudah ada */
-      .hero-search-container {
-        max-width: 680px;
-        margin: 0 auto 32px;
-        position: relative;
-        display: flex;
-        gap: 10px;
-      }
-      
-      .hero-search-box {
-        flex: 1;
-        background: rgba(15, 15, 16, 0.03);
-        border: 1px solid rgba(15, 15, 16, 0.1);
-        border-radius: 12px;
-        padding: 12px 18px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: all 0.3s ease;
-      }
-      
-      .hero-search-box:focus-within {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(15, 15, 16, 0.05);
-      }
-      
-      .hero-search-box svg {
-        flex-shrink: 0;
-        color: var(--text-muted);
-        width: 20px;
-        height: 20px;
-      }
-      
-      .hero-search-input {
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 0.8125rem;
-        font-family: 'Poppins', system-ui, sans-serif;
-        color: var(--primary);
-        background: transparent;
-      }
-      
-      .hero-search-input::placeholder {
-        color: var(--text-muted);
-      }
-      
-      .hero-search-button {
-        padding: 14px 24px;
-        background: var(--primary);
-        color: #fff;
-        border: none;
-        border-radius: var(--radius-sm);
-        font-size: 0.8125rem;
-        font-weight: 500;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        font-family: 'Poppins', system-ui, sans-serif;
-      }
-      
-      .hero-search-button:hover {
-        opacity: 0.9;
-        transform: translateY(-1px);
-      }
-      
-      /* Category Cards Grid */
-      .category-cards-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 12px;
-        max-width: 900px;
-        margin: 0 auto 32px;
-      }
-      
-      .category-card {
-        background: #fff;
-        border: 1px solid rgba(15, 15, 16, 0.08);
-        border-radius: 12px;
-        padding: 20px 16px;
-        text-align: center;
-        text-decoration: none;
-        color: inherit;
-        transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
-      
-      .category-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        border-color: rgba(15, 15, 16, 0.12);
-      }
-      
-      .category-card-icon {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--primary);
-      }
-      
-      .category-card-icon svg {
-        width: 20px;
-        height: 20px;
-      }
-      
-      .category-card-text {
-        font-size: 0.6875rem;
-        font-weight: 400;
-        color: var(--primary);
-        font-family: 'Poppins', system-ui, sans-serif;
-        line-height: 1.4;
-      }
-      
-      /* Value Props Grid */
-      .value-props-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        max-width: 580px;
-        margin: 0 auto;
-      }
-      
-      .value-prop-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      
-      .value-prop-icon {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
-        color: var(--primary);
-      }
-      
-      .value-prop-text {
-        font-size: 0.6875rem;
-        color: var(--primary);
-        font-weight: 400;
-        font-family: 'Poppins', system-ui, sans-serif;
-        line-height: 1.4;
-      }
-      
-      /* Cara Menggunakan Compact */
-      .cara-menggunakan-compact {
-        margin-top: 64px;
-        padding-top: 48px;
-        border-top: 1px solid rgba(15, 15, 16, 0.08);
-      }
-      
-      .cara-menggunakan-steps {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 16px;
-        max-width: 900px;
-        margin: 0 auto;
-      }
-      
-      .cara-step {
-        flex: 1;
-        text-align: center;
-        max-width: 200px;
-      }
-      
-      .cara-step-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 12px;
-        background: rgba(15, 15, 16, 0.05);
-        color: var(--primary);
-        transition: all 0.3s ease;
-      }
-      
-      .cara-step-icon--fill {
-        background: rgba(15, 15, 16, 0.08);
-      }
-      
-      .cara-step-icon--preview {
-        background: rgba(225, 111, 115, 0.1);
-        color: #e16f73;
-      }
-      
-      .cara-step-icon--download {
-        background: rgba(15, 15, 16, 0.08);
-      }
-      
-      .cara-step:hover .cara-step-icon {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      
-      .cara-step-icon svg {
-        width: 24px;
-        height: 24px;
-      }
-      
-      .cara-step-connector {
-        position: relative;
-        width: 40px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 0;
-        flex-shrink: 0;
-      }
-      
-      .connector-line {
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        background: repeating-linear-gradient(
-          to right,
-          rgba(15, 15, 16, 0.2) 0px,
-          rgba(15, 15, 16, 0.2) 4px,
-          transparent 4px,
-          transparent 8px
-        );
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      
-      .connector-dot {
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: rgba(15, 15, 16, 0.3);
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      
-      .connector-dot--start {
-        left: 0;
-      }
-      
-      .connector-dot--end {
-        right: 0;
-      }
-      
-      .connector-dot--red {
-        background: #e16f73;
-      }
-      
-      /* Form Builder Demo */
-      .form-builder-demo {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-        background: #fff;
-        border-radius: var(--radius-sm);
-        padding: 32px;
-        border: 1px solid rgba(15, 15, 16, 0.08);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-      }
-      
-      .demo-form-side {
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .demo-form-header {
-        margin-bottom: 24px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid rgba(15, 15, 16, 0.08);
-      }
-      
-      .demo-form-fields {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-      
-      .demo-field {
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .demo-input {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid rgba(15, 15, 16, 0.1);
-        border-radius: 8px;
-        font-size: 0.8125rem;
-        font-family: 'Poppins', system-ui, sans-serif;
-        color: var(--primary);
-        background: #fff;
-        transition: all 0.3s ease;
-        cursor: default;
-        pointer-events: none;
-      }
-      
-      .demo-input:focus {
-        outline: none;
-        border-color: rgba(15, 15, 16, 0.15);
-        box-shadow: 0 0 0 3px rgba(15, 15, 16, 0.05);
-        background: #fff;
-      }
-      
-      .demo-input::placeholder {
-        color: var(--text-muted);
-      }
-      
-      .demo-input[readonly] {
-        cursor: default;
-        user-select: none;
-      }
-      
-      .demo-input[disabled] {
-        cursor: default;
-        opacity: 0.8;
-        user-select: none;
-      }
-      
-      /* Prevent scroll when demo is running */
-      .form-builder-demo {
-        scroll-margin: 0;
-      }
-      
-      .form-builder-demo input:focus,
-      .form-builder-demo select:focus {
-        scroll-margin: 0;
-      }
-      
-      .demo-preview-side {
-        display: flex;
-        flex-direction: column;
-        background: #f9f9f9;
-        border-radius: 8px;
-        padding: 24px;
-        max-height: 600px;
-        overflow-y: auto;
-      }
-      
-      .demo-preview-header {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid rgba(15, 15, 16, 0.08);
-      }
-      
-      .demo-preview-content {
-        flex: 1;
-      }
-      
-      .demo-document {
-        background: #fff;
-        padding: 24px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        min-height: 400px;
-      }
-      
-      .demo-doc-header {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid rgba(15, 15, 16, 0.08);
-      }
-      
-      .demo-doc-section {
-        margin-bottom: 20px;
-      }
-      
-      .demo-doc-section:last-child {
-        margin-bottom: 0;
-      }
-      
-      .demo-placeholder {
-        color: var(--text-muted);
-        font-style: italic;
-        border-bottom: 1px dashed rgba(15, 15, 16, 0.2);
-        transition: all 0.3s ease;
-      }
-      
-      .demo-placeholder.filled {
-        color: #2563eb;
-        font-style: normal;
-        border-bottom: none;
-        font-weight: 500;
-        background: rgba(59, 130, 246, 0.12);
-        padding: 2px 6px;
-        border-radius: 4px;
-        display: inline-block;
-      }
-      
-      /* Auto-fill animation */
-      .demo-input.typing {
-        animation: typingGlow 0.5s ease;
-      }
-      
-      @keyframes typingGlow {
-        0%, 100% {
-          box-shadow: 0 0 0 3px rgba(15, 15, 16, 0.05);
-        }
-        50% {
-          box-shadow: 0 0 0 3px rgba(15, 15, 16, 0.15);
-        }
-      }
-      
-      /* How It Works */
-      .how-it-works-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 40px;
-        margin-top: 64px;
-        position: relative;
-      }
-      
-      .how-it-works-card {
-        text-align: left;
-        padding: 40px 32px;
-        background: #fff;
-        border-radius: var(--radius-sm);
-        border: 1px solid rgba(15, 15, 16, 0.08);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeInUp 0.6s ease forwards;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .how-it-works-card h3 {
-        text-align: left;
-        margin-top: 0;
-      }
-      
-      .how-it-works-card p {
-        text-align: left;
-      }
-      
-      .how-it-works-card:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      
-      .how-it-works-card:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      
-      .how-it-works-card:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      
-      .how-it-works-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.02) 0%, rgba(15, 15, 16, 0.01) 100%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-      }
-      
-      .how-it-works-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-        border-color: rgba(15, 15, 16, 0.15);
-      }
-      
-      .how-it-works-card:hover::before {
-        opacity: 1;
-      }
-      
-      .how-it-works-card:hover .how-it-works-number {
-        transform: scale(1.1) rotate(5deg);
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.12) 0%, rgba(15, 15, 16, 0.06) 100%);
-      }
-      
-      .how-it-works-number {
-        width: 48px;
-        height: 48px;
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.08) 0%, rgba(15, 15, 16, 0.04) 100%);
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--primary);
-        font-family: 'Poppins', system-ui, sans-serif;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        flex-shrink: 0;
-      }
-      
-      .how-it-works-icon {
-        width: 64px;
-        height: 64px;
-        margin-bottom: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        color: var(--primary);
-        position: relative;
-        opacity: 0.8;
-      }
-      
-      .how-it-works-icon svg {
-        width: 100%;
-        height: 100%;
-      }
-      
-      /* Step 1: Browse/Search Animation */
-      .step-icon-browse {
-        animation: browsePulse 3s ease-in-out infinite;
-      }
-      
-      .step-icon-browse .search-circle {
-        animation: searchRotate 2s ease-in-out infinite;
-        transform-origin: center;
-      }
-      
-      .step-icon-browse .search-handle {
-        animation: searchMove 2s ease-in-out infinite;
-      }
-      
-      .step-icon-browse .search-dot {
-        animation: searchDot 2s ease-in-out infinite;
-      }
-      
-      @keyframes browsePulse {
-        0%, 100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-      }
-      
-      @keyframes searchRotate {
-        0%, 100% {
-          transform: rotate(0deg);
-        }
-        50% {
-          transform: rotate(10deg);
-        }
-      }
-      
-      @keyframes searchMove {
-        0%, 100% {
-          transform: translateX(0) translateY(0);
-        }
-        50% {
-          transform: translateX(2px) translateY(-2px);
-        }
-      }
-      
-      @keyframes searchDot {
-        0%, 70% {
-          opacity: 0;
-          transform: scale(0);
-        }
-        80%, 100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-      
-      /* Step 2: Form Filling Animation */
-      .step-icon-form {
-        animation: formPulse 3s ease-in-out infinite;
-      }
-      
-      .step-icon-form .form-line-1 {
-        animation: formFill1 2s ease-in-out infinite;
-        stroke-dasharray: 10;
-        stroke-dashoffset: 10;
-      }
-      
-      .step-icon-form .form-line-2 {
-        animation: formFill2 2s ease-in-out infinite;
-        stroke-dasharray: 10;
-        stroke-dashoffset: 10;
-      }
-      
-      .step-icon-form .form-line-3 {
-        animation: formFill3 2s ease-in-out infinite;
-        stroke-dasharray: 7;
-        stroke-dashoffset: 7;
-      }
-      
-      .step-icon-form .form-check {
-        animation: formCheck 2s ease-in-out infinite;
-      }
-      
-      @keyframes formPulse {
-        0%, 100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-      }
-      
-      @keyframes formFill1 {
-        0% {
-          stroke-dashoffset: 10;
-        }
-        30% {
-          stroke-dashoffset: 0;
-        }
-        100% {
-          stroke-dashoffset: 0;
-        }
-      }
-      
-      @keyframes formFill2 {
-        0%, 35% {
-          stroke-dashoffset: 10;
-        }
-        65% {
-          stroke-dashoffset: 0;
-        }
-        100% {
-          stroke-dashoffset: 0;
-        }
-      }
-      
-      @keyframes formFill3 {
-        0%, 70% {
-          stroke-dashoffset: 7;
-        }
-        90% {
-          stroke-dashoffset: 0;
-        }
-        100% {
-          stroke-dashoffset: 0;
-        }
-      }
-      
-      @keyframes formCheck {
-        0%, 85% {
-          opacity: 0;
-          transform: scale(0);
-        }
-        95%, 100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-      
-      /* Step 3: Download Animation */
-      .step-icon-download {
-        animation: downloadPulse 3s ease-in-out infinite;
-      }
-      
-      .step-icon-download .download-arrow {
-        animation: downloadBounce 2s ease-in-out infinite;
-      }
-      
-      .step-icon-download .download-path {
-        animation: downloadMove 2s ease-in-out infinite;
-      }
-      
-      .step-icon-download .download-line {
-        animation: downloadLine 2s ease-in-out infinite;
-      }
-      
-      .step-icon-download .download-check {
-        animation: downloadCheck 2s ease-in-out infinite;
-      }
-      
-      .step-icon-download .checkmark {
-        animation: checkmarkAppear 2s ease-in-out infinite;
-      }
-      
-      @keyframes downloadPulse {
-        0%, 100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-      }
-      
-      @keyframes downloadBounce {
-        0%, 100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-3px);
-        }
-      }
-      
-      @keyframes downloadMove {
-        0% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(3px);
-        }
-        100% {
-          transform: translateY(0);
-        }
-      }
-      
-      @keyframes downloadLine {
-        0%, 70% {
-          stroke-dasharray: 12;
-          stroke-dashoffset: 12;
-        }
-        85%, 100% {
-          stroke-dasharray: 12;
-          stroke-dashoffset: 0;
-        }
-      }
-      
-      @keyframes downloadCheck {
-        0%, 80% {
-          opacity: 0;
-          transform: scale(0);
-        }
-        90%, 100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-      
-      @keyframes checkmarkAppear {
-        0%, 85% {
-          opacity: 0;
-          transform: scale(0) rotate(-45deg);
-        }
-        95%, 100% {
-          opacity: 1;
-          transform: scale(1) rotate(0deg);
-        }
-      }
-      
-      /* Hover effects for icons */
-      .how-it-works-card:hover .how-it-works-icon {
-        transform: scale(1.1);
-        transition: transform 0.3s ease;
-      }
-      
-      .how-it-works-card:hover .step-icon-browse {
-        animation-duration: 1.5s;
-      }
-      
-      .how-it-works-card:hover .step-icon-form {
-        animation-duration: 1.5s;
-      }
-      
-      .how-it-works-card:hover .step-icon-download {
-        animation-duration: 1.5s;
-      }
-      
-      .how-it-works-number::after {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        border-radius: var(--radius-sm);
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.1), rgba(15, 15, 16, 0.05));
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: -1;
-      }
-      
-      .how-it-works-card:hover .how-it-works-number::after {
-        opacity: 1;
-      }
-      
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      @keyframes pulse {
-        0%, 100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-      }
-      
-      .how-it-works-card h3 {
-        transition: all 0.3s ease;
-        position: relative;
-      }
-      
-      .how-it-works-card:hover h3 {
-        color: var(--primary);
-        transform: translateY(-2px);
-      }
-      
-      .how-it-works-card p {
-        transition: all 0.3s ease;
-      }
-      
-      .how-it-works-card:hover p {
-        color: var(--text-muted);
-      }
-      
-      /* Add subtle glow effect on hover */
-      .how-it-works-card::after {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        border-radius: var(--radius-sm);
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.05), rgba(15, 15, 16, 0.02));
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: -1;
-        pointer-events: none;
-      }
-      
-      .how-it-works-card:hover::after {
-        opacity: 1;
-      }
-      
-      /* Smooth number animation */
-      .how-it-works-number {
-        position: relative;
-      }
-      
-      .how-it-works-card:hover .how-it-works-number {
-        animation: numberGlow 2s ease-in-out infinite;
-      }
-      
-      @keyframes numberGlow {
-        0%, 100% {
-          box-shadow: 0 0 0 rgba(15, 15, 16, 0);
-        }
-        50% {
-          box-shadow: 0 0 20px rgba(15, 15, 16, 0.1);
-        }
-      }
-      
-      /* Connecting line animation (optional, for visual flow) */
-      @media (min-width: 768px) {
-        .how-it-works-grid::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, rgba(15, 15, 16, 0.1), transparent);
-          transform: translateY(-50%);
-          z-index: 0;
-          opacity: 0;
-          animation: fadeInLine 1s ease 0.5s forwards;
-        }
-        
-        @keyframes fadeInLine {
-          to {
-            opacity: 1;
-          }
-        }
-        
-        .how-it-works-card {
-          position: relative;
-          z-index: 1;
-        }
-      }
-      
-      /* Tools Grid */
-      .tools-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 32px;
-        margin-top: 64px;
-      }
-      
-      .tool-card {
-        background: #fff;
-        border-radius: var(--radius-sm);
-        padding: 40px;
-        border: 1px solid rgba(15, 15, 16, 0.08);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-      }
-      
-      .tool-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-        border-color: rgba(15, 15, 16, 0.12);
-      }
-      
-      .tool-icon {
-        width: 72px;
-        height: 72px;
-        background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 24px;
-        font-size: 36px;
-      }
-      
-      /* Legal Aid Compact */
-      .legal-aid-services {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 24px;
-        margin-top: 48px;
-      }
-      
-      .legal-aid-service-card {
-        background: #fff;
-        border-radius: var(--radius-sm);
-        padding: 32px;
-        border: 1px solid rgba(15, 15, 16, 0.08);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-      }
-      
-      .legal-aid-service-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-      }
-      
-      @media (max-width: 768px) {
-        /* Hero Section Mobile */
-        .hero-search-container {
-          flex-direction: column;
-          gap: 12px;
-          padding: 0 16px;
-        }
-        
-        .hero-search-box {
-          padding: 14px 16px;
-        }
-        
-        .hero-search-input {
-          font-size: 0.875rem;
-        }
-        
-        .hero-search-button {
-          width: 100%;
-          justify-content: center;
-          padding: 14px 24px;
-        }
-        
-        /* Category Cards Mobile */
-        .category-cards-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 10px;
-          padding: 0 16px;
-        }
-        
-        .category-card {
-          padding: 16px 12px;
-        }
-        
-        .category-card-icon {
-          width: 36px;
-          height: 36px;
-        }
-        
-        .category-card-icon svg {
-          width: 18px;
-          height: 18px;
-        }
-        
-        .category-card-text {
-          font-size: 0.6875rem;
-          line-height: 1.3;
-        }
-        
-        /* Value Props Mobile */
-        .value-props-grid {
-          grid-template-columns: 1fr;
-          gap: 12px;
-          padding: 0 16px;
-        }
-        
-        .value-prop-item {
-          gap: 10px;
-        }
-        
-        .value-prop-text {
-          font-size: 0.75rem;
-        }
-        
-        /* Form Builder Demo Mobile */
-        .form-builder-demo {
-          grid-template-columns: 1fr;
-          padding: 24px;
-          gap: 24px;
-        }
-        
-        .demo-preview-side {
-          max-height: 500px;
-        }
-        
-        .demo-document {
-          padding: 20px;
-        }
-        
-        /* Cara Menggunakan Mobile */
-        .cara-menggunakan-compact {
-          margin-top: 48px;
-          padding-top: 32px;
-        }
-        
-        .cara-menggunakan-steps {
-          flex-direction: column;
-          gap: 24px;
-          align-items: center;
-        }
-        
-        .cara-step {
-          max-width: 100%;
-          width: 100%;
-        }
-        
-        .cara-step-connector {
-          width: 2px;
-          height: 24px;
-          margin: 0;
-        }
-        
-        .connector-line {
-          width: 2px;
-          height: 100%;
-          background: repeating-linear-gradient(
-            to bottom,
-            rgba(15, 15, 16, 0.2) 0px,
-            rgba(15, 15, 16, 0.2) 4px,
-            transparent 4px,
-            transparent 8px
-          );
-          top: 0;
-          transform: none;
-        }
-        
-        .connector-dot {
-          width: 6px;
-          height: 6px;
-        }
-        
-        .connector-dot--start {
-          top: 0;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-        
-        .connector-dot--end {
-          top: 100%;
-          right: auto;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-        
-        /* How It Works Mobile */
-        .how-it-works-grid {
-          grid-template-columns: 1fr;
-          gap: 24px;
-          padding: 0 16px;
-        }
-        
-        .how-it-works-card {
-          padding: 32px 24px;
-          text-align: left;
-        }
-        
-        .how-it-works-number {
-          width: 44px;
-          height: 44px;
-          font-size: 1.125rem;
-        }
-        
-        .how-it-works-icon {
-          width: 56px;
-          height: 56px;
-        }
-        
-        .how-it-works-icon svg {
-          width: 56px;
-          height: 56px;
-        }
-        
-        div[style*="display: flex"][style*="align-items: flex-start"] {
-          flex-direction: column;
-          gap: 12px !important;
-        }
-        
-        /* Tools Grid Mobile */
-        .tools-grid {
-          grid-template-columns: 1fr;
-          gap: 24px;
-          padding: 0 16px;
-        }
-        
-        .tool-card {
-          padding: 32px 24px;
-        }
-        
-        .tool-icon {
-          width: 64px;
-          height: 64px;
-          font-size: 32px;
-          margin-bottom: 20px;
-        }
-        
-        /* Legal Aid Services Mobile */
-        .legal-aid-services {
-          grid-template-columns: 1fr;
-          gap: 20px;
-          padding: 0 16px;
-        }
-        
-        .legal-aid-service-card {
-          padding: 24px;
-        }
-      }
-      
-      @media (max-width: 480px) {
-        /* Extra Small Mobile */
-        .category-cards-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
-        }
-        
-        .category-card {
-          padding: 14px 8px;
-        }
-        
-        .category-card-text {
-          font-size: 0.625rem;
-        }
-        
-        .how-it-works-card {
-          padding: 24px 20px;
-        }
-        
-        .tool-card {
-          padding: 24px 20px;
-        }
-        
-        .legal-aid-service-card {
-          padding: 20px;
-        }
-      }
-      
-      /* Mobile Styles for Inline Sections */
-      @media (max-width: 768px) {
-        /* Hero Section Padding */
-        section[style*="padding: 48px 0 64px"] {
-          padding: 32px 0 48px !important;
-        }
-        
-        section[style*="padding: 100px 0"] {
-          padding: 64px 0 !important;
-        }
-        
-        /* Container Padding */
-        .container {
-          padding-left: 16px !important;
-          padding-right: 16px !important;
-        }
-        
-        /* Headings Mobile */
-        h1[style*="font-size: clamp"] {
-          font-size: clamp(1.5rem, 6vw, 2rem) !important;
-          padding: 0 16px !important;
-          margin-bottom: 16px !important;
-        }
-        
-        h2[style*="font-size: clamp"] {
-          font-size: clamp(1.5rem, 5vw, 2rem) !important;
-          padding: 0 16px !important;
-          margin-bottom: 16px !important;
-        }
-        
-        h3[style*="font-size: 1.25rem"] {
-          font-size: 1.125rem !important;
-        }
-        
-        h3[style*="font-size: 1.375rem"] {
-          font-size: 1.25rem !important;
-        }
-        
-        h3[style*="font-size: 1.0625rem"] {
-          font-size: 1rem !important;
-        }
-        
-        /* Section Content Padding */
-        div[style*="max-width: 1200px"] {
-          padding: 0 16px !important;
-        }
-        
-        div[style*="text-align: center"][style*="margin-bottom: 64px"] {
-          margin-bottom: 48px !important;
-          padding: 0 16px !important;
-        }
-        
-        /* Template Cards Mobile */
-        div[style*="grid-template-columns: repeat(auto-fit, minmax(300px"] {
-          grid-template-columns: 1fr !important;
-          gap: 24px !important;
-          padding: 0 !important;
-        }
-        
-        /* Why Choose Grid Mobile */
-        div[style*="grid-template-columns: repeat(auto-fit, minmax(280px"] {
-          grid-template-columns: 1fr !important;
-          gap: 24px !important;
-          padding: 0 16px !important;
-        }
-        
-        /* Card Padding Mobile */
-        div[style*="padding: 32px"][style*="background: #fff"] {
-          padding: 24px 20px !important;
-        }
-        
-        div[style*="padding: 40px"] {
-          padding: 32px 24px !important;
-        }
-        
-        /* Text Sizes Mobile */
-        p[style*="font-size: 0.9375rem"] {
-          font-size: 0.875rem !important;
-          padding: 0 16px !important;
-        }
-        
-        p[style*="font-size: 0.875rem"] {
-          font-size: 0.8125rem !important;
-        }
-        
-        p[style*="font-size: 0.8125rem"] {
-          font-size: 0.75rem !important;
-        }
-        
-        /* Badge Mobile */
-        div[style*="font-size: 0.75rem"][style*="text-transform: uppercase"] {
-          font-size: 0.6875rem !important;
-          margin-bottom: 12px !important;
-        }
-        
-        /* Button Mobile */
-        .btn {
-          padding: 12px 24px !important;
-          font-size: 0.875rem !important;
-        }
-        
-        /* Icon Sizes Mobile */
-        div[style*="font-size: 32px"] {
-          font-size: 28px !important;
-        }
-        
-        div[style*="width: 64px"][style*="height: 64px"] {
-          width: 56px !important;
-          height: 56px !important;
-        }
-        
-        div[style*="width: 56px"][style*="height: 56px"] {
-          width: 48px !important;
-          height: 48px !important;
-        }
-        
-        /* Trust Badge Mobile */
-        div[style*="display: inline-flex"][style*="padding: 6px 14px"] {
-          padding: 6px 12px !important;
-          font-size: 0.625rem !important;
-        }
-        
-        /* Price Mobile */
-        div[style*="font-size: 1.5rem"][style*="font-weight: 800"] {
-          font-size: 1.25rem !important;
-        }
-        
-        div[style*="font-size: 1.25rem"][style*="font-weight: 600"] {
-          font-size: 1.125rem !important;
-        }
-        
-        /* Margin Adjustments Mobile */
-        div[style*="margin-bottom: 64px"] {
-          margin-bottom: 48px !important;
-        }
-        
-        div[style*="margin-bottom: 48px"] {
-          margin-bottom: 32px !important;
-        }
-        
-        div[style*="margin-top: 48px"] {
-          margin-top: 32px !important;
-        }
-        
-        div[style*="margin-top: 64px"] {
-          margin-top: 48px !important;
-        }
-        
-        /* Section Dividers Mobile */
-        div[style*="height: 1px"][style*="background: linear-gradient"] {
-          margin: 0 !important;
-        }
-      }
-      
-      @media (max-width: 480px) {
-        section[style*="padding: 100px 0"] {
-          padding: 48px 0 !important;
-        }
-        
-        section[style*="padding: 48px 0 64px"] {
-          padding: 24px 0 40px !important;
-        }
-        
-        h1[style*="font-size: clamp"] {
-          font-size: clamp(1.375rem, 7vw, 1.75rem) !important;
-        }
-        
-        h2[style*="font-size: clamp"] {
-          font-size: clamp(1.375rem, 6vw, 1.75rem) !important;
-        }
-        
-        div[style*="grid-template-columns: repeat(auto-fit"] {
-          gap: 20px !important;
-        }
-        
-        div[style*="padding: 32px"] {
-          padding: 20px 16px !important;
-        }
-        
-        div[style*="padding: 24px"] {
-          padding: 20px !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page-loader" id="pageLoader">
-      <div class="page-loader__content">
-        <div class="page-loader__document">
-          <svg class="page-loader__doc-icon" width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <rect x="12" y="8" width="40" height="48" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M20 20h24M20 28h24M20 36h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M20 44h24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4"/>
-          </svg>
-          <div class="page-loader__checkmark">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-          </div>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontraktify — Platform Legal Indonesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2044;
+    --navy-mid: #1a3560;
+    --navy-light: #2a4f8a;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #faf8f4;
+    --white: #ffffff;
+    --slate: #64748b;
+    --border: rgba(15,32,68,0.1);
+    --text: #1e293b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+    height: 68px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .logo .dot { color: var(--gold); }
+
+  nav ul {
+    list-style: none;
+    display: flex; gap: 2.25rem;
+    align-items: center;
+  }
+  nav ul a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--slate);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  nav ul a:hover { color: var(--navy); }
+
+  .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+  .btn-outline-sm {
+    padding: 0.5rem 1.25rem;
+    border: 1.5px solid var(--navy);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--navy);
+    text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-outline-sm:hover { background: var(--navy); color: white; }
+
+  .btn-primary-sm {
+    padding: 0.55rem 1.4rem;
+    background: var(--navy);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+  }
+  .btn-primary-sm:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 2rem 5rem;
+    position: relative;
+    background: var(--navy);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -10%; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    position: relative;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-eyebrow .pulse {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+    font-weight: 700;
+    line-height: 1.08;
+    color: white;
+    letter-spacing: -0.02em;
+    max-width: 820px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    max-width: 560px;
+    margin-bottom: 2.75rem;
+    position: relative;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;
+    position: relative;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn-gold {
+    padding: 0.9rem 2.25rem;
+    background: var(--gold);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.45); }
+
+  .btn-ghost-white {
+    padding: 0.9rem 2rem;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-ghost-white:hover { border-color: rgba(255,255,255,0.6); color: white; background: rgba(255,255,255,0.06); }
+
+  .hero-stats {
+    position: relative;
+    display: flex;
+    margin-top: 5rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+  .hero-stat {
+    padding: 1.4rem 2.5rem;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+  }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .hero-stat-num span { color: var(--gold-light); }
+  .hero-stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.45);
+    font-weight: 400;
+  }
+
+  /* LAYOUT */
+  .section { padding: 6rem 4rem; }
+  .section-sm { padding: 5rem 4rem; }
+  .container { max-width: 1160px; margin: 0 auto; }
+
+  .label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .label::before { content: ''; display: block; width: 20px; height: 1.5px; background: var(--gold); }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--slate);
+    font-weight: 300;
+    max-width: 540px;
+    margin-bottom: 3.5rem;
+  }
+
+  /* PILLARS */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .pillar {
+    background: white;
+    padding: 3rem;
+    transition: background .25s;
+  }
+  .pillar:hover { background: #fdfcf9; }
+
+  .pillar-icon {
+    width: 52px; height: 52px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .pillar-icon.blue { background: rgba(15,32,68,0.07); }
+  .pillar-icon.gold { background: rgba(201,168,76,0.12); }
+
+  .pillar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .pillar p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--slate);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .pillar-features { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 2.25rem; }
+  .pillar-feature {
+    display: flex; align-items: center; gap: 0.65rem;
+    font-size: 0.875rem;
+    color: var(--text);
+  }
+  .chk {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(15,32,68,0.08);
+    color: var(--navy);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pillar-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+    transition: gap .2s;
+  }
+  .pillar-link:hover { gap: 0.85rem; }
+
+  /* SERVICES */
+  .services-bg { background: white; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--cream);
+    padding: 2rem 1.75rem;
+    transition: background .25s;
+    cursor: pointer;
+  }
+  .service-card:hover { background: white; }
+
+  .service-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    font-size: 0.825rem;
+    line-height: 1.65;
+    color: var(--slate);
+    font-weight: 300;
+  }
+
+  .service-badge {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(201,168,76,0.12);
+    color: #8a6820;
+  }
+
+  /* HOW IT WORKS */
+  .how-bg { background: var(--navy); }
+  .how-bg .label { color: var(--gold-light); }
+  .how-bg .label::before { background: var(--gold-light); }
+  .how-bg h2 { color: white; }
+  .how-bg .section-sub { color: rgba(255,255,255,0.5); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .step {
+    background: rgba(255,255,255,0.04);
+    padding: 2.75rem 2.25rem;
+    transition: background .25s;
+  }
+  .step:hover { background: rgba(255,255,255,0.07); }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(201,168,76,0.3);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .step h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .step p {
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+  }
+
+  /* TRUST */
+  .trust { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .trust-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
+    padding: 2.5rem 0;
+  }
+  .trust-item { display: flex; align-items: center; gap: 0.75rem; flex: 1; }
+  .trust-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: rgba(15,32,68,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .trust-text strong { display: block; font-size: 0.875rem; font-weight: 600; color: var(--navy); margin-bottom: 0.1rem; }
+  .trust-text span { font-size: 0.775rem; color: var(--slate); }
+  .trust-divider { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
+
+  /* TEMPLATES */
+  .templates-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .template-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow .25s, transform .2s;
+  }
+  .template-card:hover { box-shadow: 0 12px 40px rgba(15,32,68,0.1); transform: translateY(-3px); }
+
+  .template-card-header {
+    padding: 1.5rem 1.75rem;
+    background: var(--navy);
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .template-card-header h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+  }
+  .template-card-header .badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(201,168,76,0.25);
+    color: var(--gold-light);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .template-lines { padding: 1.5rem 1.75rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .tline { height: 9px; background: rgba(15,32,68,0.07); border-radius: 100px; }
+  .tline.f { width: 100%; }
+  .tline.m { width: 75%; }
+  .tline.s { width: 55%; }
+
+  .template-footer {
+    padding: 1rem 1.75rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .template-footer span { font-size: 0.78rem; color: var(--slate); }
+  .template-footer a { font-size: 0.8rem; font-weight: 600; color: var(--navy); text-decoration: none; }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    padding: 7rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .final-cta h2 { color: white; font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 1rem; position: relative; }
+  .final-cta p { color: rgba(255,255,255,0.55); font-size: 1rem; font-weight: 300; margin-bottom: 2.5rem; position: relative; }
+  .final-cta .actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+
+  /* FOOTER */
+  footer {
+    background: #080f1e;
+    padding: 4rem 4rem 2.5rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .footer-desc {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    max-width: 260px;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-col h5 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .footer-col ul a {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-col ul a:hover { color: rgba(255,255,255,0.85); }
+
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.78rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 0 1.5rem; }
+    nav ul { display: none; }
+    .section, .section-sm, .final-cta { padding: 4rem 1.5rem; }
+    footer { padding: 3rem 1.5rem 2rem; }
+    .pillars { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: 1fr; }
+    .templates-split { grid-template-columns: 1fr; }
+    .trust-inner { flex-wrap: wrap; }
+    .trust-divider { display: none; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .hero-stats { flex-wrap: wrap; }
+    .hero-stat { flex: 1; min-width: 130px; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Kontraktify<span class="dot">.</span></a>
+  <ul>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#template">Template</a></li>
+    <li><a href="#cara-kerja">Cara Kerja</a></li>
+    <li><a href="#">Harga</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#" class="btn-outline-sm">Masuk</a>
+    <a href="#" class="btn-primary-sm">Mulai Gratis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="pulse"></span>
+    Platform Legal Terpercaya untuk Bisnis Indonesia
+  </div>
+
+  <h1>Semua Kebutuhan Legal<br>Bisnis Anda, <em>Satu Tempat</em></h1>
+
+  <p class="hero-sub">
+    Dari template kontrak siap pakai hingga pendirian PT, pendaftaran merek, dan layanan hukum lainnya — cepat, terpercaya, dan terjangkau.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#layanan" class="btn-gold">Jelajahi Layanan →</a>
+    <a href="#cara-kerja" class="btn-ghost-white">Pelajari Cara Kerja</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">10.000<span>+</span></div>
+      <div class="hero-stat-label">Pengguna Aktif</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">500<span>+</span></div>
+      <div class="hero-stat-label">Template Dokumen</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">50<span>+</span></div>
+      <div class="hero-stat-label">Layanan Hukum</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">48<span>jam</span></div>
+      <div class="hero-stat-label">Rata-rata Selesai</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <div class="trust-icon">🏛️</div>
+        <div class="trust-text">
+          <strong>Terdaftar Resmi</strong>
+          <span>Beroperasi sesuai hukum Indonesia</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <div class="trust-icon">⚖️</div>
+        <div class="trust-text">
+          <strong>Advokat Berpengalaman</strong>
+          <span>Ditangani tim hukum tersertifikasi</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <div class="trust-icon">🔒</div>
+        <div class="trust-text">
+          <strong>Data Aman & Rahasia</strong>
+          <span>Enkripsi end-to-end, terlindungi</span>
+        </div>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <div class="trust-icon">⚡</div>
+        <div class="trust-text">
+          <strong>Proses Cepat</strong>
+          <span>Respons dalam 24 jam kerja</span>
         </div>
       </div>
     </div>
-    
-    <header class="top-bar">
-      <div class="top-bar__container">
-        <a href="index.html" class="logo">
-          <img src="asset/favicon-removebg-preview.png" alt="Kontraktify" class="logo__mark" />
-          <span>Kontraktify</span>
-        </a>
-        <nav class="main-nav">
-          <!-- Dokumen Hukum Dropdown -->
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link nav-link--dropdown">
-              Dokumen Hukum
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </a>
-            <div class="dropdown-menu">
-              <a href="tools/templates/index.html#Kontrak Bisnis" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Bisnis</div>
-                  <div class="dropdown-item-desc">Kontrak dan formulir untuk memulai, mengelola, dan mengembangkan bisnis Anda.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="tools/templates/index.html#Perjanjian Sewa" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Properti</div>
-                  <div class="dropdown-item-desc">Sederhanakan sewa properti, penjualan, dan perjanjian penyewa.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="tools/templates/index.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Perencanaan Estate</div>
-                  <div class="dropdown-item-desc">Dokumen untuk melindungi aset Anda dan merencanakan masa depan.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="tools/templates/index.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Personal & Keluarga</div>
-                  <div class="dropdown-item-desc">Dokumen sehari-hari untuk mengelola urusan personal dan keuangan.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="tools/templates/index.html" class="dropdown-item dropdown-item--all">
-                <span>Semua Dokumen</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
+  </div>
+</div>
 
-          <!-- Alat Hukum Dropdown - Hidden for now -->
-          <div class="nav-dropdown" style="display: none;">
-            <a href="#" class="nav-link nav-link--dropdown">
-              Alat Hukum
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </a>
-            <div class="dropdown-menu">
-              <a href="tools/sign/index.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="12" y1="18" x2="12" y2="12"/>
-                    <line x1="9" y1="15" x2="15" y2="15"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">E-Signature</div>
-                  <div class="dropdown-item-desc">Tandatangani dokumen secara digital dengan legalitas yang sama.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="tools/compare/index.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.35-4.35"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Document Compare</div>
-                  <div class="dropdown-item-desc">Bandingkan versi dokumen dan temukan perbedaan dengan mudah.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
+<!-- TWO PILLARS -->
+<section class="section" id="layanan">
+  <div class="container">
+    <div class="label">Apa yang Kami Tawarkan</div>
+    <h2>Dua Pilar Layanan Kami</h2>
+    <p class="section-sub">Kontraktify menghadirkan solusi legal yang komprehensif — dari dokumen instan hingga pengurusan legalitas bisnis penuh.</p>
 
-          <!-- Bantuan Hukum Dropdown -->
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link nav-link--dropdown">
-              Bantuan Hukum
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </a>
-            <div class="dropdown-menu">
-              <a href="legal-aid/pembentukan-perusahaan.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="9" y1="3" x2="9" y2="21"/>
-                    <line x1="3" y1="9" x2="21" y2="9"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Pembentukan Perusahaan</div>
-                  <div class="dropdown-item-desc">Pendirian PT, CV, atau bentuk badan usaha lainnya dengan pendampingan lawyer.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="legal-aid/pendaftaran-merek.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Pendaftaran Merek</div>
-                  <div class="dropdown-item-desc">Layanan pendaftaran merek dagang dengan pendampingan lawyer.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="legal-aid/konsultasi-dokumen.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Konsultasi Dokumen</div>
-                  <div class="dropdown-item-desc">Review dan konsultasi dokumen hukum dengan lawyer untuk kontrak custom.</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a href="legal-aid/index.html" class="dropdown-item dropdown-item--all">
-                <span>Lihat Semua Bantuan Hukum</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <!-- Search Icon -->
-          <a href="tools/templates/index.html" class="nav-link" style="display: flex; align-items: center; padding: 8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.35-4.35"/>
-            </svg>
-          </a>
-
-          <!-- Support Dropdown -->
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link nav-link--dropdown">
-              Support
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-arrow">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </a>
-            <div class="dropdown-menu">
-              <a href="mailto:kontraktify@outlook.com" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">Hubungi Kami</div>
-                  <div class="dropdown-item-desc">Email tim support kami</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-              <a href="legal-aid/konsultasi-dokumen.html" class="dropdown-item">
-                <div class="dropdown-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                  </svg>
-                </div>
-                <div class="dropdown-item-content">
-                  <div class="dropdown-item-title">FAQ</div>
-                  <div class="dropdown-item-desc">Pertanyaan yang sering diajukan</div>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-item-arrow">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </nav>
+    <div class="pillars reveal">
+      <div class="pillar">
+        <div class="pillar-icon blue">📄</div>
+        <h3>Template Dokumen Legal</h3>
+        <p>Akses ratusan template kontrak dan dokumen hukum yang sudah terverifikasi advokat — siap diunduh dan langsung digunakan.</p>
+        <div class="pillar-features">
+          <div class="pillar-feature"><span class="chk">✓</span>Kontrak kerja & perjanjian kerja sama</div>
+          <div class="pillar-feature"><span class="chk">✓</span>NDA, MOU, dan perjanjian kerahasiaan</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Perjanjian sewa & jual beli</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Surat kuasa & dokumen korporat</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Edit dan unduh format Word / PDF</div>
+        </div>
+        <a href="#template" class="pillar-link">Lihat semua template →</a>
       </div>
-    </header>
 
-    <main>
-      <!-- Hero Section -->
-      <section style="padding: 48px 0 64px; background: var(--bg-light); width: 100%;">
-        <div class="container">
-          <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-            
-            <!-- Trust Badge -->
-            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(15, 15, 16, 0.05); border-radius: 50px; margin-bottom: 24px; border: 1px solid rgba(15, 15, 16, 0.1);">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--primary);">
-                <path d="M9 11l3 3L22 4"/>
-                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-              </svg>
-              <span style="font-size: 0.6875rem; font-weight: 400; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">1000+ Dokumen Legal Dibuat</span>
-            </div>
-
-            <!-- Headline -->
-            <h1 style="font-size: clamp(1.875rem, 4vw, 2.75rem); font-weight: 500; line-height: 1.2; margin-bottom: 12px; color: var(--primary); letter-spacing: -0.01em; font-family: 'Poppins', system-ui, sans-serif;">
-              Buat Dokumen Hukum dalam Hitungan Menit.
-            </h1>
-            
-            <!-- Description -->
-            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; font-family: 'Poppins', system-ui, sans-serif;">
-              Template kontrak legal untuk bisnis di Indonesia, tanpa ribet atau mahal.
-            </p>
-
-            <!-- Search Bar with Button -->
-            <div class="hero-search-container">
-              <div class="hero-search-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
-                </svg>
-                <input 
-                  type="text" 
-                  class="hero-search-input" 
-                  placeholder="Cari kontrak hukum... (contoh: perjanjian kerja)"
-                  id="heroSearch"
-                />
-              </div>
-              <button type="button" class="hero-search-button" onclick="handleSearch()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
-                </svg>
-                Cari
-              </button>
-            </div>
-
-            <!-- Category Cards -->
-            <div class="category-cards-grid">
-              <a href="tools/templates/index.html#Perjanjian Sewa" class="category-card">
-                <div class="category-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                </div>
-                <div class="category-card-text">Perjanjian Sewa</div>
-              </a>
-              
-              <a href="tools/templates/index.html#Kontrak Karyawan" class="category-card">
-                <div class="category-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                  </svg>
-                </div>
-                <div class="category-card-text">Kontrak Karyawan</div>
-              </a>
-              
-              <a href="tools/templates/index.html#NDA" class="category-card">
-                <div class="category-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  </svg>
-                </div>
-                <div class="category-card-text">NDA (Non-Disclosure Agreement)</div>
-              </a>
-              
-              <a href="tools/templates/index.html#Perjanjian Kerjasama" class="category-card">
-                <div class="category-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="9" y1="15" x2="15" y2="15"/>
-                    <line x1="12" y1="12" x2="12" y2="18"/>
-                  </svg>
-                </div>
-                <div class="category-card-text">Perjanjian Kerjasama</div>
-              </a>
-              
-              <a href="tools/templates/index.html#Kontrak Freelance" class="category-card">
-                <div class="category-card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10 9 9 9 8 9"/>
-                </svg>
-                </div>
-                <div class="category-card-text">Kontrak Freelance</div>
-              </a>
-            </div>
-
-            <!-- Value Propositions -->
-            <div class="value-props-grid">
-              <div class="value-prop-item">
-                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                  <path d="M8 12h8M12 8v8"/>
-                </svg>
-                <span class="value-prop-text">Disusun oleh ahli hukum Indonesia</span>
-              </div>
-              
-              <div class="value-prop-item">
-                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="9" y1="15" x2="15" y2="15"/>
-                </svg>
-                <span class="value-prop-text">Mudah digunakan & siap edit</span>
-              </div>
-              
-              <div class="value-prop-item">
-                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="16" y1="13" x2="8" y2="13"/>
-                  <line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-                <span class="value-prop-text">Sesuai hukum Indonesia</span>
-              </div>
-              
-              <div class="value-prop-item">
-                <svg class="value-prop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                <span class="value-prop-text">Hemat waktu & biaya legal</span>
-              </div>
-            </div>
-          </div>
+      <div class="pillar">
+        <div class="pillar-icon gold">🏢</div>
+        <h3>Layanan Legal Berbantuan</h3>
+        <p>Tim hukum kami mengurus seluruh proses legalitas bisnis Anda — dari pendirian perusahaan hingga pendaftaran merek, tanpa repot bolak-balik ke instansi.</p>
+        <div class="pillar-features">
+          <div class="pillar-feature"><span class="chk">✓</span>Pendirian PT, CV, dan Yayasan</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Pendaftaran merek (daftar merek)</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Perizinan usaha & NIB (OSS)</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Perubahan akta & struktur perusahaan</div>
+          <div class="pillar-feature"><span class="chk">✓</span>Konsultasi hukum dengan advokat</div>
         </div>
-      </section>
+        <a href="#" class="pillar-link">Lihat semua layanan →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Section Divider -->
-      <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(15, 15, 16, 0.08), transparent); margin: 0;"></div>
+<!-- SERVICES GRID -->
+<section class="section-sm services-bg">
+  <div class="container">
+    <div class="label">Layanan Populer</div>
+    <h2>Yang Paling Banyak Digunakan</h2>
+    <p class="section-sub">Layanan yang paling sering dibutuhkan oleh pelaku bisnis dan startup Indonesia.</p>
 
-      <!-- Featured Templates Section -->
-      <section style="padding: 100px 0; background: #fff; width: 100%;">
-        <div class="container">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 64px;">
-              <div style="font-size: 0.75rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Template Populer</div>
-              <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
-                Template Paling Diminati
-              </h2>
-              <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
-                Mulai dengan template yang paling banyak digunakan oleh bisnis seperti Anda
-              </p>
-            </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <span class="service-emoji">🏗️</span>
+        <div class="service-title">Pendirian PT</div>
+        <div class="service-desc">Kami urus akta, NIB, NPWP, hingga dokumen legalitas lengkap untuk PT Anda.</div>
+        <span class="service-badge">Populer</span>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">™️</span>
+        <div class="service-title">Daftar Merek</div>
+        <div class="service-desc">Lindungi brand Anda dengan pendaftaran merek di DJKI Kemenkumham. Transparan dan terpantau.</div>
+        <span class="service-badge">Populer</span>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">📋</span>
+        <div class="service-title">Perizinan Usaha</div>
+        <div class="service-desc">Pengurusan NIB, SIUP, dan berbagai izin usaha sesuai sektor bisnis Anda.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">🤝</span>
+        <div class="service-title">Kontrak Kerja Sama</div>
+        <div class="service-desc">Pembuatan perjanjian kerja sama yang sah dan mengikat secara hukum.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">🔄</span>
+        <div class="service-title">Perubahan Akta</div>
+        <div class="service-desc">Ubah struktur kepemilikan, direksi, atau modal dasar perusahaan secara resmi.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">🏠</span>
+        <div class="service-title">Perjanjian Properti</div>
+        <div class="service-desc">Perjanjian sewa, jual beli, dan AJB sesuai regulasi pertanahan Indonesia.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">👤</span>
+        <div class="service-title">Kontrak Karyawan</div>
+        <div class="service-desc">PKWT & PKWTT sesuai UU Cipta Kerja, lengkap dan siap tanda tangan.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-emoji">💬</span>
+        <div class="service-title">Konsultasi Hukum</div>
+        <div class="service-desc">Chat langsung dengan advokat berpengalaman untuk permasalahan hukum bisnis.</div>
+        <span class="service-badge">Baru</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <!-- Template Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 64px;">
-              
-              <!-- Template 1: Perjanjian Sewa Menyewa -->
-              <a href="tools/templates/sewa-menyewa/landing.html" style="text-decoration: none; color: inherit;">
-                <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
-                  <div style="width: 64px; height: 64px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 32px;">
-                    🏠
-                  </div>
-                <h3 style="font-size: 1.25rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Perjanjian Sewa Menyewa Tempat</h3>
-                  <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; flex: 1; font-family: 'Poppins', system-ui, sans-serif;">
-                  Dokumen lengkap untuk sewa-menyewa properti komersial atau residensial. Mencakup 11 pasal termasuk ketentuan pembayaran, jaminan, dan penyelesaian sengketa.
-                </p>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
-                    <div style="font-size: 1.25rem; font-weight: 600; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Rp 350.000</div>
-                  <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 500; font-size: 0.8125rem; font-family: 'Poppins', system-ui, sans-serif;">
-                    <span>Lihat Detail</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                    </div>
-                  </div>
-                </div>
-              </a>
+<!-- HOW IT WORKS -->
+<section class="section how-bg" id="cara-kerja">
+  <div class="container">
+    <div class="label">Cara Kerja</div>
+    <h2>Mudah dalam 3 Langkah</h2>
+    <p class="section-sub">Tidak perlu pengetahuan hukum khusus. Platform kami dirancang agar siapa pun bisa mengakses layanan legal dengan mudah.</p>
 
-              <!-- Template 2: Perjanjian Kerja Sama -->
-              <a href="tools/templates/kerja-sama/landing.html" style="text-decoration: none; color: inherit;">
-                <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
-                  <div style="width: 64px; height: 64px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 32px;">
-                    🤝
-                  </div>
-                <h3 style="font-size: 1.25rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Perjanjian Kerja Sama Usaha</h3>
-                  <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; flex: 1; font-family: 'Poppins', system-ui, sans-serif;">
-                  Dokumen hukum lengkap untuk kemitraan bisnis dan joint venture. Mencakup 14 pasal termasuk hak kekayaan intelektual, pembagian hasil, dan force majeure.
-                </p>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
-                    <div style="font-size: 1.25rem; font-weight: 600; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Rp 350.000</div>
-                  <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 500; font-size: 0.8125rem; font-family: 'Poppins', system-ui, sans-serif;">
-                    <span>Lihat Detail</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                    </div>
-                  </div>
-                </div>
-              </a>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h4>Pilih Layanan atau Template</h4>
+        <p>Cari dan pilih template dokumen atau layanan hukum yang sesuai dari katalog lengkap kami.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h4>Isi Informasi & Unggah Dokumen</h4>
+        <p>Ikuti panduan langkah demi langkah. Isi formulir dan unggah dokumen yang diperlukan dengan mudah.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h4>Tim Kami Proses & Kirim Hasilnya</h4>
+        <p>Advokat dan tim kami memproses permintaan, lalu mengirimkan hasilnya langsung ke email Anda.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-              <!-- Template 3: CTA to Browse More -->
-              <a href="tools/templates/index.html" style="text-decoration: none; color: inherit;">
-                <div style="background: linear-gradient(135deg, rgba(15, 15, 16, 0.02) 0%, rgba(15, 15, 16, 0.01) 100%); border-radius: var(--radius-sm); padding: 32px; border: 2px dashed rgba(15, 15, 16, 0.15); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                  <div style="width: 64px; height: 64px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 32px;">
-                    📚
-                  </div>
-                  <h3 style="font-size: 1.25rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Jelajahi 150+ Templates</h3>
-                  <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; font-family: 'Poppins', system-ui, sans-serif;">
-                    Temukan template lainnya untuk berbagai kebutuhan dokumen hukum bisnis Anda.
-                  </p>
-                  <div style="display: flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 500; font-size: 0.8125rem; font-family: 'Poppins', system-ui, sans-serif;">
-                    <span>Lihat Semua Templates</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                  </div>
-                </div>
-              </a>
+<!-- TEMPLATES PREVIEW -->
+<section class="section" id="template">
+  <div class="container">
+    <div class="label">Template Dokumen</div>
+    <h2>Siap Diunduh, Siap Dipakai</h2>
+    <p class="section-sub">Ratusan template dokumen hukum terverifikasi advokat. Edit, unduh, dan langsung gunakan.</p>
 
-            </div>
-
-            <div style="text-align: center;">
-              <a href="tools/templates/index.html" class="btn btn--primary">
-                <span>Lihat Semua 150+ Templates</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 8px;">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
+    <div class="templates-split reveal">
+      <div class="template-card">
+        <div class="template-card-header">
+          <span>📄</span>
+          <h4>Perjanjian Kerja Sama (PKS)</h4>
+          <span class="badge">Populer</span>
         </div>
-      </section>
-
-      <!-- Section Divider -->
-      <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(15, 15, 16, 0.08), transparent); margin: 0;"></div>
-
-      <!-- How It Works Section - Form Builder Demo -->
-      <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
-        <div class="container">
-          <div style="max-width: 1400px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 64px;">
-              <div style="font-size: 0.75rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Cara Kerja</div>
-              <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
-                Lihat Cara Kerja Kontraktify
-              </h2>
-              <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
-                Buat dokumen hukum profesional dengan mudah. Isi form dan lihat preview dokumen terupdate secara real-time.
-              </p>
-            </div>
-
-            <!-- Cara Menggunakan Compact -->
-            <div class="cara-menggunakan-compact" style="margin-top: 0; padding-top: 0; border-top: none; margin-bottom: 48px;">
-              <h3 style="font-size: 1rem; font-weight: 600; text-align: center; margin-bottom: 32px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Cara Menggunakan</h3>
-              <div class="cara-menggunakan-steps">
-                <div class="cara-step">
-                  <div class="cara-step-icon cara-step-icon--fill">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                      <polyline points="14 2 14 8 20 8"/>
-                      <line x1="9" y1="15" x2="15" y2="15"/>
-                      <path d="M9 12l2 2 4-4"/>
-                    </svg>
-                  </div>
-                  <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Pilih & Isi</h4>
-                  <p style="font-size: 0.6875rem; color: var(--text-muted); line-height: 1.5; font-family: 'Poppins', system-ui, sans-serif;">Klik menu di kiri untuk membuka form dan isi informasi yang diperlukan</p>
-                </div>
-                
-                <div class="cara-step-connector">
-                  <div class="connector-line"></div>
-                  <div class="connector-dot connector-dot--start"></div>
-                  <div class="connector-dot connector-dot--end"></div>
-                </div>
-                
-                <div class="cara-step">
-                  <div class="cara-step-icon cara-step-icon--preview">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                      <polyline points="14 2 14 8 20 8"/>
-                      <line x1="9" y1="15" x2="15" y2="15"/>
-                      <line x1="12" y1="12" x2="12" y2="18"/>
-                      <circle cx="18" cy="6" r="2" fill="currentColor"/>
-                      <line x1="17" y1="6" x2="19" y2="6" stroke="white" stroke-width="1.5"/>
-                      <line x1="18" y1="5" x2="18" y2="7" stroke="white" stroke-width="1.5"/>
-                    </svg>
-                  </div>
-                  <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Preview Real-Time</h4>
-                  <p style="font-size: 0.6875rem; color: var(--text-muted); line-height: 1.5; font-family: 'Poppins', system-ui, sans-serif;">Lihat dokumen terisi otomatis di panel kanan saat Anda mengetik</p>
-                </div>
-                
-                <div class="cara-step-connector">
-                  <div class="connector-line"></div>
-                  <div class="connector-dot connector-dot--start connector-dot--red"></div>
-                  <div class="connector-dot connector-dot--end"></div>
-                </div>
-                
-                <div class="cara-step">
-                  <div class="cara-step-icon cara-step-icon--download">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="7 10 12 15 17 10"/>
-                      <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                  </div>
-                  <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Download Dokumen</h4>
-                  <p style="font-size: 0.6875rem; color: var(--text-muted); line-height: 1.5; font-family: 'Poppins', system-ui, sans-serif;">Klik tombol download untuk mendapatkan file Word siap pakai</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-builder-demo">
-              <!-- Form Side -->
-              <div class="demo-form-side">
-                <div class="demo-form-header">
-                  <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Form Builder</h3>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Buat dokumen hukum yang mengikat secara real-time</p>
-                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
-                    <span style="font-size: 0.6875rem; padding: 4px 8px; background: rgba(15, 15, 16, 0.05); border-radius: 4px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">✓ Disetujui Lawyer</span>
-                    <span style="font-size: 0.6875rem; padding: 4px 8px; background: rgba(15, 15, 16, 0.05); border-radius: 4px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">⚡ 2-3 menit</span>
-                  </div>
-                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">
-                    <strong style="color: var(--primary);">Informasi Properti</strong> - Langkah 1 dari 6
-                  </div>
-                </div>
-                
-                <div class="demo-form-fields">
-                  <div class="demo-field">
-                    <label style="font-size: 0.75rem; font-weight: 500; color: var(--primary); margin-bottom: 6px; display: block; font-family: 'Poppins', system-ui, sans-serif;">Alamat Properti</label>
-                    <input type="text" class="demo-input" id="demo-property-address" placeholder="Contoh: Jl. Sudirman No. 123, Jakarta" value="" readonly tabindex="-1" />
-                  </div>
-                  
-                  <div class="demo-field">
-                    <label style="font-size: 0.75rem; font-weight: 500; color: var(--primary); margin-bottom: 6px; display: block; font-family: 'Poppins', system-ui, sans-serif;">Nama Pemilik</label>
-                    <input type="text" class="demo-input" id="demo-landlord-name" placeholder="Nama lengkap pemilik" value="" readonly tabindex="-1" />
-                  </div>
-                  
-                  <div class="demo-field">
-                    <label style="font-size: 0.75rem; font-weight: 500; color: var(--primary); margin-bottom: 6px; display: block; font-family: 'Poppins', system-ui, sans-serif;">Nama Penyewa</label>
-                    <input type="text" class="demo-input" id="demo-tenant-name" placeholder="Nama lengkap penyewa" value="" readonly tabindex="-1" />
-                  </div>
-                  
-                  <div class="demo-field">
-                    <label style="font-size: 0.75rem; font-weight: 500; color: var(--primary); margin-bottom: 6px; display: block; font-family: 'Poppins', system-ui, sans-serif;">Harga Sewa Bulanan</label>
-                    <input type="text" class="demo-input" id="demo-monthly-rent" placeholder="Contoh: Rp 5.000.000" value="" readonly tabindex="-1" />
-                  </div>
-                  
-                  <div class="demo-field">
-                    <label style="font-size: 0.75rem; font-weight: 500; color: var(--primary); margin-bottom: 6px; display: block; font-family: 'Poppins', system-ui, sans-serif;">Deposit</label>
-                    <input type="text" class="demo-input" id="demo-deposit" placeholder="Contoh: Rp 10.000.000" value="" readonly tabindex="-1" />
-                  </div>
-                  
-                  <div class="demo-field">
-                    <label style="font-size: 0.75rem; font-weight: 500; color: var(--primary); margin-bottom: 6px; display: block; font-family: 'Poppins', system-ui, sans-serif;">Durasi Sewa</label>
-                    <select class="demo-input" id="demo-lease-term" disabled tabindex="-1">
-                      <option value="">Pilih durasi sewa</option>
-                      <option value="6 bulan">6 bulan</option>
-                      <option value="12 bulan">12 bulan</option>
-                      <option value="24 bulan">24 bulan</option>
-                      <option value="Bulanan">Bulanan</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Preview Side -->
-              <div class="demo-preview-side">
-                <div class="demo-preview-header">
-                  <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Preview Dokumen</h3>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Perubahan muncul secara instan saat Anda mengisi form</p>
-                </div>
-                
-                <div class="demo-preview-content">
-                  <div class="demo-document">
-                    <div class="demo-doc-header">
-                      <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 4px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">PERJANJIAN SEWA MENYEWA TEMPAT</h4>
-                      <p style="font-size: 0.6875rem; color: var(--text-muted); font-family: 'Poppins', system-ui, sans-serif;">Perjanjian ini dibuat pada <span id="preview-date">tanggal</span></p>
-                    </div>
-                    
-                    <div class="demo-doc-section">
-                      <h5 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">INFORMASI PROPERTI</h5>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 4px; font-family: 'Poppins', system-ui, sans-serif;">
-                        Alamat Properti: <span id="preview-property-address" class="demo-placeholder">_________________</span>
-                </p>
-              </div>
-
-                    <div class="demo-doc-section">
-                      <h5 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">PIHAK-PIHAK</h5>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 4px; font-family: 'Poppins', system-ui, sans-serif;">
-                        Pemilik: <span id="preview-landlord" class="demo-placeholder">_________________</span>
-                      </p>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 4px; font-family: 'Poppins', system-ui, sans-serif;">
-                        Penyewa: <span id="preview-tenant" class="demo-placeholder">_________________</span>
-                </p>
-              </div>
-
-                    <div class="demo-doc-section">
-                      <h5 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">KETENTUAN KEUANGAN</h5>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 4px; font-family: 'Poppins', system-ui, sans-serif;">
-                        Harga Sewa Bulanan: <span id="preview-rent" class="demo-placeholder">_________________</span>
-                      </p>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 4px; font-family: 'Poppins', system-ui, sans-serif;">
-                        Deposit: <span id="preview-deposit" class="demo-placeholder">_________________</span>
-                      </p>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 4px; font-family: 'Poppins', system-ui, sans-serif;">
-                        Durasi Sewa: <span id="preview-term" class="demo-placeholder">_________________</span>
-                </p>
-              </div>
-                    
-                    <div class="demo-doc-section">
-                      <h5 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">KETENTUAN DAN SYARAT</h5>
-                      <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
-                        Penyewa setuju untuk membayar sewa pada hari pertama setiap bulan. Deposit akan disimpan sesuai dengan ketentuan hukum yang berlaku dan akan dikembalikan setelah berakhirnya perjanjian sewa, dikurangi dengan biaya kerusakan atau sewa yang belum dibayar.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 48px;">
-              <a href="tools/templates/index.html" class="btn btn--primary" style="font-family: 'Poppins', system-ui, sans-serif;">
-                Mulai Buat Dokumen
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 8px;">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
+        <div class="template-lines">
+          <div class="tline f"></div><div class="tline m"></div>
+          <div class="tline f"></div><div class="tline s"></div>
+          <div class="tline f"></div><div class="tline m"></div>
         </div>
-      </section>
-
-      <!-- Section Divider - Hidden with Tools Section -->
-      <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(15, 15, 16, 0.08), transparent); margin: 0; display: none;"></div>
-
-      <!-- Tools Section - Hidden for now -->
-      <section style="padding: 100px 0; background: #fff; width: 100%; display: none;">
-        <div class="container">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 64px;">
-              <div style="font-size: 0.75rem; font-weight: 500; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Platform Tools</div>
-              <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
-                Lebih dari Sekadar Template
-              </h2>
-              <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; max-width: 700px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
-                Platform tools hukum lengkap untuk mengelola dokumen Anda dari awal hingga akhir
-              </p>
-            </div>
-
-            <div class="tools-grid">
-              <!-- E-Signature -->
-              <a href="tools/sign/index.html" class="tool-card">
-                <div class="tool-icon">✍️</div>
-                  <h3 style="font-size: 1.375rem; font-weight: 500; margin-bottom: 16px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">E-Signature</h3>
-                <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; font-family: 'Poppins', system-ui, sans-serif;">
-                    Tandatangani dokumen secara digital dengan legalitas yang sama dengan tanda tangan basah. Kirim, tanda tangani, dan kelola semua dalam satu platform.
-                  </p>
-                  <div style="display: flex; align-items: center; gap: 12px; color: var(--primary); font-weight: 500; font-size: 0.875rem; font-family: 'Poppins', system-ui, sans-serif;">
-                    <span>Coba Gratis</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </div>
-              </a>
-
-              <!-- Document Compare -->
-              <a href="tools/compare/index.html" class="tool-card">
-                <div class="tool-icon">🔍</div>
-                  <h3 style="font-size: 1.375rem; font-weight: 500; margin-bottom: 16px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Document Compare</h3>
-                <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; font-family: 'Poppins', system-ui, sans-serif;">
-                  Bandingkan versi dokumen dan temukan perbedaan dengan mudah. Perfect untuk version control dan review dokumen hukum dengan visual highlight.
-                  </p>
-                  <div style="display: flex; align-items: center; gap: 12px; color: var(--primary); font-weight: 500; font-size: 0.875rem; font-family: 'Poppins', system-ui, sans-serif;">
-                    <span>Coba Compare</span>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section Divider - Hidden with Tools Section -->
-      <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(15, 15, 16, 0.08), transparent); margin: 0; display: none;"></div>
-
-      <!-- Why Choose Section -->
-      <section style="padding: 100px 0; background: var(--bg-light); width: 100%;">
-        <div class="container">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 64px;">
-              <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
-                Mengapa Memilih Kontraktify?
-              </h2>
-              <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
-                Template yang dibuat dengan standar profesional untuk memastikan dokumen Anda sesuai hukum
-              </p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
-              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M9 11l3 3L22 4"/>
-                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
-                  </svg>
-                </div>
-                <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Dibuat oleh Ahli Hukum</h3>
-                <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
-                  Setiap template disusun dan ditinjau oleh tim hukum berpengalaman
-                </p>
-              </div>
-
-              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                  </svg>
-                </div>
-                <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Download Instan</h3>
-                <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
-                  Setelah pembayaran, dokumen langsung dikirim ke email Anda
-                </p>
-              </div>
-
-              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                  </svg>
-                </div>
-                <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Format Word (.docx)</h3>
-                <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
-                  Dapat diedit sepenuhnya sesuai kebutuhan spesifik bisnis Anda
-                </p>
-              </div>
-
-              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                </div>
-                <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Sesuai Hukum Indonesia</h3>
-                <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
-                  Template mengikuti ketentuan hukum yang berlaku di Indonesia
-                </p>
-              </div>
-
-              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                </div>
-                <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Hemat Waktu & Biaya</h3>
-                <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
-                  Tidak perlu menunggu lawyer, buat dokumen dalam hitungan menit
-                </p>
-              </div>
-
-              <div style="background: #fff; border-radius: var(--radius-sm); padding: 32px; border: 1px solid rgba(15, 15, 16, 0.08); text-align: center;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, rgba(15, 15, 16, 0.05) 0%, rgba(15, 15, 16, 0.02) 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                  </svg>
-                </div>
-                <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 12px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Panduan Lengkap</h3>
-                <p style="font-size: 0.8125rem; color: var(--text-muted); line-height: 1.7; font-family: 'Poppins', system-ui, sans-serif;">
-                  Setiap template dilengkapi panduan penggunaan dan dukungan
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Legal Aid Section -->
-      <section style="padding: 100px 0; background: #fff; width: 100%; border-top: 1px solid rgba(15, 15, 16, 0.08);">
-        <div class="container">
-          <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 64px;">
-                <div style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; font-family: 'Poppins', system-ui, sans-serif;">Layanan Tambahan</div>
-              <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 20px; color: var(--primary); line-height: 1.2; font-family: 'Poppins', system-ui, sans-serif;">
-                Butuh Bantuan Profesional?
-                </h2>
-              <p style="font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 0 auto; font-family: 'Poppins', system-ui, sans-serif;">
-                  Tim lawyer berpengalaman kami siap membantu ketika Anda membutuhkan pendampingan profesional lebih lanjut
-                </p>
-              </div>
-
-            <div class="legal-aid-services">
-              <a href="legal-aid/pembentukan-perusahaan.html" class="legal-aid-service-card">
-                    <div style="font-size: 32px; margin-bottom: 16px;">🏢</div>
-                    <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Pembentukan Perusahaan</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
-                  Pendirian PT, CV, atau bentuk badan usaha lainnya dengan pendampingan lawyer
-                    </p>
-                </a>
-
-              <a href="legal-aid/pendaftaran-merek.html" class="legal-aid-service-card">
-                    <div style="font-size: 32px; margin-bottom: 16px;">™️</div>
-                    <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Pendaftaran Merek</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
-                      Layanan pendaftaran merek dagang dengan pendampingan lawyer
-                    </p>
-                </a>
-
-              <a href="legal-aid/konsultasi-dokumen.html" class="legal-aid-service-card">
-                    <div style="font-size: 32px; margin-bottom: 16px;">📋</div>
-                    <h3 style="font-size: 1.0625rem; font-weight: 500; margin-bottom: 8px; color: var(--primary); font-family: 'Poppins', system-ui, sans-serif;">Konsultasi Dokumen</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; font-family: 'Poppins', system-ui, sans-serif;">
-                  Review dan konsultasi dokumen hukum dengan lawyer untuk kontrak custom
-                    </p>
-                </a>
-              </div>
-
-            <div style="text-align: center; margin-top: 48px;">
-              <a href="legal-aid/index.html" class="btn btn--ghost">
-                  Pelajari Lebih Lanjut
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 8px;">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <footer class="site-footer" style="margin-top: 0;">
-      <div class="footer__container">
-        <div class="footer__content">
-          <!-- Column 1: Brand/Tagline -->
-          <div class="footer__column footer__column--brand">
-            <h3>Kontraktify</h3>
-            <p class="footer__tagline">Hukum yang jelas, terstruktur, dan dapat diterapkan untuk bisnis nyata.</p>
-          </div>
-          
-          <!-- Column 2: Legal -->
-          <div class="footer__column">
-            <h4>Legal</h4>
-            <ul>
-              <li><a href="#">Syarat & Ketentuan</a></li>
-              <li><a href="#">Kebijakan Privasi</a></li>
-              <li><a href="#">Kebijakan Refund</a></li>
-            </ul>
-          </div>
-          
-          <!-- Column 3: Legal Documents -->
-          <div class="footer__column">
-            <h4>Legal Documents</h4>
-            <ul>
-              <li><a href="tools/templates/index.html">Templates</a></li>
-              <li><a href="tools/templates/index.html#Kontrak Bisnis">Kontrak Bisnis</a></li>
-              <li><a href="tools/templates/index.html#Ketenagakerjaan">Ketenagakerjaan</a></li>
-            </ul>
-          </div>
-          
-          <!-- Column 4: Tools - Hidden for now -->
-          <div class="footer__column" style="display: none;">
-            <h4>Tools</h4>
-            <ul>
-              <li><a href="tools/sign/index.html">E-Signature</a></li>
-              <li><a href="tools/compare/index.html">Document Compare</a></li>
-            </ul>
-          </div>
-          
-          <!-- Column 5: Legal Aid -->
-          <div class="footer__column">
-            <h4>Legal Aid</h4>
-            <ul>
-              <li><a href="legal-aid/pembentukan-perusahaan.html">Pembentukan Perusahaan</a></li>
-              <li><a href="legal-aid/pendaftaran-merek.html">Pendaftaran Merek</a></li>
-              <li><a href="legal-aid/konsultasi-dokumen.html">Konsultasi Dokumen</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="footer__divider"></div>
-        
-        <div class="footer__bottom">
-          <p>© 2024 Kontraktify oleh CV Cipta Kontrak Teknologi. Hak cipta dilindungi.</p>
+        <div class="template-footer">
+          <span>Terverifikasi advokat · Word & PDF</span>
+          <a href="#">Gunakan →</a>
         </div>
       </div>
-    </footer>
-    
-    <script src="script.js" defer></script>
-    <script>
-      // Search functionality
-      function handleSearch() {
-        const searchInput = document.getElementById('heroSearch');
-        const query = searchInput?.value.trim();
-        if (query) {
-          window.location.href = `tools/templates/index.html?search=${encodeURIComponent(query)}`;
-        } else {
-          window.location.href = 'tools/templates/index.html';
-        }
+
+      <div class="template-card">
+        <div class="template-card-header">
+          <span>🔒</span>
+          <h4>Non-Disclosure Agreement (NDA)</h4>
+          <span class="badge">Baru</span>
+        </div>
+        <div class="template-lines">
+          <div class="tline m"></div><div class="tline f"></div>
+          <div class="tline s"></div><div class="tline f"></div>
+          <div class="tline m"></div><div class="tline f"></div>
+        </div>
+        <div class="template-footer">
+          <span>Terverifikasi advokat · Word & PDF</span>
+          <a href="#">Gunakan →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-card-header">
+          <span>👤</span>
+          <h4>Perjanjian Kerja PKWT</h4>
+        </div>
+        <div class="template-lines">
+          <div class="tline f"></div><div class="tline s"></div>
+          <div class="tline m"></div><div class="tline f"></div>
+          <div class="tline m"></div><div class="tline s"></div>
+        </div>
+        <div class="template-footer">
+          <span>Sesuai UU Cipta Kerja · Word & PDF</span>
+          <a href="#">Gunakan →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-card-header">
+          <span>🏠</span>
+          <h4>Perjanjian Sewa Menyewa</h4>
+        </div>
+        <div class="template-lines">
+          <div class="tline f"></div><div class="tline m"></div>
+          <div class="tline f"></div><div class="tline s"></div>
+          <div class="tline f"></div><div class="tline m"></div>
+        </div>
+        <div class="template-footer">
+          <span>Terverifikasi advokat · Word & PDF</span>
+          <a href="#">Gunakan →</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 2.5rem;">
+      <a href="#" class="btn-outline-sm" style="font-size:0.9rem; padding: 0.75rem 2rem;">Lihat Semua 500+ Template →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <div class="label" style="justify-content:center; color:var(--gold-light);">
+      <span style="width:20px;height:1.5px;background:var(--gold-light);display:block;"></span>
+      Mulai Sekarang
+    </div>
+    <h2>Urus Legal Bisnis Anda<br>Hari Ini</h2>
+    <p>Bergabung dengan ribuan pengusaha Indonesia yang sudah mempercayakan kebutuhan hukum bisnis mereka ke Kontraktify.</p>
+    <div class="actions">
+      <a href="#" class="btn-gold">Mulai Gratis</a>
+      <a href="#" class="btn-ghost-white">Hubungi Kami</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <span class="footer-logo">Kontraktify<span style="color:var(--gold)">.</span></span>
+        <p class="footer-desc">Platform legal terpercaya untuk bisnis Indonesia. Template dokumen, layanan hukum, dan konsultasi advokat — semua dalam satu tempat.</p>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.3);">📍 Jakarta, Indonesia</div>
+      </div>
+      <div class="footer-col">
+        <h5>Layanan</h5>
+        <ul>
+          <li><a href="#">Pendirian PT</a></li>
+          <li><a href="#">Daftar Merek</a></li>
+          <li><a href="#">Perizinan Usaha</a></li>
+          <li><a href="#">Perubahan Akta</a></li>
+          <li><a href="#">Konsultasi Hukum</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Template</h5>
+        <ul>
+          <li><a href="#">Perjanjian Kerja Sama</a></li>
+          <li><a href="#">NDA</a></li>
+          <li><a href="#">Kontrak Karyawan</a></li>
+          <li><a href="#">Sewa & Properti</a></li>
+          <li><a href="#">Semua Template</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Perusahaan</h5>
+        <ul>
+          <li><a href="#">Tentang Kami</a></li>
+          <li><a href="#">Blog Hukum</a></li>
+          <li><a href="#">Karir</a></li>
+          <li><a href="#">Syarat & Ketentuan</a></li>
+          <li><a href="#">Kebijakan Privasi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Kontraktify. Hak cipta dilindungi.</span>
+      <span>Dibuat dengan ❤️ untuk pelaku bisnis Indonesia</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
       }
-      
-      document.getElementById('heroSearch')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          handleSearch();
-        }
-      });
-      
-      // Form Builder Demo Auto-fill Animation
-      document.addEventListener('DOMContentLoaded', function() {
-        const demoForm = document.querySelector('.form-builder-demo');
-        if (!demoForm) return;
-        
-        const demoData = {
-          'demo-property-address': { value: 'Jl. Sudirman No. 123, Jakarta Pusat', delay: 1000 },
-          'demo-landlord-name': { value: 'Budi Santoso', delay: 2500 },
-          'demo-tenant-name': { value: 'Siti Nurhaliza', delay: 4000 },
-          'demo-monthly-rent': { value: 'Rp 5.000.000', delay: 5500 },
-          'demo-deposit': { value: 'Rp 10.000.000', delay: 7000 },
-          'demo-lease-term': { value: '12 bulan', delay: 8500 }
-        };
-        
-        const previewMap = {
-          'demo-property-address': 'preview-property-address',
-          'demo-landlord-name': 'preview-landlord',
-          'demo-tenant-name': 'preview-tenant',
-          'demo-monthly-rent': 'preview-rent',
-          'demo-deposit': 'preview-deposit',
-          'demo-lease-term': 'preview-term'
-        };
-        
-        // Set initial date
-        const today = new Date();
-        const dateStr = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-        const dateEl = document.getElementById('preview-date');
-        if (dateEl) {
-          dateEl.textContent = dateStr;
-        }
-        
-        // Auto-fill function (non-interactive demo)
-        function autoFillField(fieldId, data) {
-          const field = document.getElementById(fieldId);
-          if (!field) return;
-          
-          setTimeout(() => {
-            field.classList.add('typing');
-            // Remove focus() to prevent scroll behavior
-            
-            let currentValue = '';
-            const value = data.value;
-            let index = 0;
-            
-            const typeInterval = setInterval(() => {
-              if (index < value.length) {
-                currentValue += value[index];
-                field.value = currentValue;
-                index++;
-                
-                // Update preview in real-time
-                const previewId = previewMap[fieldId];
-                if (previewId) {
-                  const previewEl = document.getElementById(previewId);
-                  if (previewEl) {
-                    previewEl.textContent = currentValue;
-                    previewEl.classList.add('filled');
-                  }
-                }
-              } else {
-                clearInterval(typeInterval);
-                field.classList.remove('typing');
-                // Remove blur() to prevent scroll behavior
-                
-                // Trigger change event
-                field.dispatchEvent(new Event('input', { bubbles: true }));
-              }
-            }, 50); // Typing speed
-          }, data.delay);
-        }
-        
-        // Reset all fields function
-        function resetFields() {
-          Object.keys(demoData).forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (field) {
-              field.value = '';
-              field.classList.remove('typing');
-              const previewId = previewMap[fieldId];
-              if (previewId) {
-                const previewEl = document.getElementById(previewId);
-                if (previewEl) {
-                  previewEl.textContent = '_________________';
-                  previewEl.classList.remove('filled');
-                }
-              }
-            }
-          });
-        }
-        
-        // Start animation function
-        function startAnimation() {
-          // Reset all fields first
-          resetFields();
-          
-          // Start auto-fill after a short delay
-          setTimeout(() => {
-            Object.keys(demoData).forEach(fieldId => {
-              // Skip select field - handle separately
-              if (fieldId !== 'demo-lease-term') {
-                autoFillField(fieldId, demoData[fieldId]);
-              }
-            });
-            
-            // Handle select field separately without focus
-            const selectField = document.getElementById('demo-lease-term');
-            if (selectField && demoData['demo-lease-term']) {
-              setTimeout(() => {
-                selectField.value = demoData['demo-lease-term'].value;
-                const previewEl = document.getElementById('preview-term');
-                if (previewEl) {
-                  previewEl.textContent = demoData['demo-lease-term'].value;
-                  previewEl.classList.add('filled');
-                }
-              }, demoData['demo-lease-term'].delay);
-            }
-          }, 500);
-        }
-        
-        // Calculate total animation duration
-        // Last field delay + max typing duration + buffer time
-        const maxDelay = Math.max(...Object.values(demoData).map(d => d.delay));
-        const maxValueLength = Math.max(...Object.values(demoData).map(d => d.value.length));
-        const typingDuration = maxValueLength * 50; // 50ms per character
-        const totalDuration = maxDelay + typingDuration + 3000; // Add 3s buffer before restart
-        
-        // Animation loop control
-        let animationInterval = null;
-        
-        // Start auto-fill sequence (loop continuously)
-        let hasStarted = false;
-        
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            // Start if visible and hasn't started yet
-            if (entry.isIntersecting && !hasStarted) {
-              hasStarted = true;
-              
-              // Start the first animation
-              startAnimation();
-              
-              // Set up loop to restart animation continuously
-              animationInterval = setInterval(() => {
-                startAnimation();
-              }, totalDuration);
-            } else if (!entry.isIntersecting && animationInterval) {
-              // Stop animation when not visible to save resources
-              clearInterval(animationInterval);
-              animationInterval = null;
-              hasStarted = false;
-            }
-          });
-        }, { 
-          threshold: 0.2,
-          rootMargin: '0px'
-        });
-        
-        observer.observe(demoForm);
-        
-        // Disable manual input handling - this is a demo only
-        // Fields are readonly/disabled so users can't interact
-      });
-      
-      // How It Works Section Interactive Animations
-      document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.how-it-works-card');
-        
-        // Intersection Observer for scroll-triggered animations
-        const observerOptions = {
-          threshold: 0.15,
-          rootMargin: '0px 0px -100px 0px'
-        };
-        
-        const observer = new IntersectionObserver(function(entries) {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, observerOptions);
-        
-        cards.forEach(card => {
-          observer.observe(card);
-        });
-        
-        // Interactive click effect
-        cards.forEach(card => {
-          card.addEventListener('click', function(e) {
-            const number = this.querySelector('.how-it-works-number');
-            number.style.animation = 'pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-            setTimeout(() => {
-              number.style.animation = '';
-            }, 600);
-            
-            // Add ripple effect
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(15, 15, 16, 0.1)';
-            ripple.style.width = '0px';
-            ripple.style.height = '0px';
-            ripple.style.left = e.clientX - this.getBoundingClientRect().left + 'px';
-            ripple.style.top = e.clientY - this.getBoundingClientRect().top + 'px';
-            ripple.style.transform = 'translate(-50%, -50%)';
-            ripple.style.pointerEvents = 'none';
-            ripple.style.animation = 'ripple 0.6s ease-out';
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-              ripple.remove();
-            }, 600);
-          });
-        });
-      });
-      
-      // Add ripple animation
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes ripple {
-          to {
-            width: 200px;
-            height: 200px;
-            opacity: 0;
-          }
-        }
-        .how-it-works-card.is-visible {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-        }
-      `;
-      document.head.appendChild(style);
-    </script>
-  </body>
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
 </html>
